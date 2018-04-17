@@ -1,0 +1,174 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DierenAsiel;
+using System.Data.SqlClient;
+using System.Configuration;
+
+namespace DierenAsiel.Database
+{
+    public class DatabaseController : IDatabase
+    {
+        private string connectionString = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
+
+        #region helperFunctions
+        private void ExecuteNonQuery(string query)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        //private SqlDataReader ExecuteReader(string query)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+        //        using (SqlCommand command = new SqlCommand(query, connection))
+        //        {
+        //            SqlDataReader reader = command.ExecuteReader();
+        //            return reader;
+        //        }
+        //    }
+        //}
+        #endregion
+
+        public void AddAnimal(Animal animal)
+        {
+            string query = $"Insert into Dieren (Naam, Leeftijd, Gewicht, Geslacht, Prijs, Soort, HokNummer, Gereserveerd) Values ('{animal.name}', {animal.age}, {animal.weight}, '{animal.gender.ToString()}', {animal.price}, '{animal.species.ToString()}', {animal.cage}, {Convert.ToInt16(animal.reserved)})";
+            ExecuteNonQuery(query);
+        }
+
+        public List<Animal> GetAllAnimals()
+        {
+            string query = "select * from dieren";
+            List<Animal> returnList = new List<Animal>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader() )
+                    {
+                        while (reader.Read())
+                        {
+                            Animal tempAnimal = new Animal();
+                            tempAnimal.name = reader.GetString(1);
+                            tempAnimal.age = reader.GetInt32(2);
+                            tempAnimal.weight = reader.GetInt32(3);
+                            tempAnimal.gender = (Animal.Genders)Enum.Parse(typeof(Animal.Genders), reader.GetString(4));
+                            tempAnimal.price = (float)reader.GetDouble(5); //Blame microsoft
+                            tempAnimal.species = (Animal.Species)Enum.Parse(typeof(Animal.Species), reader.GetString(6));
+                            tempAnimal.cage = reader.GetInt32(7);
+                            tempAnimal.reserved = Convert.ToBoolean(reader.GetByte(8));
+                            
+                            returnList.Add(tempAnimal);
+                        }
+                    }
+                    return returnList;
+                }
+            }
+        }
+
+        public void RemoveAnimal(Animal animal)
+        {
+            string query = $"Delete from Dieren where Naam = '{animal.name}' AND Leeftijd = {animal.age} AND Gewicht = {animal.weight} AND Prijs = {animal.price} AND Soort = '{animal.species.ToString()}'";
+            ExecuteNonQuery(query);
+        }
+
+        public DateTime GetUitlaatDate(Animal animal)
+        {
+            string query = $"Select Uitlaten.Datum from Uitlaten, Dieren where Uitlaten.DierId = Dieren.Id AND Dieren.Naam = '{animal.name}' AND Dieren.Leeftijd = {animal.age} AND Dieren.Gewicht = {animal.weight} AND Dieren.Geslacht = '{animal.gender.ToString()}' AND Dieren.Soort = '{animal.species.ToString()}'";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return reader.GetDateTime(0);
+                        }
+                        return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1);
+                    }
+                }
+            }
+        }
+
+        public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
+        {
+            
+            string query = $"insert into Uitlaten (DierId, Datum, VerzorgerId) Values((select Id from Dieren where Naam = '{animal.name}' AND Soort = '{animal.species.ToString()}' AND Gewicht = {animal.weight} AND Geslacht = '{animal.gender.ToString()}'), '{date.ToString("MM/dd/yyyy HH:mm")}', (select Id from Verzorgers where Naam = '{employee.name}'))";
+            ExecuteNonQuery(query);
+        }
+
+        public List<Employee> GetAllEmployees()
+        {
+            string query = "select * from Verzorgers";
+            List<Employee> returnList = new List<Employee>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Employee tempEmployee = new Employee();
+                            tempEmployee.name = reader.GetString(1);
+                            tempEmployee.age = reader.GetInt32(2);
+                            tempEmployee.gender = (Employee.Gender)Enum.Parse(typeof(Employee.Gender), reader.GetString(3));
+                            tempEmployee.address = reader.GetString(4);
+                            tempEmployee.phoneNumber = reader.GetString(5);
+
+                            returnList.Add(tempEmployee);
+                        }
+                    }
+                    return returnList;
+                }
+            }
+        }
+
+        public void AddEmployee(Employee employee)
+        {
+            string query = $"Insert into Verzorgers(Naam, Leeftijd, Gender, Adres, Telefoon) values('{employee.name}', {employee.age}, '{employee.gender.ToString()}', '{employee.address}', '{employee.phoneNumber}')";
+            ExecuteNonQuery(query);
+        }
+
+        public Employee GetEmployeeByName(string name)
+        {
+            string query = $"Select * from Verzorgers where Naam = '{name}'";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return new Employee()
+                            {
+                                name = reader.GetString(1),
+                                age = reader.GetInt32(2),
+                                gender = (Employee.Gender)Enum.Parse(typeof(Employee.Gender), reader.GetString(3)),
+                                address = reader.GetString(4),
+                                phoneNumber = reader.GetString(5)
+                            };
+                        }
+                        throw new Exception();
+                    }
+                }
+            }
+        }
+    }
+}
