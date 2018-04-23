@@ -16,5 +16,9 @@ namespace DierenAsiel.Database
         List<Employee> GetAllEmployees();
         void AddEmployee(Employee employee);
         Employee GetEmployeeByName(string name);
+        void RemoveEmployee(Employee employee);
+        List<Cage> GetAllCages();
+        DateTime GetCleaningdate(Cage cage);
+        void SetCleanDate(int cageNumber, DateTime value, string employee);
     }
 }

@@ -75,6 +75,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.LbDogs = new System.Windows.Forms.ListBox();
             this.TpEmployees = new System.Windows.Forms.TabPage();
+            this.TxtEmployeePhone = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.TxtEmployeeAddress = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.BtnAddEmployee = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RadEmployeeFemale = new System.Windows.Forms.RadioButton();
@@ -83,10 +87,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.TxtEmployeeName = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.TxtEmployeeAddress = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.TxtEmployeePhone = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.TpEmployeeList = new System.Windows.Forms.TabPage();
             this.LvEmployees = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -94,6 +94,20 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.BtnRemoveEmployee = new System.Windows.Forms.Button();
+            this.TpCages = new System.Windows.Forms.TabPage();
+            this.LbCages = new System.Windows.Forms.ListBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.DtpLastCleandate = new System.Windows.Forms.DateTimePicker();
+            this.label18 = new System.Windows.Forms.Label();
+            this.LbCageAnimals = new System.Windows.Forms.ListBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.DtpNewCleandate = new System.Windows.Forms.DateTimePicker();
+            this.label20 = new System.Windows.Forms.Label();
+            this.BtnUpdateCleandate = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.CbCleanEmployee = new System.Windows.Forms.ComboBox();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalPrice)).BeginInit();
@@ -109,15 +123,18 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEmployeeAge)).BeginInit();
             this.TpEmployeeList.SuspendLayout();
+            this.TpCages.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // TcMain
             // 
             this.TcMain.Controls.Add(this.TpAnimals);
             this.TcMain.Controls.Add(this.TpAnimalList);
-            this.TcMain.Controls.Add(this.TpUitlaten);
             this.TcMain.Controls.Add(this.TpEmployees);
             this.TcMain.Controls.Add(this.TpEmployeeList);
+            this.TcMain.Controls.Add(this.TpUitlaten);
+            this.TcMain.Controls.Add(this.TpCages);
             this.TcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TcMain.Location = new System.Drawing.Point(0, 0);
             this.TcMain.Name = "TcMain";
@@ -352,6 +369,7 @@
             this.ChCage,
             this.ChReserved});
             this.LvAnimalList.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.LvAnimalList.FullRowSelect = true;
             this.LvAnimalList.Location = new System.Drawing.Point(3, 35);
             this.LvAnimalList.Name = "LvAnimalList";
             this.LvAnimalList.Size = new System.Drawing.Size(693, 351);
@@ -423,7 +441,6 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Enabled = false;
             this.label12.Location = new System.Drawing.Point(8, 315);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(82, 13);
@@ -442,7 +459,6 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Enabled = false;
             this.label11.Location = new System.Drawing.Point(8, 276);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(73, 13);
@@ -451,6 +467,7 @@
             // 
             // DtpUitlaatDate
             // 
+            this.DtpUitlaatDate.CustomFormat = "HH:mm dd/MM/yyyy";
             this.DtpUitlaatDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.DtpUitlaatDate.Location = new System.Drawing.Point(11, 292);
             this.DtpUitlaatDate.Name = "DtpUitlaatDate";
@@ -470,7 +487,6 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Enabled = false;
             this.label10.Location = new System.Drawing.Point(8, 144);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(88, 13);
@@ -479,6 +495,7 @@
             // 
             // DtpLaatstUitgelaten
             // 
+            this.DtpLaatstUitgelaten.CustomFormat = "HH:mm dd/MM/yyyy";
             this.DtpLaatstUitgelaten.Enabled = false;
             this.DtpLaatstUitgelaten.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.DtpLaatstUitgelaten.Location = new System.Drawing.Point(11, 160);
@@ -490,7 +507,6 @@
             // 
             this.groupBox1.Controls.Add(this.RadUitlaatFemale);
             this.groupBox1.Controls.Add(this.RadUitlaatMale);
-            this.groupBox1.Enabled = false;
             this.groupBox1.Location = new System.Drawing.Point(2, 59);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(195, 73);
@@ -501,6 +517,7 @@
             // RadUitlaatFemale
             // 
             this.RadUitlaatFemale.AutoSize = true;
+            this.RadUitlaatFemale.Enabled = false;
             this.RadUitlaatFemale.Location = new System.Drawing.Point(9, 43);
             this.RadUitlaatFemale.Name = "RadUitlaatFemale";
             this.RadUitlaatFemale.Size = new System.Drawing.Size(55, 17);
@@ -513,6 +530,7 @@
             // 
             this.RadUitlaatMale.AutoSize = true;
             this.RadUitlaatMale.Checked = true;
+            this.RadUitlaatMale.Enabled = false;
             this.RadUitlaatMale.Location = new System.Drawing.Point(9, 20);
             this.RadUitlaatMale.Name = "RadUitlaatMale";
             this.RadUitlaatMale.Size = new System.Drawing.Size(46, 17);
@@ -538,7 +556,6 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Enabled = false;
             this.label8.Location = new System.Drawing.Point(8, 35);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(44, 13);
@@ -556,7 +573,6 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Enabled = false;
             this.label9.Location = new System.Drawing.Point(8, 10);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(38, 13);
@@ -599,6 +615,38 @@
             this.TpEmployees.TabIndex = 3;
             this.TpEmployees.Text = "Verzorgers";
             this.TpEmployees.UseVisualStyleBackColor = true;
+            // 
+            // TxtEmployeePhone
+            // 
+            this.TxtEmployeePhone.Location = new System.Drawing.Point(77, 160);
+            this.TxtEmployeePhone.Name = "TxtEmployeePhone";
+            this.TxtEmployeePhone.Size = new System.Drawing.Size(120, 20);
+            this.TxtEmployeePhone.TabIndex = 21;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(8, 163);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(52, 13);
+            this.label16.TabIndex = 20;
+            this.label16.Text = "Telefoon:";
+            // 
+            // TxtEmployeeAddress
+            // 
+            this.TxtEmployeeAddress.Location = new System.Drawing.Point(77, 133);
+            this.TxtEmployeeAddress.Name = "TxtEmployeeAddress";
+            this.TxtEmployeeAddress.Size = new System.Drawing.Size(120, 20);
+            this.TxtEmployeeAddress.TabIndex = 19;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(8, 136);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(37, 13);
+            this.label15.TabIndex = 18;
+            this.label15.Text = "Adres:";
             // 
             // BtnAddEmployee
             // 
@@ -682,40 +730,9 @@
             this.label14.TabIndex = 12;
             this.label14.Text = "Naam:";
             // 
-            // TxtEmployeeAddress
-            // 
-            this.TxtEmployeeAddress.Location = new System.Drawing.Point(77, 133);
-            this.TxtEmployeeAddress.Name = "TxtEmployeeAddress";
-            this.TxtEmployeeAddress.Size = new System.Drawing.Size(120, 20);
-            this.TxtEmployeeAddress.TabIndex = 19;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 136);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(37, 13);
-            this.label15.TabIndex = 18;
-            this.label15.Text = "Adres:";
-            // 
-            // TxtEmployeePhone
-            // 
-            this.TxtEmployeePhone.Location = new System.Drawing.Point(77, 160);
-            this.TxtEmployeePhone.Name = "TxtEmployeePhone";
-            this.TxtEmployeePhone.Size = new System.Drawing.Size(120, 20);
-            this.TxtEmployeePhone.TabIndex = 21;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(8, 163);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(52, 13);
-            this.label16.TabIndex = 20;
-            this.label16.Text = "Telefoon:";
-            // 
             // TpEmployeeList
             // 
+            this.TpEmployeeList.Controls.Add(this.BtnRemoveEmployee);
             this.TpEmployeeList.Controls.Add(this.LvEmployees);
             this.TpEmployeeList.Location = new System.Drawing.Point(4, 22);
             this.TpEmployeeList.Name = "TpEmployeeList";
@@ -733,12 +750,14 @@
             this.columnHeader4,
             this.columnHeader5});
             this.LvEmployees.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.LvEmployees.FullRowSelect = true;
             this.LvEmployees.Location = new System.Drawing.Point(0, 38);
             this.LvEmployees.Name = "LvEmployees";
             this.LvEmployees.Size = new System.Drawing.Size(699, 351);
             this.LvEmployees.TabIndex = 1;
             this.LvEmployees.UseCompatibleStateImageBehavior = false;
             this.LvEmployees.View = System.Windows.Forms.View.Details;
+            this.LvEmployees.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.LvEmployees_ColumnClick);
             // 
             // columnHeader1
             // 
@@ -763,6 +782,147 @@
             this.columnHeader5.Text = "Telefoon";
             this.columnHeader5.Width = 150;
             // 
+            // BtnRemoveEmployee
+            // 
+            this.BtnRemoveEmployee.Location = new System.Drawing.Point(626, 9);
+            this.BtnRemoveEmployee.Name = "BtnRemoveEmployee";
+            this.BtnRemoveEmployee.Size = new System.Drawing.Size(70, 23);
+            this.BtnRemoveEmployee.TabIndex = 2;
+            this.BtnRemoveEmployee.Text = "Verwijder.";
+            this.BtnRemoveEmployee.UseVisualStyleBackColor = true;
+            this.BtnRemoveEmployee.Click += new System.EventHandler(this.BtnRemoveEmployee_Click);
+            // 
+            // TpCages
+            // 
+            this.TpCages.Controls.Add(this.CbCleanEmployee);
+            this.TpCages.Controls.Add(this.label21);
+            this.TpCages.Controls.Add(this.BtnUpdateCleandate);
+            this.TpCages.Controls.Add(this.label20);
+            this.TpCages.Controls.Add(this.DtpNewCleandate);
+            this.TpCages.Controls.Add(this.groupBox3);
+            this.TpCages.Controls.Add(this.label17);
+            this.TpCages.Controls.Add(this.LbCages);
+            this.TpCages.Location = new System.Drawing.Point(4, 22);
+            this.TpCages.Name = "TpCages";
+            this.TpCages.Size = new System.Drawing.Size(699, 389);
+            this.TpCages.TabIndex = 5;
+            this.TpCages.Text = "Hokken";
+            this.TpCages.UseVisualStyleBackColor = true;
+            // 
+            // LbCages
+            // 
+            this.LbCages.FormattingEnabled = true;
+            this.LbCages.Location = new System.Drawing.Point(571, 37);
+            this.LbCages.Name = "LbCages";
+            this.LbCages.Size = new System.Drawing.Size(120, 342);
+            this.LbCages.TabIndex = 0;
+            this.LbCages.SelectedIndexChanged += new System.EventHandler(this.LbCages_SelectedIndexChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(568, 18);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(48, 13);
+            this.label17.TabIndex = 1;
+            this.label17.Text = "Hokken:";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label19);
+            this.groupBox3.Controls.Add(this.LbCageAnimals);
+            this.groupBox3.Controls.Add(this.label18);
+            this.groupBox3.Controls.Add(this.DtpLastCleandate);
+            this.groupBox3.Location = new System.Drawing.Point(8, 18);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(206, 231);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Eigenschappen";
+            // 
+            // DtpLastCleandate
+            // 
+            this.DtpLastCleandate.CustomFormat = "HH:mm dd/MM/yyyy";
+            this.DtpLastCleandate.Enabled = false;
+            this.DtpLastCleandate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtpLastCleandate.Location = new System.Drawing.Point(9, 35);
+            this.DtpLastCleandate.Name = "DtpLastCleandate";
+            this.DtpLastCleandate.Size = new System.Drawing.Size(187, 20);
+            this.DtpLastCleandate.TabIndex = 0;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 19);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(98, 13);
+            this.label18.TabIndex = 1;
+            this.label18.Text = "Laatst verschoond:";
+            // 
+            // LbCageAnimals
+            // 
+            this.LbCageAnimals.Enabled = false;
+            this.LbCageAnimals.FormattingEnabled = true;
+            this.LbCageAnimals.Location = new System.Drawing.Point(9, 74);
+            this.LbCageAnimals.Name = "LbCageAnimals";
+            this.LbCageAnimals.Size = new System.Drawing.Size(187, 147);
+            this.LbCageAnimals.TabIndex = 2;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(6, 58);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(41, 13);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "Dieren:";
+            // 
+            // DtpNewCleandate
+            // 
+            this.DtpNewCleandate.CustomFormat = "HH:mm dd/MM/yyyy";
+            this.DtpNewCleandate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtpNewCleandate.Location = new System.Drawing.Point(17, 286);
+            this.DtpNewCleandate.Name = "DtpNewCleandate";
+            this.DtpNewCleandate.Size = new System.Drawing.Size(187, 20);
+            this.DtpNewCleandate.TabIndex = 3;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(14, 270);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(82, 13);
+            this.label20.TabIndex = 4;
+            this.label20.Text = "Verschoond op:";
+            // 
+            // BtnUpdateCleandate
+            // 
+            this.BtnUpdateCleandate.Location = new System.Drawing.Point(17, 358);
+            this.BtnUpdateCleandate.Name = "BtnUpdateCleandate";
+            this.BtnUpdateCleandate.Size = new System.Drawing.Size(75, 23);
+            this.BtnUpdateCleandate.TabIndex = 5;
+            this.BtnUpdateCleandate.Text = "Update";
+            this.BtnUpdateCleandate.UseVisualStyleBackColor = true;
+            this.BtnUpdateCleandate.Click += new System.EventHandler(this.BtnUpdateCleandate_Click);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(14, 314);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(33, 13);
+            this.label21.TabIndex = 7;
+            this.label21.Text = "Door:";
+            // 
+            // CbCleanEmployee
+            // 
+            this.CbCleanEmployee.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbCleanEmployee.FormattingEnabled = true;
+            this.CbCleanEmployee.Location = new System.Drawing.Point(17, 331);
+            this.CbCleanEmployee.Name = "CbCleanEmployee";
+            this.CbCleanEmployee.Size = new System.Drawing.Size(187, 21);
+            this.CbCleanEmployee.TabIndex = 8;
+            // 
             // UserInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -770,7 +930,7 @@
             this.ClientSize = new System.Drawing.Size(707, 415);
             this.Controls.Add(this.TcMain);
             this.Name = "UserInterface";
-            this.Text = "Form1";
+            this.Text = "Dierenasiel";
             this.TcMain.ResumeLayout(false);
             this.TpAnimals.ResumeLayout(false);
             this.TpAnimals.PerformLayout();
@@ -792,6 +952,10 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEmployeeAge)).EndInit();
             this.TpEmployeeList.ResumeLayout(false);
+            this.TpCages.ResumeLayout(false);
+            this.TpCages.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -864,6 +1028,20 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.Button BtnRemoveEmployee;
+        private System.Windows.Forms.TabPage TpCages;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ListBox LbCageAnimals;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.DateTimePicker DtpLastCleandate;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ListBox LbCages;
+        private System.Windows.Forms.Button BtnUpdateCleandate;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.DateTimePicker DtpNewCleandate;
+        private System.Windows.Forms.ComboBox CbCleanEmployee;
+        private System.Windows.Forms.Label label21;
     }
 }
 

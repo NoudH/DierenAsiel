@@ -26,6 +26,18 @@ namespace DierenAsiel.Logic
             return database.GetAllAnimals();
         }
 
+        public List<Cage> GetAllCages()
+        {
+            List<Cage> Cages = database.GetAllCages();
+            List<Animal> Animals = database.GetAllAnimals();
+            foreach (Cage cage in Cages)
+            {
+                cage.lastCleaningdate = database.GetCleaningdate(cage);
+                cage.animals.AddRange(Animals.FindAll(x => x.cage == cage.cageNumber).ToList());
+            }
+            return Cages;
+        }
+
         public List<Employee> GetAllEmployees()
         {
             return database.GetAllEmployees();
@@ -43,6 +55,11 @@ namespace DierenAsiel.Logic
         public List<Animal> GetAnimalsOfType(Animal.Species type)
         {
             return database.GetAllAnimals().FindAll(x => x.species == type);
+        }
+
+        public Cage GetCage(int cageNumber)
+        {
+            return GetAllCages().Find(x => x.cageNumber == cageNumber);
         }
 
         public Employee GetEmployeeByName(string name)
@@ -65,6 +82,16 @@ namespace DierenAsiel.Logic
         public void RemoveAnimal(Animal animal)
         {
             database.RemoveAnimal(animal);
+        }
+
+        public void RemoveEmployee(Employee employee)
+        {
+            database.RemoveEmployee(employee);
+        }
+
+        public void SetCleanDate(int cageNumber, DateTime value, string employee)
+        {
+            database.SetCleanDate(cageNumber, value, employee);
         }
 
         public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)

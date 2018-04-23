@@ -85,7 +85,7 @@ namespace DierenAsiel.Database
 
         public DateTime GetUitlaatDate(Animal animal)
         {
-            string query = $"Select Uitlaten.Datum from Uitlaten, Dieren where Uitlaten.DierId = Dieren.Id AND Dieren.Naam = '{animal.name}' AND Dieren.Leeftijd = {animal.age} AND Dieren.Gewicht = {animal.weight} AND Dieren.Geslacht = '{animal.gender.ToString()}' AND Dieren.Soort = '{animal.species.ToString()}'";
+            string query = $"Select Top 1 Uitlaten.Datum from Uitlaten, Dieren where Uitlaten.DierId = Dieren.Id AND Dieren.Naam = '{animal.name}' AND Dieren.Leeftijd = {animal.age} AND Dieren.Gewicht = {animal.weight} AND Dieren.Geslacht = '{animal.gender.ToString()}' AND Dieren.Soort = '{animal.species.ToString()}' order by Uitlaten.Datum desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -97,22 +97,21 @@ namespace DierenAsiel.Database
                         {
                             return reader.GetDateTime(0);
                         }
-                        return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1);
+                        return new DateTime(1753, 1, 1);
                     }
                 }
             }
         }
 
         public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
-        {
-            
+        {            
             string query = $"insert into Uitlaten (DierId, Datum, VerzorgerId) Values((select Id from Dieren where Naam = '{animal.name}' AND Soort = '{animal.species.ToString()}' AND Gewicht = {animal.weight} AND Geslacht = '{animal.gender.ToString()}'), '{date.ToString("MM/dd/yyyy HH:mm")}', (select Id from Verzorgers where Naam = '{employee.name}'))";
             ExecuteNonQuery(query);
         }
 
         public List<Employee> GetAllEmployees()
         {
-            string query = "select * from Verzorgers";
+            string query = "select * from Verzorgers where Werkzaam = 1";
             List<Employee> returnList = new List<Employee>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -169,6 +168,60 @@ namespace DierenAsiel.Database
                     }
                 }
             }
+        }
+
+        public void RemoveEmployee(Employee employee)
+        {
+            string query = $"Update Verzorgers Set Werkzaam = 0 where Naam = '{employee.name}' And Leeftijd = {employee.age} And Gender = '{employee.gender.ToString()}' And Adres = '{employee.address}'";
+            ExecuteNonQuery(query);
+        }
+
+        public List<Cage> GetAllCages()
+        {
+            List<Cage> Cages = new List<Cage>();
+            string query = $"Select distinct HokNummer from Dieren";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {                
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Cage C = new Cage() { cageNumber = reader.GetInt32(0) };
+                            Cages.Add(C);
+                        }
+                    }
+                }
+            }
+            return Cages;
+        }
+
+        public DateTime GetCleaningdate(Cage cage)
+        {
+            string query = $"select top 1 Datum from HokVerschonen where HokId = {cage.cageNumber} order by Datum desc";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return reader.GetDateTime(0);
+                        }
+                        return new DateTime(1753, 1, 1);
+                    }
+                }
+            }
+        }
+
+        public void SetCleanDate(int cageNumber, DateTime value, string employee)
+        {
+            string query = $"insert into HokVerschonen(HokId, Datum, VerzorgerId) values({cageNumber}, '{value.ToString("MM/dd/yyyy HH:mm")}', (select top 1 Id from Verzorgers where Naam = '{employee}'))";
+            ExecuteNonQuery(query);
         }
     }
 }

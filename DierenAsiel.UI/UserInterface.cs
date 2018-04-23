@@ -22,8 +22,6 @@ namespace DierenAsiel.UI
             SetComboBoxes();
 
             PopulateListView();
-
-            SetDateTimePickers();
         }
 
         private void PopulateListView()
@@ -55,25 +53,34 @@ namespace DierenAsiel.UI
                 LvEmployees.Items.Add(listViewItem);
             }
 
+            LbDogs.Items.Clear();
             LbDogs.Items.AddRange(logic.GetAnimalsOfType(Animal.Species.Dog).ToArray());
+            LbDogs.SelectedIndex = 0;
+
+            LbCages.Items.Clear();
+            LbCages.Items.AddRange(logic.GetAllCages().ToArray());
+            LbCages.SelectedIndex = 0;
         }
 
         private void SetComboBoxes()
         {
+            CbAnimalType.Items.Clear();
             CbAnimalType.Items.AddRange(Enum.GetNames(typeof(Animal.Species)));
             CbAnimalType.SelectedIndex = 0;
 
+            CbUitlaatEmployees.Items.Clear();
             CbUitlaatEmployees.Items.AddRange(logic.GetAllEmployees().ToArray());
             if (CbUitlaatEmployees.Items.Count > 0)
             {
                 CbUitlaatEmployees.SelectedIndex = 0;
-            }            
-        }
+            }
 
-        private void SetDateTimePickers()
-        {
-            DtpLaatstUitgelaten.CustomFormat = "HH:mm dd/MM/yyyy";
-            DtpUitlaatDate.CustomFormat = "HH:mm dd/MM/yyyy";
+            CbCleanEmployee.Items.Clear();
+            CbCleanEmployee.Items.AddRange(logic.GetAllEmployees().ToArray());
+            if (CbCleanEmployee.Items.Count > 0)
+            {
+                CbCleanEmployee.SelectedIndex = 0;
+            }
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
@@ -81,20 +88,24 @@ namespace DierenAsiel.UI
             Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species),CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value };
             logic.AddAnimal(A);
             PopulateListView();
+
+            MessageBox.Show("Dier succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
         }
 
         private void BtnAnimalDelete_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in LvAnimalList.SelectedItems)
             {
-                Animal A = new Animal() { name = item.Text,
+                Animal A = new Animal() {
+                    name = item.Text,
                     age = int.Parse(item.SubItems[1].Text),
                     weight = int.Parse(item.SubItems[2].Text),
                     gender = (Animal.Genders)Enum.Parse(typeof(Animal.Genders), item.SubItems[3].Text),
                     price = float.Parse(item.SubItems[4].Text),
                     species = (Animal.Species)Enum.Parse(typeof(Animal.Species), item.SubItems[5].Text),
                     cage = int.Parse(item.SubItems[6].Text),
-                    reserved = (item.SubItems[7].Text == "Ja" ? true : false)};
+                    reserved = (item.SubItems[7].Text == "Ja" ? true : false)
+                };
 
                 logic.RemoveAnimal(A);
                 PopulateListView();
@@ -119,6 +130,9 @@ namespace DierenAsiel.UI
         {
             logic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text});
             PopulateListView();
+            SetComboBoxes();
+
+            MessageBox.Show("Vrijwilliger succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
         }
 
         private void LvAnimalList_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -131,6 +145,50 @@ namespace DierenAsiel.UI
             sortList = sortList.OrderBy(x => x.SubItems[e.Column].Text).ToList();
             LvAnimalList.Items.Clear();
             LvAnimalList.Items.AddRange(sortList.ToArray());
+        }
+
+        private void LvEmployees_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            List<ListViewItem> sortList = new List<ListViewItem>();
+            foreach (ListViewItem item in LvEmployees.Items)
+            {
+                sortList.Add(item);
+            }
+            sortList = sortList.OrderBy(x => x.SubItems[e.Column].Text).ToList();
+            LvEmployees.Items.Clear();
+            LvEmployees.Items.AddRange(sortList.ToArray());
+        }
+
+        private void BtnRemoveEmployee_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in LvEmployees.SelectedItems)
+            {
+                Employee E = new Employee()
+                {
+                    name = item.Text,
+                    age = int.Parse(item.SubItems[1].Text),
+                    gender = (Employee.Gender)Enum.Parse(typeof(Employee.Gender), item.SubItems[2].Text),
+                    address = item.SubItems[3].Text,
+                    phoneNumber = item.SubItems[4].Text
+                };
+
+                logic.RemoveEmployee(E);
+                PopulateListView();
+            }
+        }
+
+        private void LbCages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Cage C = logic.GetCage(int.Parse(LbCages.SelectedItem.ToString()));
+            DtpLastCleandate.Value = C.lastCleaningdate;
+            LbCageAnimals.Items.Clear();
+            LbCageAnimals.Items.AddRange(C.animals.ToArray());
+        }
+
+        private void BtnUpdateCleandate_Click(object sender, EventArgs e)
+        {
+            logic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
+            LbCages_SelectedIndexChanged(null, null);
         }
     }
 }
