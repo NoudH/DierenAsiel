@@ -44,6 +44,11 @@ namespace DierenAsiel.Database
         {
             string query = $"Insert into Dieren (Naam, Leeftijd, Gewicht, Geslacht, Prijs, Soort, HokNummer, Gereserveerd) Values ('{animal.name}', {animal.age}, {animal.weight}, '{animal.gender.ToString()}', {animal.price}, '{animal.species.ToString()}', {animal.cage}, {Convert.ToInt16(animal.reserved)})";
             ExecuteNonQuery(query);
+            foreach (string characteristic in animal.characteristics)
+            {
+                query = $"Insert into Eigenschappen (DierId, Eigenschap) values((select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} And Gewicht = '{animal.weight}' And Geslacht = '{animal.gender.ToString()}' And Soort = '{animal.species.ToString()}' And HokNummer = {animal.cage}), '{characteristic}')";
+                ExecuteNonQuery(query);
+            }            
         }
 
         public List<Animal> GetAllAnimals()
@@ -79,7 +84,10 @@ namespace DierenAsiel.Database
 
         public void RemoveAnimal(Animal animal)
         {
-            string query = $"Delete from Dieren where Naam = '{animal.name}' AND Leeftijd = {animal.age} AND Gewicht = {animal.weight} AND Prijs = {animal.price} AND Soort = '{animal.species.ToString()}'";
+            string query = $"Delete from Eigenschappen where DierId = (select Id from Dieren where Naam = '{animal.name}' AND Leeftijd = {animal.age} AND Gewicht = {animal.weight} AND Prijs = {animal.price} AND Soort = '{animal.species.ToString()}' and HokNummer = {animal.cage})";
+            ExecuteNonQuery(query);
+
+            query = $"Delete from Dieren where Naam = '{animal.name}' AND Leeftijd = {animal.age} AND Gewicht = {animal.weight} AND Prijs = {animal.price} AND Soort = '{animal.species.ToString()}' and HokNummer = {animal.cage}";
             ExecuteNonQuery(query);
         }
 
@@ -221,6 +229,53 @@ namespace DierenAsiel.Database
         public void SetCleanDate(int cageNumber, DateTime value, string employee)
         {
             string query = $"insert into HokVerschonen(HokId, Datum, VerzorgerId) values({cageNumber}, '{value.ToString("MM/dd/yyyy HH:mm")}', (select top 1 Id from Verzorgers where Naam = '{employee}'))";
+            ExecuteNonQuery(query);
+        }
+
+        public List<string> GetCharacteristicsFromAnimal(Animal animal)
+        {
+            string query = $"select Eigenschap from Eigenschappen where DierId = (select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} and Gewicht = {animal.weight} and Geslacht = '{animal.gender.ToString()}' and Soort = '{animal.species.ToString()} and HokNummer = {animal.cage}')";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<string> characteristics = new List<string>();
+                        while (reader.Read())
+                        {
+                            characteristics.Add(reader.GetString(0));
+                        }
+                        return characteristics;
+                    }
+                }
+            }
+        }
+
+        public string GetUser(string username)
+        {
+            string query = $"select Wachtwoord from Gebruikers where GebruikersNaam = '{username}'";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return reader.GetString(0);
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+
+        public void AddUser(string username, string hashedPassword)
+        {
+            string query = $"insert into Gebruikers(GebruikersNaam, Wachtwoord) values('{username}', '{hashedPassword}')";
             ExecuteNonQuery(query);
         }
     }

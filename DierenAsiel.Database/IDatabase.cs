@@ -17,8 +17,11 @@ namespace DierenAsiel.Database
         void AddEmployee(Employee employee);
         Employee GetEmployeeByName(string name);
         void RemoveEmployee(Employee employee);
+        void AddUser(string username, string hashedPassword);
         List<Cage> GetAllCages();
         DateTime GetCleaningdate(Cage cage);
         void SetCleanDate(int cageNumber, DateTime value, string employee);
+        List<string> GetCharacteristicsFromAnimal(Animal animal);
+        string GetUser(string username);
     }
 }

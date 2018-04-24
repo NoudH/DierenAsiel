@@ -21,9 +21,19 @@ namespace DierenAsiel.Logic
             database.AddEmployee(employee);
         }
 
+        public void CreateUser(string username, string password)
+        {
+            database.AddUser(username, LoginAuthenticator.CreateUser(password));
+        }
+
         public List<Animal> GetAllAnimals()
         {
-            return database.GetAllAnimals();
+            List<Animal> AllAnimals = database.GetAllAnimals();
+            foreach (Animal animal in AllAnimals)
+            {
+                animal.characteristics = database.GetCharacteristicsFromAnimal(animal);
+            }
+            return AllAnimals;
         }
 
         public List<Cage> GetAllCages()
@@ -77,6 +87,16 @@ namespace DierenAsiel.Logic
             {
                 return database.GetUitlaatDate(animal);
             }
+        }
+
+        public bool Login(string username, string password)
+        {
+            string hashedPassword = database.GetUser(username);
+            if (hashedPassword != null)
+            {
+                return LoginAuthenticator.LoginUser(password, database.GetUser(username));
+            }
+            return false;
         }
 
         public void RemoveAnimal(Animal animal)

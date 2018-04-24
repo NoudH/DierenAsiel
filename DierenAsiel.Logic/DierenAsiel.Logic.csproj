@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ILogic.cs" />
     <Compile Include="LogicController.cs" />
+    <Compile Include="LoginAuthenticator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

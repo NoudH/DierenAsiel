@@ -28,6 +28,7 @@ namespace DierenAsiel
         public int cage;
         public bool reserved = false;
         public float price;
+        public List<string> characteristics = new List<string>();
 
         public override string ToString()
         {

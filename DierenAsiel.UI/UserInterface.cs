@@ -13,7 +13,7 @@ namespace DierenAsiel.UI
 {
     public partial class UserInterface : Form
     {
-        ILogic logic = new LogicController();
+        private ILogic logic = new LogicController();
 
         public UserInterface()
         {
@@ -85,7 +85,7 @@ namespace DierenAsiel.UI
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species),CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value };
+            Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species),CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList() };
             logic.AddAnimal(A);
             PopulateListView();
 
@@ -131,6 +131,11 @@ namespace DierenAsiel.UI
             logic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text});
             PopulateListView();
             SetComboBoxes();
+
+            if (CheckCreateUserAccount.Checked)
+            {
+                logic.CreateUser(TxtUsername.Text, TxtPassword.Text);
+            }
 
             MessageBox.Show("Vrijwilliger succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
         }
@@ -189,6 +194,48 @@ namespace DierenAsiel.UI
         {
             logic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
             LbCages_SelectedIndexChanged(null, null);
+        }
+
+        private void LvAnimalList_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (LvAnimalList.FocusedItem.Bounds.Contains(e.Location))
+                {
+                    CmsAnimals.Items[2].Enabled = (LvAnimalList.FocusedItem.SubItems[5].Text == "Dog" ? true : false);
+                    
+                    CmsAnimals.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void geefEtenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void verschoonHokToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TcMain.SelectedTab = TcMain.TabPages["Hokken"];
+            LbCages.SelectedItem = LbCages.Items[logic.GetAllAnimals().Find(x => 
+            x.name == LvAnimalList.FocusedItem.SubItems[0].Text &&
+            x.age == int.Parse(LvAnimalList.FocusedItem.SubItems[1].Text) &&
+            x.weight == int.Parse(LvAnimalList.FocusedItem.SubItems[2].Text) &&
+            x.gender == (Animal.Genders)Enum.Parse(typeof(Animal.Genders), LvAnimalList.FocusedItem.SubItems[3].Text) &&
+            x.price == float.Parse(LvAnimalList.FocusedItem.SubItems[4].Text) &&
+            x.species == (Animal.Species)Enum.Parse(typeof(Animal.Species), LvAnimalList.FocusedItem.SubItems[5].Text)
+            ).cage];
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            GbUserInfo.Enabled = CheckCreateUserAccount.Checked;
+            GbUserInfo.Visible = CheckCreateUserAccount.Checked;
+        }
+
+        private void UserInterface_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
