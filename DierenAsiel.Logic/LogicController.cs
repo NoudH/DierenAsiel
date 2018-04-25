@@ -62,6 +62,11 @@ namespace DierenAsiel.Logic
             return new Animal();
         }
 
+        public Animal GetAnimalFromList(int index)
+        {
+            return database.GetAllAnimals()[index];
+        }
+
         public List<Animal> GetAnimalsOfType(Animal.Species type)
         {
             return database.GetAllAnimals().FindAll(x => x.species == type);
@@ -75,6 +80,11 @@ namespace DierenAsiel.Logic
         public Employee GetEmployeeByName(string name)
         {
             return database.GetEmployeeByName(name);
+        }
+
+        public DateTime GetFeedingDate(Animal animal)
+        {
+            return database.GetFeedingDates(animal).First();
         }
 
         public DateTime GetUitlaatDate(Animal animal)
@@ -112,6 +122,11 @@ namespace DierenAsiel.Logic
         public void SetCleanDate(int cageNumber, DateTime value, string employee)
         {
             database.SetCleanDate(cageNumber, value, employee);
+        }
+
+        public void SetFeedingDate(Animal animal, DateTime value, Employee employee)
+        {
+            database.SetFeedingDate(animal, value, employee);
         }
 
         public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)

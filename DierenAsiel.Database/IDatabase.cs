@@ -23,5 +23,7 @@ namespace DierenAsiel.Database
         void SetCleanDate(int cageNumber, DateTime value, string employee);
         List<string> GetCharacteristicsFromAnimal(Animal animal);
         string GetUser(string username);
+        List<DateTime> GetFeedingDates(Animal animal);
+        void SetFeedingDate(Animal animal, DateTime value, Employee employee);
     }
 }

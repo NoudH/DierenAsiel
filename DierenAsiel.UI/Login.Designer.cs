@@ -89,6 +89,7 @@
             this.Controls.Add(this.TxtPassword);
             this.Controls.Add(this.TxtUsername);
             this.Name = "Login";
+            this.ShowIcon = false;
             this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();

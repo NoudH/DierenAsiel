@@ -60,6 +60,10 @@ namespace DierenAsiel.UI
             LbCages.Items.Clear();
             LbCages.Items.AddRange(logic.GetAllCages().ToArray());
             LbCages.SelectedIndex = 0;
+
+            LbFeedingAnimals.Items.Clear();
+            LbFeedingAnimals.Items.AddRange(logic.GetAllAnimals().ToArray());
+            LbFeedingAnimals.SelectedIndex = 0;
         }
 
         private void SetComboBoxes()
@@ -80,6 +84,13 @@ namespace DierenAsiel.UI
             if (CbCleanEmployee.Items.Count > 0)
             {
                 CbCleanEmployee.SelectedIndex = 0;
+            }
+
+            CbFeedingEmployee.Items.Clear();
+            CbFeedingEmployee.Items.AddRange(logic.GetAllEmployees().ToArray());
+            if (CbFeedingEmployee.Items.Count > 0)
+            {
+                CbFeedingEmployee.SelectedIndex = 0;
             }
         }
 
@@ -211,12 +222,13 @@ namespace DierenAsiel.UI
 
         private void geefEtenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            LbFeedingAnimals.SelectedIndex = LbFeedingAnimals.FindString(LvAnimalList.FocusedItem.SubItems[0].Text);
+            TcMain.SelectedTab = TcMain.TabPages["TpFeeding"];
         }
 
         private void verschoonHokToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TcMain.SelectedTab = TcMain.TabPages["Hokken"];
+            TcMain.SelectedTab = TcMain.TabPages["TpCages"];
             LbCages.SelectedItem = LbCages.Items[logic.GetAllAnimals().Find(x => 
             x.name == LvAnimalList.FocusedItem.SubItems[0].Text &&
             x.age == int.Parse(LvAnimalList.FocusedItem.SubItems[1].Text) &&
@@ -236,6 +248,23 @@ namespace DierenAsiel.UI
         private void UserInterface_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void uitlatenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LbDogs.SelectedIndex = LbDogs.FindString(LvAnimalList.FocusedItem.SubItems[0].Text);
+            TcMain.SelectedTab = TcMain.TabPages["TpUitlaten"];
+        }
+
+        private void LbFeedingAnimals_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DtpLastFeedingDate.Value = logic.GetFeedingDate(logic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex));
+        }
+
+        private void BtnUpdateFeeding_Click(object sender, EventArgs e)
+        {
+            logic.SetFeedingDate(logic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, logic.GetEmployeeByName(CbFeedingEmployee.Text));
+            LbFeedingAnimals_SelectedIndexChanged(null, null);
         }
     }
 }

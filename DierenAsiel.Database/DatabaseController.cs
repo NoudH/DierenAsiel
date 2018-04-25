@@ -278,5 +278,37 @@ namespace DierenAsiel.Database
             string query = $"insert into Gebruikers(GebruikersNaam, Wachtwoord) values('{username}', '{hashedPassword}')";
             ExecuteNonQuery(query);
         }
+
+        public List<DateTime> GetFeedingDates(Animal animal)
+        {
+            string query = $"select Datum from Eten where DierId = (select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} and Gewicht = {animal.weight} and Geslacht = '{animal.gender.ToString()}' and soort = '{animal.species.ToString()}') Order by Datum desc";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<DateTime> FeedingDates = new List<DateTime>();
+                        while (reader.Read())
+                        {
+                            FeedingDates.Add(reader.GetDateTime(0));
+                        }
+                        FeedingDates.Add(new DateTime(1753, 1, 1));
+                        return FeedingDates;
+                    }
+                }
+            }
+        }
+
+        public void SetFeedingDate(Animal animal, DateTime value, Employee employee)
+        {
+            string query = $"insert into Eten (DierId, Datum, VerzorgerId) values (" +
+                $"(select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} and Gewicht = {animal.weight} and Geslacht = '{animal.gender.ToString()}' and Soort = '{animal.species.ToString()}' and HokNummer = {animal.cage})," +
+                $"'{value.ToString("MM/dd/yyyy HH:mm")}'," +
+                $"(select id from Verzorgers where Naam = '{employee.name}' and Leeftijd = {employee.age} and Gender = '{employee.gender.ToString()}' and Adres = '{employee.address}')" +
+                $")";
+            ExecuteNonQuery(query);
+        }
     }
 }

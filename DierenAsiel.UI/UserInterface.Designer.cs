@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.TcMain = new System.Windows.Forms.TabControl();
             this.TpAnimals = new System.Windows.Forms.TabPage();
+            this.label22 = new System.Windows.Forms.Label();
+            this.RtbCharacteristics = new System.Windows.Forms.RichTextBox();
             this.NudAnimalPrice = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.NudAnimalCage = new System.Windows.Forms.NumericUpDown();
@@ -59,6 +61,12 @@
             this.ChCage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ChReserved = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TpEmployees = new System.Windows.Forms.TabPage();
+            this.GbUserInfo = new System.Windows.Forms.GroupBox();
+            this.TxtPassword = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.TxtUsername = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.CheckCreateUserAccount = new System.Windows.Forms.CheckBox();
             this.TxtEmployeePhone = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.TxtEmployeeAddress = new System.Windows.Forms.TextBox();
@@ -110,18 +118,19 @@
             this.label17 = new System.Windows.Forms.Label();
             this.LbCages = new System.Windows.Forms.ListBox();
             this.TpFeeding = new System.Windows.Forms.TabPage();
-            this.RtbCharacteristics = new System.Windows.Forms.RichTextBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.CmsAnimals = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.geefEtenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verschoonHokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uitlatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CheckCreateUserAccount = new System.Windows.Forms.CheckBox();
-            this.GbUserInfo = new System.Windows.Forms.GroupBox();
-            this.TxtUsername = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.TxtPassword = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
+            this.LbFeedingAnimals = new System.Windows.Forms.ListBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.DtpLastFeedingDate = new System.Windows.Forms.DateTimePicker();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.DtpNewFeedingDate = new System.Windows.Forms.DateTimePicker();
+            this.CbFeedingEmployee = new System.Windows.Forms.ComboBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.BtnUpdateFeeding = new System.Windows.Forms.Button();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalPrice)).BeginInit();
@@ -131,6 +140,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalAge)).BeginInit();
             this.TpAnimalList.SuspendLayout();
             this.TpEmployees.SuspendLayout();
+            this.GbUserInfo.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEmployeeAge)).BeginInit();
             this.TpEmployeeList.SuspendLayout();
@@ -139,8 +149,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NudUitlaatAge)).BeginInit();
             this.TpCages.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.TpFeeding.SuspendLayout();
             this.CmsAnimals.SuspendLayout();
-            this.GbUserInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // TcMain
@@ -184,6 +194,23 @@
             this.TpAnimals.TabIndex = 0;
             this.TpAnimals.Text = "Dieren";
             this.TpAnimals.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(10, 236);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(84, 13);
+            this.label22.TabIndex = 16;
+            this.label22.Text = "Eigenschappen:";
+            // 
+            // RtbCharacteristics
+            // 
+            this.RtbCharacteristics.Location = new System.Drawing.Point(12, 252);
+            this.RtbCharacteristics.Name = "RtbCharacteristics";
+            this.RtbCharacteristics.Size = new System.Drawing.Size(185, 100);
+            this.RtbCharacteristics.TabIndex = 15;
+            this.RtbCharacteristics.Text = "";
             // 
             // NudAnimalPrice
             // 
@@ -455,6 +482,67 @@
             this.TpEmployees.TabIndex = 3;
             this.TpEmployees.Text = "Verzorgers";
             this.TpEmployees.UseVisualStyleBackColor = true;
+            // 
+            // GbUserInfo
+            // 
+            this.GbUserInfo.Controls.Add(this.TxtPassword);
+            this.GbUserInfo.Controls.Add(this.label24);
+            this.GbUserInfo.Controls.Add(this.TxtUsername);
+            this.GbUserInfo.Controls.Add(this.label23);
+            this.GbUserInfo.Enabled = false;
+            this.GbUserInfo.Location = new System.Drawing.Point(11, 209);
+            this.GbUserInfo.Name = "GbUserInfo";
+            this.GbUserInfo.Size = new System.Drawing.Size(186, 100);
+            this.GbUserInfo.TabIndex = 23;
+            this.GbUserInfo.TabStop = false;
+            this.GbUserInfo.Text = "Gebruikers gegevens:";
+            this.GbUserInfo.Visible = false;
+            // 
+            // TxtPassword
+            // 
+            this.TxtPassword.Location = new System.Drawing.Point(6, 74);
+            this.TxtPassword.MaxLength = 250;
+            this.TxtPassword.Name = "TxtPassword";
+            this.TxtPassword.PasswordChar = '*';
+            this.TxtPassword.Size = new System.Drawing.Size(174, 20);
+            this.TxtPassword.TabIndex = 27;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(3, 58);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(71, 13);
+            this.label24.TabIndex = 26;
+            this.label24.Text = "Wachtwoord:";
+            // 
+            // TxtUsername
+            // 
+            this.TxtUsername.Location = new System.Drawing.Point(6, 32);
+            this.TxtUsername.MaxLength = 250;
+            this.TxtUsername.Name = "TxtUsername";
+            this.TxtUsername.Size = new System.Drawing.Size(174, 20);
+            this.TxtUsername.TabIndex = 25;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(3, 16);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(87, 13);
+            this.label23.TabIndex = 24;
+            this.label23.Text = "Gebruikersnaam:";
+            // 
+            // CheckCreateUserAccount
+            // 
+            this.CheckCreateUserAccount.AutoSize = true;
+            this.CheckCreateUserAccount.Location = new System.Drawing.Point(11, 186);
+            this.CheckCreateUserAccount.Name = "CheckCreateUserAccount";
+            this.CheckCreateUserAccount.Size = new System.Drawing.Size(171, 17);
+            this.CheckCreateUserAccount.TabIndex = 22;
+            this.CheckCreateUserAccount.Text = "Maak gebruikers account aan.";
+            this.CheckCreateUserAccount.UseVisualStyleBackColor = true;
+            this.CheckCreateUserAccount.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // TxtEmployeePhone
             // 
@@ -947,29 +1035,21 @@
             // 
             // TpFeeding
             // 
+            this.TpFeeding.Controls.Add(this.BtnUpdateFeeding);
+            this.TpFeeding.Controls.Add(this.label28);
+            this.TpFeeding.Controls.Add(this.CbFeedingEmployee);
+            this.TpFeeding.Controls.Add(this.label27);
+            this.TpFeeding.Controls.Add(this.DtpNewFeedingDate);
+            this.TpFeeding.Controls.Add(this.label26);
+            this.TpFeeding.Controls.Add(this.DtpLastFeedingDate);
+            this.TpFeeding.Controls.Add(this.label25);
+            this.TpFeeding.Controls.Add(this.LbFeedingAnimals);
             this.TpFeeding.Location = new System.Drawing.Point(4, 22);
             this.TpFeeding.Name = "TpFeeding";
             this.TpFeeding.Size = new System.Drawing.Size(699, 389);
             this.TpFeeding.TabIndex = 6;
             this.TpFeeding.Text = "Voeding";
             this.TpFeeding.UseVisualStyleBackColor = true;
-            // 
-            // RtbCharacteristics
-            // 
-            this.RtbCharacteristics.Location = new System.Drawing.Point(12, 252);
-            this.RtbCharacteristics.Name = "RtbCharacteristics";
-            this.RtbCharacteristics.Size = new System.Drawing.Size(185, 100);
-            this.RtbCharacteristics.TabIndex = 15;
-            this.RtbCharacteristics.Text = "";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(10, 236);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(84, 13);
-            this.label22.TabIndex = 16;
-            this.label22.Text = "Eigenschappen:";
             // 
             // CmsAnimals
             // 
@@ -999,67 +1079,90 @@
             this.uitlatenToolStripMenuItem.Name = "uitlatenToolStripMenuItem";
             this.uitlatenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.uitlatenToolStripMenuItem.Text = "Uitlaten";
+            this.uitlatenToolStripMenuItem.Click += new System.EventHandler(this.uitlatenToolStripMenuItem_Click);
             // 
-            // CheckCreateUserAccount
+            // LbFeedingAnimals
             // 
-            this.CheckCreateUserAccount.AutoSize = true;
-            this.CheckCreateUserAccount.Location = new System.Drawing.Point(11, 186);
-            this.CheckCreateUserAccount.Name = "CheckCreateUserAccount";
-            this.CheckCreateUserAccount.Size = new System.Drawing.Size(171, 17);
-            this.CheckCreateUserAccount.TabIndex = 22;
-            this.CheckCreateUserAccount.Text = "Maak gebruikers account aan.";
-            this.CheckCreateUserAccount.UseVisualStyleBackColor = true;
-            this.CheckCreateUserAccount.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.LbFeedingAnimals.FormattingEnabled = true;
+            this.LbFeedingAnimals.Location = new System.Drawing.Point(539, 23);
+            this.LbFeedingAnimals.Name = "LbFeedingAnimals";
+            this.LbFeedingAnimals.Size = new System.Drawing.Size(152, 355);
+            this.LbFeedingAnimals.TabIndex = 0;
+            this.LbFeedingAnimals.SelectedIndexChanged += new System.EventHandler(this.LbFeedingAnimals_SelectedIndexChanged);
             // 
-            // GbUserInfo
+            // label25
             // 
-            this.GbUserInfo.Controls.Add(this.TxtPassword);
-            this.GbUserInfo.Controls.Add(this.label24);
-            this.GbUserInfo.Controls.Add(this.TxtUsername);
-            this.GbUserInfo.Controls.Add(this.label23);
-            this.GbUserInfo.Enabled = false;
-            this.GbUserInfo.Location = new System.Drawing.Point(11, 209);
-            this.GbUserInfo.Name = "GbUserInfo";
-            this.GbUserInfo.Size = new System.Drawing.Size(186, 100);
-            this.GbUserInfo.TabIndex = 23;
-            this.GbUserInfo.TabStop = false;
-            this.GbUserInfo.Text = "Gebruikers gegevens:";
-            this.GbUserInfo.Visible = false;
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(536, 7);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(41, 13);
+            this.label25.TabIndex = 1;
+            this.label25.Text = "Dieren:";
             // 
-            // TxtUsername
+            // DtpLastFeedingDate
             // 
-            this.TxtUsername.Location = new System.Drawing.Point(6, 32);
-            this.TxtUsername.MaxLength = 250;
-            this.TxtUsername.Name = "TxtUsername";
-            this.TxtUsername.Size = new System.Drawing.Size(174, 20);
-            this.TxtUsername.TabIndex = 25;
+            this.DtpLastFeedingDate.CustomFormat = "HH:mm dd/MM/yyyy";
+            this.DtpLastFeedingDate.Enabled = false;
+            this.DtpLastFeedingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtpLastFeedingDate.Location = new System.Drawing.Point(8, 23);
+            this.DtpLastFeedingDate.Name = "DtpLastFeedingDate";
+            this.DtpLastFeedingDate.Size = new System.Drawing.Size(155, 20);
+            this.DtpLastFeedingDate.TabIndex = 2;
             // 
-            // label23
+            // label26
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(3, 16);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(87, 13);
-            this.label23.TabIndex = 24;
-            this.label23.Text = "Gebruikersnaam:";
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 7);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(93, 13);
+            this.label26.TabIndex = 3;
+            this.label26.Text = "Laatst gevoed op:";
             // 
-            // TxtPassword
+            // label27
             // 
-            this.TxtPassword.Location = new System.Drawing.Point(6, 74);
-            this.TxtPassword.MaxLength = 250;
-            this.TxtPassword.Name = "TxtPassword";
-            this.TxtPassword.PasswordChar = '*';
-            this.TxtPassword.Size = new System.Drawing.Size(174, 20);
-            this.TxtPassword.TabIndex = 27;
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 272);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(124, 13);
+            this.label27.TabIndex = 5;
+            this.label27.Text = "Nieuwe voedings datum:";
             // 
-            // label24
+            // DtpNewFeedingDate
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(3, 58);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(71, 13);
-            this.label24.TabIndex = 26;
-            this.label24.Text = "Wachtwoord:";
+            this.DtpNewFeedingDate.CustomFormat = "HH:mm dd/MM/yyyy";
+            this.DtpNewFeedingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtpNewFeedingDate.Location = new System.Drawing.Point(9, 288);
+            this.DtpNewFeedingDate.Name = "DtpNewFeedingDate";
+            this.DtpNewFeedingDate.Size = new System.Drawing.Size(154, 20);
+            this.DtpNewFeedingDate.TabIndex = 4;
+            // 
+            // CbFeedingEmployee
+            // 
+            this.CbFeedingEmployee.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbFeedingEmployee.FormattingEnabled = true;
+            this.CbFeedingEmployee.Location = new System.Drawing.Point(9, 327);
+            this.CbFeedingEmployee.Name = "CbFeedingEmployee";
+            this.CbFeedingEmployee.Size = new System.Drawing.Size(154, 21);
+            this.CbFeedingEmployee.TabIndex = 6;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 311);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(33, 13);
+            this.label28.TabIndex = 7;
+            this.label28.Text = "Door:";
+            // 
+            // BtnUpdateFeeding
+            // 
+            this.BtnUpdateFeeding.Location = new System.Drawing.Point(9, 355);
+            this.BtnUpdateFeeding.Name = "BtnUpdateFeeding";
+            this.BtnUpdateFeeding.Size = new System.Drawing.Size(75, 23);
+            this.BtnUpdateFeeding.TabIndex = 8;
+            this.BtnUpdateFeeding.Text = "Update";
+            this.BtnUpdateFeeding.UseVisualStyleBackColor = true;
+            this.BtnUpdateFeeding.Click += new System.EventHandler(this.BtnUpdateFeeding_Click);
             // 
             // UserInterface
             // 
@@ -1082,6 +1185,8 @@
             this.TpAnimalList.ResumeLayout(false);
             this.TpEmployees.ResumeLayout(false);
             this.TpEmployees.PerformLayout();
+            this.GbUserInfo.ResumeLayout(false);
+            this.GbUserInfo.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEmployeeAge)).EndInit();
@@ -1095,9 +1200,9 @@
             this.TpCages.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.TpFeeding.ResumeLayout(false);
+            this.TpFeeding.PerformLayout();
             this.CmsAnimals.ResumeLayout(false);
-            this.GbUserInfo.ResumeLayout(false);
-            this.GbUserInfo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1197,6 +1302,15 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox TxtUsername;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Button BtnUpdateFeeding;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.ComboBox CbFeedingEmployee;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.DateTimePicker DtpNewFeedingDate;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.DateTimePicker DtpLastFeedingDate;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.ListBox LbFeedingAnimals;
     }
 }
 
