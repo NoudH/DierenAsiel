@@ -40,8 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILogic.cs" />
-    <Compile Include="LogicController.cs" />
+    <Compile Include="CaretakingLogicController.cs" />
+    <Compile Include="EmployeeLogicController.cs" />
+    <Compile Include="IAuthenticationLogic.cs" />
+    <Compile Include="ICaretakingLogic.cs" />
+    <Compile Include="IEmployeeLogic.cs" />
+    <Compile Include="IAnimalLogic.cs" />
+    <Compile Include="AnimalLogicController.cs" />
     <Compile Include="LoginAuthenticator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

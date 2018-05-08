@@ -13,7 +13,7 @@ namespace DierenAsiel.UI
 {
     public partial class Login : Form
     {
-        ILogic logic = new LogicController();
+        IAuthenticationLogic authenticationLogic = new LoginAuthenticator();
 
         public Login()
         {
@@ -22,7 +22,7 @@ namespace DierenAsiel.UI
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-            if (logic.Login(TxtUsername.Text, TxtPassword.Text))
+            if (authenticationLogic.Login(TxtUsername.Text, TxtPassword.Text))
             {
                 UserInterface userInterface = new UserInterface();
                 userInterface.Show();

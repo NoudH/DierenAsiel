@@ -4,12 +4,15 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using DierenAsiel.Database;
 
 namespace DierenAsiel.Logic
 {
-    static class LoginAuthenticator
+    public class LoginAuthenticator : IAuthenticationLogic
     {
-        public static string CreateUser(string password)
+        IUserDatabase database = new DatabaseController();
+
+        public void CreateUser(string username, string password)
         {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
@@ -21,12 +24,12 @@ namespace DierenAsiel.Logic
             Array.Copy(salt, 0, hashBytes, 0, 16);
             Array.Copy(hash, 0, hashBytes, 16, 20);
 
-            return Convert.ToBase64String(hashBytes);
+            database.AddUser(username, Convert.ToBase64String(hashBytes));
         }
 
-        public static bool LoginUser(string password, string hashedPassword)
+        public bool Login(string username, string password)
         {
-            string savedPasswordHash = hashedPassword;
+            string savedPasswordHash = database.GetUserPassword(username);
             byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
             byte[] salt = new byte[16];
             Array.Copy(hashBytes, 0, salt, 0, 16);

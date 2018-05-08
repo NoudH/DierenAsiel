@@ -57,7 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseController.cs" />
-    <Compile Include="IDatabase.cs" />
+    <Compile Include="ICaretakingDatabase.cs" />
+    <Compile Include="IAnimalDatabase.cs" />
+    <Compile Include="IEmployeeDatabase.cs" />
+    <Compile Include="IUserDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

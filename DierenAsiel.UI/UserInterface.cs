@@ -14,7 +14,10 @@ namespace DierenAsiel.UI
 {
     public partial class UserInterface : Form
     {
-        private ILogic logic = new LogicController();
+        private IAnimalLogic animalLogic = new AnimalLogicController();
+        private IEmployeeLogic employeeLogic = new EmployeeLogicController();
+        private ICaretakingLogic caretakingLogic = new CaretakingLogicController();
+        private IAuthenticationLogic authenticationLogic = new LoginAuthenticator();
 
         public UserInterface()
         {
@@ -28,7 +31,7 @@ namespace DierenAsiel.UI
         private void PopulateListView()
         {
             LvAnimalList.Items.Clear();
-            foreach (Animal A in logic.GetAllAnimals())
+            foreach (Animal A in animalLogic.GetAllAnimals())
             {
                 ListViewItem listViewItem = new ListViewItem(A.name);
                 listViewItem.SubItems.Add(A.age.ToString());
@@ -43,7 +46,7 @@ namespace DierenAsiel.UI
             }
 
             LvEmployees.Items.Clear();
-            foreach (Employee E in logic.GetAllEmployees())
+            foreach (Employee E in employeeLogic.GetAllEmployees())
             {
                 ListViewItem listViewItem = new ListViewItem(E.name);
                 listViewItem.SubItems.Add(E.age.ToString());
@@ -55,15 +58,15 @@ namespace DierenAsiel.UI
             }
 
             LbDogs.Items.Clear();
-            LbDogs.Items.AddRange(logic.GetAnimalsOfType(Animal.Species.Dog).ToArray());
+            LbDogs.Items.AddRange(animalLogic.GetAnimalsOfType(Animal.Species.Dog).ToArray());
             LbDogs.SelectedIndex = 0;
 
             LbCages.Items.Clear();
-            LbCages.Items.AddRange(logic.GetAllCages().ToArray());
+            LbCages.Items.AddRange(caretakingLogic.GetAllCages().ToArray());
             LbCages.SelectedIndex = 0;
 
             LbFeedingAnimals.Items.Clear();
-            LbFeedingAnimals.Items.AddRange(logic.GetAllAnimals().ToArray());
+            LbFeedingAnimals.Items.AddRange(animalLogic.GetAllAnimals().ToArray());
             LbFeedingAnimals.SelectedIndex = 0;
         }
 
@@ -74,21 +77,21 @@ namespace DierenAsiel.UI
             CbAnimalType.SelectedIndex = 0;
 
             CbUitlaatEmployees.Items.Clear();
-            CbUitlaatEmployees.Items.AddRange(logic.GetAllEmployees().ToArray());
+            CbUitlaatEmployees.Items.AddRange(employeeLogic.GetAllEmployees().ToArray());
             if (CbUitlaatEmployees.Items.Count > 0)
             {
                 CbUitlaatEmployees.SelectedIndex = 0;
             }
 
             CbCleanEmployee.Items.Clear();
-            CbCleanEmployee.Items.AddRange(logic.GetAllEmployees().ToArray());
+            CbCleanEmployee.Items.AddRange(employeeLogic.GetAllEmployees().ToArray());
             if (CbCleanEmployee.Items.Count > 0)
             {
                 CbCleanEmployee.SelectedIndex = 0;
             }
 
             CbFeedingEmployee.Items.Clear();
-            CbFeedingEmployee.Items.AddRange(logic.GetAllEmployees().ToArray());
+            CbFeedingEmployee.Items.AddRange(employeeLogic.GetAllEmployees().ToArray());
             if (CbFeedingEmployee.Items.Count > 0)
             {
                 CbFeedingEmployee.SelectedIndex = 0;
@@ -101,7 +104,7 @@ namespace DierenAsiel.UI
             string imageBase64 = Convert.ToBase64String(imageBytes);
 
             Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species),CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64 };
-            logic.AddAnimal(A);
+            animalLogic.AddAnimal(A);
             PbAnimalImage.Image = null;
             PopulateListView();
 
@@ -123,34 +126,34 @@ namespace DierenAsiel.UI
                     reserved = (item.SubItems[7].Text == "Ja" ? true : false),
                 };
 
-                logic.RemoveAnimal(A);
+                animalLogic.RemoveAnimal(A);
                 PopulateListView();
             }            
         }
 
         private void BtnUitlaten_Click(object sender, EventArgs e)
         {
-            logic.SetUitlaatDate(logic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), logic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
+            caretakingLogic.SetUitlaatDate(animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), employeeLogic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
         }
 
         private void LbDogs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Animal A = logic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex);
+            Animal A = animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex);
             TxtUitlaatNaam.Text = A.name;
             NudUitlaatAge.Value = A.age;
             RadUitlaatFemale.Checked = (A.gender == Animal.Genders.Female) ? true : false;
-            DtpLaatstUitgelaten.Value = logic.GetUitlaatDate(A);
+            DtpLaatstUitgelaten.Value = caretakingLogic.GetUitlaatDate(A);
         }
 
         private void BtnAddEmployee_Click(object sender, EventArgs e)
         {
-            logic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text});
+            employeeLogic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text});
             PopulateListView();
             SetComboBoxes();
 
             if (CheckCreateUserAccount.Checked)
             {
-                logic.CreateUser(TxtUsername.Text, TxtPassword.Text);
+                authenticationLogic.CreateUser(TxtUsername.Text, TxtPassword.Text);
             }
 
             MessageBox.Show("Vrijwilliger succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
@@ -193,14 +196,14 @@ namespace DierenAsiel.UI
                     phoneNumber = item.SubItems[4].Text
                 };
 
-                logic.RemoveEmployee(E);
+                employeeLogic.RemoveEmployee(E);
                 PopulateListView();
             }
         }
 
         private void LbCages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Cage C = logic.GetCage(int.Parse(LbCages.SelectedItem.ToString()));
+            Cage C = caretakingLogic.GetCage(int.Parse(LbCages.SelectedItem.ToString()));
             DtpLastCleandate.Value = C.lastCleaningdate;
             LbCageAnimals.Items.Clear();
             LbCageAnimals.Items.AddRange(C.animals.ToArray());
@@ -208,7 +211,7 @@ namespace DierenAsiel.UI
 
         private void BtnUpdateCleandate_Click(object sender, EventArgs e)
         {
-            logic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
+            caretakingLogic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
             LbCages_SelectedIndexChanged(null, null);
         }
 
@@ -234,7 +237,7 @@ namespace DierenAsiel.UI
         private void verschoonHokToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TcMain.SelectedTab = TcMain.TabPages["TpCages"];
-            LbCages.SelectedItem = LbCages.Items[logic.GetAllAnimals().Find(x => 
+            LbCages.SelectedItem = LbCages.Items[animalLogic.GetAllAnimals().Find(x => 
             x.name == LvAnimalList.FocusedItem.SubItems[0].Text &&
             x.age == int.Parse(LvAnimalList.FocusedItem.SubItems[1].Text) &&
             x.weight == int.Parse(LvAnimalList.FocusedItem.SubItems[2].Text) &&
@@ -263,12 +266,12 @@ namespace DierenAsiel.UI
 
         private void LbFeedingAnimals_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DtpLastFeedingDate.Value = logic.GetFeedingDate(logic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex));
+            DtpLastFeedingDate.Value = caretakingLogic.GetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex));
         }
 
         private void BtnUpdateFeeding_Click(object sender, EventArgs e)
         {
-            logic.SetFeedingDate(logic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, logic.GetEmployeeByName(CbFeedingEmployee.Text));
+            caretakingLogic.SetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, employeeLogic.GetEmployeeByName(CbFeedingEmployee.Text));
             LbFeedingAnimals_SelectedIndexChanged(null, null);
         }
 

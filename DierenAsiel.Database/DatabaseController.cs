@@ -9,7 +9,7 @@ using System.Configuration;
 
 namespace DierenAsiel.Database
 {
-    public class DatabaseController : IDatabase
+    public class DatabaseController : IAnimalDatabase, ICaretakingDatabase, IEmployeeDatabase, IUserDatabase
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
 
@@ -253,7 +253,7 @@ namespace DierenAsiel.Database
             }
         }
 
-        public string GetUser(string username)
+        public string GetUserPassword(string username)
         {
             string query = $"select Wachtwoord from Gebruikers where GebruikersNaam = '{username}'";
             using (SqlConnection connection = new SqlConnection(connectionString))
