@@ -25,6 +25,7 @@ namespace DierenAsiel
         public int weight;
         public Genders gender;
         public Species species;
+        public string image;
         public int cage;
         public bool reserved = false;
         public float price;

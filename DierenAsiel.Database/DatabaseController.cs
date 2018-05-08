@@ -42,7 +42,7 @@ namespace DierenAsiel.Database
 
         public void AddAnimal(Animal animal)
         {
-            string query = $"Insert into Dieren (Naam, Leeftijd, Gewicht, Geslacht, Prijs, Soort, HokNummer, Gereserveerd) Values ('{animal.name}', {animal.age}, {animal.weight}, '{animal.gender.ToString()}', {animal.price}, '{animal.species.ToString()}', {animal.cage}, {Convert.ToInt16(animal.reserved)})";
+            string query = $"Insert into Dieren (Naam, Leeftijd, Gewicht, Geslacht, Afbeelding, Prijs, Soort, HokNummer, Gereserveerd) Values ('{animal.name}', {animal.age}, {animal.weight}, '{animal.gender.ToString()}', '{animal.image}', {animal.price}, '{animal.species.ToString()}', {animal.cage}, {Convert.ToInt16(animal.reserved)})";
             ExecuteNonQuery(query);
             foreach (string characteristic in animal.characteristics)
             {

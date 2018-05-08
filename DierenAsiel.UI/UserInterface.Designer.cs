@@ -118,19 +118,22 @@
             this.label17 = new System.Windows.Forms.Label();
             this.LbCages = new System.Windows.Forms.ListBox();
             this.TpFeeding = new System.Windows.Forms.TabPage();
+            this.BtnUpdateFeeding = new System.Windows.Forms.Button();
+            this.label28 = new System.Windows.Forms.Label();
+            this.CbFeedingEmployee = new System.Windows.Forms.ComboBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.DtpNewFeedingDate = new System.Windows.Forms.DateTimePicker();
+            this.label26 = new System.Windows.Forms.Label();
+            this.DtpLastFeedingDate = new System.Windows.Forms.DateTimePicker();
+            this.label25 = new System.Windows.Forms.Label();
+            this.LbFeedingAnimals = new System.Windows.Forms.ListBox();
             this.CmsAnimals = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.geefEtenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verschoonHokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uitlatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LbFeedingAnimals = new System.Windows.Forms.ListBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.DtpLastFeedingDate = new System.Windows.Forms.DateTimePicker();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.DtpNewFeedingDate = new System.Windows.Forms.DateTimePicker();
-            this.CbFeedingEmployee = new System.Windows.Forms.ComboBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.BtnUpdateFeeding = new System.Windows.Forms.Button();
+            this.OfdImage = new System.Windows.Forms.OpenFileDialog();
+            this.PbAnimalImage = new System.Windows.Forms.PictureBox();
+            this.BtnImagepicker = new System.Windows.Forms.Button();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalPrice)).BeginInit();
@@ -151,6 +154,7 @@
             this.groupBox3.SuspendLayout();
             this.TpFeeding.SuspendLayout();
             this.CmsAnimals.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
             this.SuspendLayout();
             // 
             // TcMain
@@ -171,6 +175,8 @@
             // 
             // TpAnimals
             // 
+            this.TpAnimals.Controls.Add(this.BtnImagepicker);
+            this.TpAnimals.Controls.Add(this.PbAnimalImage);
             this.TpAnimals.Controls.Add(this.label22);
             this.TpAnimals.Controls.Add(this.RtbCharacteristics);
             this.TpAnimals.Controls.Add(this.NudAnimalPrice);
@@ -1051,6 +1057,89 @@
             this.TpFeeding.Text = "Voeding";
             this.TpFeeding.UseVisualStyleBackColor = true;
             // 
+            // BtnUpdateFeeding
+            // 
+            this.BtnUpdateFeeding.Location = new System.Drawing.Point(9, 355);
+            this.BtnUpdateFeeding.Name = "BtnUpdateFeeding";
+            this.BtnUpdateFeeding.Size = new System.Drawing.Size(75, 23);
+            this.BtnUpdateFeeding.TabIndex = 8;
+            this.BtnUpdateFeeding.Text = "Update";
+            this.BtnUpdateFeeding.UseVisualStyleBackColor = true;
+            this.BtnUpdateFeeding.Click += new System.EventHandler(this.BtnUpdateFeeding_Click);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 311);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(33, 13);
+            this.label28.TabIndex = 7;
+            this.label28.Text = "Door:";
+            // 
+            // CbFeedingEmployee
+            // 
+            this.CbFeedingEmployee.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbFeedingEmployee.FormattingEnabled = true;
+            this.CbFeedingEmployee.Location = new System.Drawing.Point(9, 327);
+            this.CbFeedingEmployee.Name = "CbFeedingEmployee";
+            this.CbFeedingEmployee.Size = new System.Drawing.Size(154, 21);
+            this.CbFeedingEmployee.TabIndex = 6;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 272);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(124, 13);
+            this.label27.TabIndex = 5;
+            this.label27.Text = "Nieuwe voedings datum:";
+            // 
+            // DtpNewFeedingDate
+            // 
+            this.DtpNewFeedingDate.CustomFormat = "HH:mm dd/MM/yyyy";
+            this.DtpNewFeedingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtpNewFeedingDate.Location = new System.Drawing.Point(9, 288);
+            this.DtpNewFeedingDate.Name = "DtpNewFeedingDate";
+            this.DtpNewFeedingDate.Size = new System.Drawing.Size(154, 20);
+            this.DtpNewFeedingDate.TabIndex = 4;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 7);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(93, 13);
+            this.label26.TabIndex = 3;
+            this.label26.Text = "Laatst gevoed op:";
+            // 
+            // DtpLastFeedingDate
+            // 
+            this.DtpLastFeedingDate.CustomFormat = "HH:mm dd/MM/yyyy";
+            this.DtpLastFeedingDate.Enabled = false;
+            this.DtpLastFeedingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtpLastFeedingDate.Location = new System.Drawing.Point(8, 23);
+            this.DtpLastFeedingDate.Name = "DtpLastFeedingDate";
+            this.DtpLastFeedingDate.Size = new System.Drawing.Size(155, 20);
+            this.DtpLastFeedingDate.TabIndex = 2;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(536, 7);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(41, 13);
+            this.label25.TabIndex = 1;
+            this.label25.Text = "Dieren:";
+            // 
+            // LbFeedingAnimals
+            // 
+            this.LbFeedingAnimals.FormattingEnabled = true;
+            this.LbFeedingAnimals.Location = new System.Drawing.Point(539, 23);
+            this.LbFeedingAnimals.Name = "LbFeedingAnimals";
+            this.LbFeedingAnimals.Size = new System.Drawing.Size(152, 355);
+            this.LbFeedingAnimals.TabIndex = 0;
+            this.LbFeedingAnimals.SelectedIndexChanged += new System.EventHandler(this.LbFeedingAnimals_SelectedIndexChanged);
+            // 
             // CmsAnimals
             // 
             this.CmsAnimals.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1081,88 +1170,28 @@
             this.uitlatenToolStripMenuItem.Text = "Uitlaten";
             this.uitlatenToolStripMenuItem.Click += new System.EventHandler(this.uitlatenToolStripMenuItem_Click);
             // 
-            // LbFeedingAnimals
+            // OfdImage
             // 
-            this.LbFeedingAnimals.FormattingEnabled = true;
-            this.LbFeedingAnimals.Location = new System.Drawing.Point(539, 23);
-            this.LbFeedingAnimals.Name = "LbFeedingAnimals";
-            this.LbFeedingAnimals.Size = new System.Drawing.Size(152, 355);
-            this.LbFeedingAnimals.TabIndex = 0;
-            this.LbFeedingAnimals.SelectedIndexChanged += new System.EventHandler(this.LbFeedingAnimals_SelectedIndexChanged);
+            this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
             // 
-            // label25
+            // PbAnimalImage
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(536, 7);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(41, 13);
-            this.label25.TabIndex = 1;
-            this.label25.Text = "Dieren:";
+            this.PbAnimalImage.Location = new System.Drawing.Point(204, 6);
+            this.PbAnimalImage.Name = "PbAnimalImage";
+            this.PbAnimalImage.Size = new System.Drawing.Size(173, 151);
+            this.PbAnimalImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PbAnimalImage.TabIndex = 17;
+            this.PbAnimalImage.TabStop = false;
             // 
-            // DtpLastFeedingDate
+            // BtnImagepicker
             // 
-            this.DtpLastFeedingDate.CustomFormat = "HH:mm dd/MM/yyyy";
-            this.DtpLastFeedingDate.Enabled = false;
-            this.DtpLastFeedingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DtpLastFeedingDate.Location = new System.Drawing.Point(8, 23);
-            this.DtpLastFeedingDate.Name = "DtpLastFeedingDate";
-            this.DtpLastFeedingDate.Size = new System.Drawing.Size(155, 20);
-            this.DtpLastFeedingDate.TabIndex = 2;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(6, 7);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(93, 13);
-            this.label26.TabIndex = 3;
-            this.label26.Text = "Laatst gevoed op:";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(6, 272);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(124, 13);
-            this.label27.TabIndex = 5;
-            this.label27.Text = "Nieuwe voedings datum:";
-            // 
-            // DtpNewFeedingDate
-            // 
-            this.DtpNewFeedingDate.CustomFormat = "HH:mm dd/MM/yyyy";
-            this.DtpNewFeedingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DtpNewFeedingDate.Location = new System.Drawing.Point(9, 288);
-            this.DtpNewFeedingDate.Name = "DtpNewFeedingDate";
-            this.DtpNewFeedingDate.Size = new System.Drawing.Size(154, 20);
-            this.DtpNewFeedingDate.TabIndex = 4;
-            // 
-            // CbFeedingEmployee
-            // 
-            this.CbFeedingEmployee.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CbFeedingEmployee.FormattingEnabled = true;
-            this.CbFeedingEmployee.Location = new System.Drawing.Point(9, 327);
-            this.CbFeedingEmployee.Name = "CbFeedingEmployee";
-            this.CbFeedingEmployee.Size = new System.Drawing.Size(154, 21);
-            this.CbFeedingEmployee.TabIndex = 6;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(6, 311);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(33, 13);
-            this.label28.TabIndex = 7;
-            this.label28.Text = "Door:";
-            // 
-            // BtnUpdateFeeding
-            // 
-            this.BtnUpdateFeeding.Location = new System.Drawing.Point(9, 355);
-            this.BtnUpdateFeeding.Name = "BtnUpdateFeeding";
-            this.BtnUpdateFeeding.Size = new System.Drawing.Size(75, 23);
-            this.BtnUpdateFeeding.TabIndex = 8;
-            this.BtnUpdateFeeding.Text = "Update";
-            this.BtnUpdateFeeding.UseVisualStyleBackColor = true;
-            this.BtnUpdateFeeding.Click += new System.EventHandler(this.BtnUpdateFeeding_Click);
+            this.BtnImagepicker.Location = new System.Drawing.Point(204, 160);
+            this.BtnImagepicker.Name = "BtnImagepicker";
+            this.BtnImagepicker.Size = new System.Drawing.Size(93, 23);
+            this.BtnImagepicker.TabIndex = 18;
+            this.BtnImagepicker.Text = "Kies afbeelding.";
+            this.BtnImagepicker.UseVisualStyleBackColor = true;
+            this.BtnImagepicker.Click += new System.EventHandler(this.BtnImagepicker_Click);
             // 
             // UserInterface
             // 
@@ -1203,6 +1232,7 @@
             this.TpFeeding.ResumeLayout(false);
             this.TpFeeding.PerformLayout();
             this.CmsAnimals.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1311,6 +1341,9 @@
         private System.Windows.Forms.DateTimePicker DtpLastFeedingDate;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ListBox LbFeedingAnimals;
+        private System.Windows.Forms.Button BtnImagepicker;
+        private System.Windows.Forms.PictureBox PbAnimalImage;
+        private System.Windows.Forms.OpenFileDialog OfdImage;
     }
 }
 

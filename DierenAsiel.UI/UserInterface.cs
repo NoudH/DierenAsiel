@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using DierenAsiel.Logic;
 
 namespace DierenAsiel.UI
@@ -96,8 +97,12 @@ namespace DierenAsiel.UI
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species),CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList() };
+            byte[] imageBytes = File.ReadAllBytes(OfdImage.FileName);
+            string imageBase64 = Convert.ToBase64String(imageBytes);
+
+            Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species),CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64 };
             logic.AddAnimal(A);
+            PbAnimalImage.Image = null;
             PopulateListView();
 
             MessageBox.Show("Dier succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
@@ -115,7 +120,7 @@ namespace DierenAsiel.UI
                     price = float.Parse(item.SubItems[4].Text),
                     species = (Animal.Species)Enum.Parse(typeof(Animal.Species), item.SubItems[5].Text),
                     cage = int.Parse(item.SubItems[6].Text),
-                    reserved = (item.SubItems[7].Text == "Ja" ? true : false)
+                    reserved = (item.SubItems[7].Text == "Ja" ? true : false),
                 };
 
                 logic.RemoveAnimal(A);
@@ -265,6 +270,14 @@ namespace DierenAsiel.UI
         {
             logic.SetFeedingDate(logic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, logic.GetEmployeeByName(CbFeedingEmployee.Text));
             LbFeedingAnimals_SelectedIndexChanged(null, null);
+        }
+
+        private void BtnImagepicker_Click(object sender, EventArgs e)
+        {
+            if (OfdImage.ShowDialog() == DialogResult.OK)
+            {
+                PbAnimalImage.Image = Image.FromFile(OfdImage.FileName);
+            }
         }
     }
 }
