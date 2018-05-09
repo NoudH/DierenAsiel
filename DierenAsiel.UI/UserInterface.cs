@@ -100,63 +100,87 @@ namespace DierenAsiel.UI
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            byte[] imageBytes = File.ReadAllBytes(OfdImage.FileName);
-            string imageBase64 = Convert.ToBase64String(imageBytes);
+            if (TxtAnimalName.Text != "" && NudAnimalWeight.Value != 0 && RtbCharacteristics.Text != "" && PbAnimalImage.Image != null)
+            {
+                byte[] imageBytes = File.ReadAllBytes(OfdImage.FileName);
+                string imageBase64 = Convert.ToBase64String(imageBytes);
 
-            Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species),CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64 };
-            animalLogic.AddAnimal(A);
-            PbAnimalImage.Image = null;
-            PopulateListView();
+                Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species), CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64 };
+                animalLogic.AddAnimal(A);
+                PbAnimalImage.Image = null;
+                PopulateListView();
 
-            MessageBox.Show("Dier succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
+                MessageBox.Show("Dier succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Informatie is onvolledig ingevoerd.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnAnimalDelete_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in LvAnimalList.SelectedItems)
+            if (MessageBox.Show($"Weet je zeker dat je {LvAnimalList.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.OK)
             {
-                Animal A = new Animal() {
-                    name = item.Text,
-                    age = int.Parse(item.SubItems[1].Text),
-                    weight = int.Parse(item.SubItems[2].Text),
-                    gender = (Animal.Genders)Enum.Parse(typeof(Animal.Genders), item.SubItems[3].Text),
-                    price = float.Parse(item.SubItems[4].Text),
-                    species = (Animal.Species)Enum.Parse(typeof(Animal.Species), item.SubItems[5].Text),
-                    cage = int.Parse(item.SubItems[6].Text),
-                    reserved = (item.SubItems[7].Text == "Ja" ? true : false),
-                };
+                foreach (ListViewItem item in LvAnimalList.SelectedItems)
+                {
+                    Animal A = new Animal() {
+                        name = item.Text,
+                        age = int.Parse(item.SubItems[1].Text),
+                        weight = int.Parse(item.SubItems[2].Text),
+                        gender = (Animal.Genders)Enum.Parse(typeof(Animal.Genders), item.SubItems[3].Text),
+                        price = float.Parse(item.SubItems[4].Text),
+                        species = (Animal.Species)Enum.Parse(typeof(Animal.Species), item.SubItems[5].Text),
+                        cage = int.Parse(item.SubItems[6].Text),
+                        reserved = (item.SubItems[7].Text == "Ja" ? true : false),
+                    };
 
-                animalLogic.RemoveAnimal(A);
-                PopulateListView();
-            }            
+                    animalLogic.RemoveAnimal(A);
+                    PopulateListView();
+                }
+            }   
         }
 
         private void BtnUitlaten_Click(object sender, EventArgs e)
         {
-            caretakingLogic.SetUitlaatDate(animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), employeeLogic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
+            if (CbUitlaatEmployees.Text != "")
+            {
+                caretakingLogic.SetUitlaatDate(animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), employeeLogic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
+            }
+            else
+            {
+                MessageBox.Show("Er is geen werknemer gekozen.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void LbDogs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Animal A = animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex);
-            TxtUitlaatNaam.Text = A.name;
-            NudUitlaatAge.Value = A.age;
-            RadUitlaatFemale.Checked = (A.gender == Animal.Genders.Female) ? true : false;
-            DtpLaatstUitgelaten.Value = caretakingLogic.GetUitlaatDate(A);
+        {            
+                Animal A = animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex);
+                TxtUitlaatNaam.Text = A.name;
+                NudUitlaatAge.Value = A.age;
+                RadUitlaatFemale.Checked = (A.gender == Animal.Genders.Female) ? true : false;
+                DtpLaatstUitgelaten.Value = caretakingLogic.GetUitlaatDate(A);           
         }
 
         private void BtnAddEmployee_Click(object sender, EventArgs e)
         {
-            employeeLogic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text});
-            PopulateListView();
-            SetComboBoxes();
-
-            if (CheckCreateUserAccount.Checked)
+            if (TxtEmployeeName.Text != "" && TxtEmployeeAddress.Text != "" && TxtEmployeePhone.Text != "" && (CheckCreateUserAccount.Checked ? (TxtUsername.Text != "" && TxtPassword.Text != "") : true))
             {
-                authenticationLogic.CreateUser(TxtUsername.Text, TxtPassword.Text);
-            }
+                employeeLogic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text });
+                PopulateListView();
+                SetComboBoxes();
 
-            MessageBox.Show("Vrijwilliger succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
+                if (CheckCreateUserAccount.Checked)
+                {
+                    authenticationLogic.CreateUser(TxtUsername.Text, TxtPassword.Text);
+                }
+
+                MessageBox.Show("Vrijwilliger succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Informatie is niet volledig ingevoerd.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void LvAnimalList_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -185,19 +209,22 @@ namespace DierenAsiel.UI
 
         private void BtnRemoveEmployee_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in LvEmployees.SelectedItems)
+            if (MessageBox.Show($"Weet je zeker dat je {LvEmployees.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.OK)
             {
-                Employee E = new Employee()
+                foreach (ListViewItem item in LvEmployees.SelectedItems)
                 {
-                    name = item.Text,
-                    age = int.Parse(item.SubItems[1].Text),
-                    gender = (Employee.Gender)Enum.Parse(typeof(Employee.Gender), item.SubItems[2].Text),
-                    address = item.SubItems[3].Text,
-                    phoneNumber = item.SubItems[4].Text
-                };
+                    Employee E = new Employee()
+                    {
+                        name = item.Text,
+                        age = int.Parse(item.SubItems[1].Text),
+                        gender = (Employee.Gender)Enum.Parse(typeof(Employee.Gender), item.SubItems[2].Text),
+                        address = item.SubItems[3].Text,
+                        phoneNumber = item.SubItems[4].Text
+                    };
 
-                employeeLogic.RemoveEmployee(E);
-                PopulateListView();
+                    employeeLogic.RemoveEmployee(E);
+                    PopulateListView();
+                }
             }
         }
 
@@ -211,8 +238,15 @@ namespace DierenAsiel.UI
 
         private void BtnUpdateCleandate_Click(object sender, EventArgs e)
         {
-            caretakingLogic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
-            LbCages_SelectedIndexChanged(null, null);
+            if (String.IsNullOrWhiteSpace(CbCleanEmployee.Text))
+            {
+                caretakingLogic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
+                LbCages_SelectedIndexChanged(null, null);
+            }
+            else
+            {
+                MessageBox.Show("Er is geen werknemer gekozen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void LvAnimalList_MouseClick(object sender, MouseEventArgs e)
@@ -271,8 +305,15 @@ namespace DierenAsiel.UI
 
         private void BtnUpdateFeeding_Click(object sender, EventArgs e)
         {
-            caretakingLogic.SetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, employeeLogic.GetEmployeeByName(CbFeedingEmployee.Text));
-            LbFeedingAnimals_SelectedIndexChanged(null, null);
+            if (String.IsNullOrWhiteSpace(CbFeedingEmployee.Text))
+            {
+                caretakingLogic.SetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, employeeLogic.GetEmployeeByName(CbFeedingEmployee.Text));
+                LbFeedingAnimals_SelectedIndexChanged(null, null);
+            }
+            else
+            {
+                MessageBox.Show("Er is geen werknemer gekozen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnImagepicker_Click(object sender, EventArgs e)

@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.TcMain = new System.Windows.Forms.TabControl();
             this.TpAnimals = new System.Windows.Forms.TabPage();
+            this.BtnImagepicker = new System.Windows.Forms.Button();
+            this.PbAnimalImage = new System.Windows.Forms.PictureBox();
             this.label22 = new System.Windows.Forms.Label();
             this.RtbCharacteristics = new System.Windows.Forms.RichTextBox();
             this.NudAnimalPrice = new System.Windows.Forms.NumericUpDown();
@@ -132,10 +134,9 @@
             this.verschoonHokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uitlatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OfdImage = new System.Windows.Forms.OpenFileDialog();
-            this.PbAnimalImage = new System.Windows.Forms.PictureBox();
-            this.BtnImagepicker = new System.Windows.Forms.Button();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalCage)).BeginInit();
             this.GbAnimalGender.SuspendLayout();
@@ -154,7 +155,6 @@
             this.groupBox3.SuspendLayout();
             this.TpFeeding.SuspendLayout();
             this.CmsAnimals.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
             this.SuspendLayout();
             // 
             // TcMain
@@ -200,6 +200,26 @@
             this.TpAnimals.TabIndex = 0;
             this.TpAnimals.Text = "Dieren";
             this.TpAnimals.UseVisualStyleBackColor = true;
+            // 
+            // BtnImagepicker
+            // 
+            this.BtnImagepicker.Location = new System.Drawing.Point(204, 160);
+            this.BtnImagepicker.Name = "BtnImagepicker";
+            this.BtnImagepicker.Size = new System.Drawing.Size(93, 23);
+            this.BtnImagepicker.TabIndex = 18;
+            this.BtnImagepicker.Text = "Kies afbeelding.";
+            this.BtnImagepicker.UseVisualStyleBackColor = true;
+            this.BtnImagepicker.Click += new System.EventHandler(this.BtnImagepicker_Click);
+            // 
+            // PbAnimalImage
+            // 
+            this.PbAnimalImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PbAnimalImage.Location = new System.Drawing.Point(204, 6);
+            this.PbAnimalImage.Name = "PbAnimalImage";
+            this.PbAnimalImage.Size = new System.Drawing.Size(173, 151);
+            this.PbAnimalImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PbAnimalImage.TabIndex = 17;
+            this.PbAnimalImage.TabStop = false;
             // 
             // label22
             // 
@@ -1174,25 +1194,6 @@
             // 
             this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
             // 
-            // PbAnimalImage
-            // 
-            this.PbAnimalImage.Location = new System.Drawing.Point(204, 6);
-            this.PbAnimalImage.Name = "PbAnimalImage";
-            this.PbAnimalImage.Size = new System.Drawing.Size(173, 151);
-            this.PbAnimalImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PbAnimalImage.TabIndex = 17;
-            this.PbAnimalImage.TabStop = false;
-            // 
-            // BtnImagepicker
-            // 
-            this.BtnImagepicker.Location = new System.Drawing.Point(204, 160);
-            this.BtnImagepicker.Name = "BtnImagepicker";
-            this.BtnImagepicker.Size = new System.Drawing.Size(93, 23);
-            this.BtnImagepicker.TabIndex = 18;
-            this.BtnImagepicker.Text = "Kies afbeelding.";
-            this.BtnImagepicker.UseVisualStyleBackColor = true;
-            this.BtnImagepicker.Click += new System.EventHandler(this.BtnImagepicker_Click);
-            // 
             // UserInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1205,6 +1206,7 @@
             this.TcMain.ResumeLayout(false);
             this.TpAnimals.ResumeLayout(false);
             this.TpAnimals.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalCage)).EndInit();
             this.GbAnimalGender.ResumeLayout(false);
@@ -1232,7 +1234,6 @@
             this.TpFeeding.ResumeLayout(false);
             this.TpFeeding.PerformLayout();
             this.CmsAnimals.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).EndInit();
             this.ResumeLayout(false);
 
         }

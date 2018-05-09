@@ -1,0 +1,15 @@
+﻿@model DierenAsielASP.Models.AnimalModel
+
+@{
+    ViewData["Title"] = Model.name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Raw($"<h2>{Model.name}</h2>")
+
+<div>
+    <hr />
+</div>
+<div>
+    
+</div>
