@@ -11,7 +11,7 @@ namespace DierenAsielASP.Controllers
     {
         public IActionResult Index()
         {
-            List<AnimalModel> AllAnimals = Database.DatabaseManager.GetAllAnimals();
+            List<AnimalModel> AllAnimals = Database.DatabaseManager.GetAllAnimalsNotReserved();
 
             return View(AllAnimals);
         }

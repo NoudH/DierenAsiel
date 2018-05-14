@@ -81,5 +81,10 @@ namespace DierenAsielASP.Database
 
             return characteristics;
         }
+
+        public static List<AnimalModel> GetAllAnimalsNotReserved()
+        {
+            return GetAllAnimals().Where(x => !x.reserved).ToList();
+        }
     }
 }

@@ -3,13 +3,33 @@
 @{
     ViewData["Title"] = Model.name;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string gender = Model.gender.ToString() == "Male" ? "mannetjes" : "vrouwtjes";
+    string pronoun = Model.gender.ToString() == "Male" ? "Hij" : "Zij";
 }
 
 @Html.Raw($"<h2>{Model.name}</h2>")
-
 <div>
-    <hr />
+    <hr/>
 </div>
-<div>
-    
+<div style="overflow: hidden;">
+    <div style="float:left; max-width: 40%; margin-right: 35%">
+        @Html.Raw($"<img src=\"data:image/jpg;base64,{Model.image}\" style=\"border: 2px solid black; border-radius: 5px; max-width:400; max-height:300; height:auto; width:auto;\" />")
+        <h3>Eigenschappen:</h3>
+        <p>
+            @Html.Raw($"{Model.name} is een {gender} {Model.dutchTranslationSpecies[(int)Model.species]}.<br>{pronoun} is:")
+        </p>
+        @foreach (string characteristic in Model.characteristics)
+        {
+            @Html.Raw($"<li>{characteristic}</li>")
+        }
+    </div>
+    <div style="overflow: hidden; border: 2px solid grey; border-radius: 5px;">
+        <div style="margin-left:10px">
+            <h4>Prijs:</h4>
+            <p style="font-size: 18px">                
+                @Html.Raw($"&euro;{Model.price}")
+            </p>
+            @Html.Raw($"<a href=\"mailto:info@dierenasiel.nl?SUBJECT=Reservering%20MBT%20{Model.name}&BODY=Voer%20hier%20uw%20NAW%20gegevens%20in.\"><input type=\"button\" class=\"btn btn-primary\" value=\"Reserveer Nu!\" style=\"margin-bottom:5px\"/></a>")
+        </div>
+    </div>
 </div>
