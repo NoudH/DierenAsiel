@@ -29,8 +29,9 @@
             </p>
             @using (Html.BeginForm("Animal", "Animal", new { index = i }, FormMethod.Post))
             {
-                <input type="submit" class="btn btn-primary" style="position:absolute; bottom: 0; margin-bottom: 10px;" value="Meer Informatie" />
-            }            
+                <input type="submit" class="btn btn-primary" style="position:absolute; bottom: 10px;" value="Meer Informatie" />
+            }
+            @Html.Raw($"<span style=\"position:absolute; bottom: 14px; right: 10px; font-size:18px; font-weight: 600;\">&euro;{Model.ToArray()[i].price}<span>")
         </div>
     </div>
     if (i + 1 % 4 == 0)
