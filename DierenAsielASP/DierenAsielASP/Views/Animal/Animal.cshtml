@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string gender = Model.gender.ToString() == "Male" ? "mannetjes" : "vrouwtjes";
     string pronoun = Model.gender.ToString() == "Male" ? "Hij" : "Zij";
+    string price = Model.price % 1 == 0 ? Model.price.ToString() + ",-" : Model.price.ToString();
 }
 
 @Html.Raw($"<h2>{Model.name}</h2>")
@@ -13,7 +14,7 @@
 </div>
 <div style="overflow: hidden;">
     <div style="float:left; max-width: 40%; margin-right: 35%">
-        @Html.Raw($"<img src=\"data:image/jpg;base64,{Model.image}\" style=\"border: 2px solid black; border-radius: 5px; max-width:400; max-height:300; height:auto; width:auto;\" />")
+        @Html.Raw($"<img src=\"data:image/jpg;base64,{Model.image}\" style=\"border: 2px solid black; border-radius: 5px; height:auto; width:auto; max-width:400px; max-height:300px;\" />")
         <h3>Eigenschappen:</h3>
         <p>
             @Html.Raw($"{Model.name} is een {gender} {Model.dutchTranslationSpecies[(int)Model.species]}.<br>{pronoun} is:")
@@ -27,7 +28,7 @@
         <div style="margin-left:10px">
             <h4>Prijs:</h4>
             <p style="font-size: 18px">                
-                @Html.Raw($"&euro;{Model.price}")
+                @Html.Raw($"&euro;{price}")
             </p>
             @Html.Raw($"<a href=\"mailto:info@dierenasiel.nl?SUBJECT=Reservering%20MBT%20{Model.name}&BODY=Voer%20hier%20uw%20NAW%20gegevens%20in.\"><input type=\"button\" class=\"btn btn-primary\" value=\"Reserveer Nu!\" style=\"margin-bottom:5px\"/></a>")
         </div>

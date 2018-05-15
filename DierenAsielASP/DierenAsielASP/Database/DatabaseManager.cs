@@ -63,8 +63,8 @@ namespace DierenAsielASP.Database
                     species = (AnimalModel.Species)Enum.Parse(typeof(AnimalModel.Species), record["Soort"].ToString()),
                     image = record["Afbeelding"].ToString(),
                     cage = (int)record["HokNummer"],
-                    price = float.Parse(record["Prijs"].ToString()),
-                    reserved = Convert.ToBoolean(int.Parse(record["Gereserveerd"].ToString()))
+                    price = (float)(double)record["Prijs"], //<- Blame microsoft
+                    reserved = (bool)record["Gereserveerd"]
                 };
                 temp.characteristics = GetCharacteristicsFromAnimal(temp);
                 AllAnimals.Add(temp);

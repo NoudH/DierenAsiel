@@ -19,7 +19,7 @@ namespace DierenAsielASP.Controllers
         [HttpPost]
         public IActionResult Animal(int index)
         {
-            AnimalModel model = Database.DatabaseManager.GetAllAnimals()[index];
+            AnimalModel model = Database.DatabaseManager.GetAllAnimalsNotReserved()[index];
             return View(model);
         }
     }
