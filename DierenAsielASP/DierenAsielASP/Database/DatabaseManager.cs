@@ -13,25 +13,27 @@ namespace DierenAsielASP.Database
     {
         public static string ConnectionString;
 
-        private static void ExecuteNonQuery(string query)
+        private static void ExecuteNonQuery(string query, SqlParameter[] parameters)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddRange(parameters);
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-        private static IEnumerable<IDataRecord> CreateReader(string query)
+        private static IEnumerable<IDataRecord> CreateReader(string query, SqlParameter[] parameters)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddRange(parameters);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -47,8 +49,9 @@ namespace DierenAsielASP.Database
         {
             List<AnimalModel> AllAnimals = new List<AnimalModel>();
             string query = $"Select * from Dieren";
+            SqlParameter[] parameters = { };
 
-            IEnumerable<IDataRecord> reader = CreateReader(query);
+            IEnumerable<IDataRecord> reader = CreateReader(query, parameters);
             foreach (IDataRecord record in reader)
             {
                 AnimalModel temp = new AnimalModel()
@@ -72,9 +75,17 @@ namespace DierenAsielASP.Database
         public static List<string> GetCharacteristicsFromAnimal(AnimalModel animal)
         {
             List<string> characteristics = new List<string>();
-            string query = $"select Eigenschap from Eigenschappen where DierId = (select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} and Gewicht = {animal.weight} and Geslacht = '{animal.gender.ToString()}' and Soort = '{animal.species.ToString()}' and HokNummer = {animal.cage})";
-
-            foreach (IDataRecord record in CreateReader(query))
+            string query = $"select Eigenschap from Eigenschappen where DierId = (select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and Soort = @Species and HokNummer = @Cage)";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Age", animal.age),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Cage", animal.cage)
+            };
+            foreach (IDataRecord record in CreateReader(query, parameters))
             {
                 characteristics.Add(record["Eigenschap"].ToString());
             }
