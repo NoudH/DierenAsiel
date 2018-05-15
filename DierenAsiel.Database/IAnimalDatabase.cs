@@ -11,6 +11,7 @@ namespace DierenAsiel.Database
         void AddAnimal(Animal animal);
         List<Animal> GetAllAnimals();
         void RemoveAnimal(Animal animal);
-        List<string> GetCharacteristicsFromAnimal(Animal animal);        
+        List<string> GetCharacteristicsFromAnimal(Animal animal);
+        void SetReserved(Animal animal);
     }
 }

@@ -14,40 +14,51 @@ namespace DierenAsiel.Database
         private string connectionString = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
 
         #region helperFunctions
-        private void ExecuteNonQuery(string query)
+        private void ExecuteNonQuery(string query, SqlParameter[] parameters)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddRange(parameters);
                     command.ExecuteNonQuery();
                 }
             }
         }
-
-        //private SqlDataReader ExecuteReader(string query)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-        //        using (SqlCommand command = new SqlCommand(query, connection))
-        //        {
-        //            SqlDataReader reader = command.ExecuteReader();
-        //            return reader;
-        //        }
-        //    }
-        //}
         #endregion
 
         public void AddAnimal(Animal animal)
         {
-            string query = $"Insert into Dieren (Naam, Leeftijd, Gewicht, Geslacht, Afbeelding, Prijs, Soort, HokNummer, Gereserveerd) Values ('{animal.name}', {animal.age}, {animal.weight}, '{animal.gender.ToString()}', '{animal.image}', {animal.price}, '{animal.species.ToString()}', {animal.cage}, {Convert.ToInt16(animal.reserved)})";
-            ExecuteNonQuery(query);
+            string query = $"Insert into Dieren (Naam, Leeftijd, Gewicht, Geslacht, Afbeelding, Prijs, Soort, HokNummer, Gereserveerd) Values (@Name, @Age, @Weight, @Gender, @Image, @Price, @Species, @Cage, @Reserved)";
+            SqlParameter[] parameters = 
+            {
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Age", animal.age),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Image", animal.image),
+                new SqlParameter("Price", animal.price),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Cage", animal.cage),
+                new SqlParameter("Reserved", animal.reserved)
+            };
+            ExecuteNonQuery(query, parameters);
             foreach (string characteristic in animal.characteristics)
             {
-                query = $"Insert into Eigenschappen (DierId, Eigenschap) values((select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} And Gewicht = '{animal.weight}' And Geslacht = '{animal.gender.ToString()}' And Soort = '{animal.species.ToString()}' And HokNummer = {animal.cage}), '{characteristic}')";
-                ExecuteNonQuery(query);
+                query = $"Insert into Eigenschappen (DierId, Eigenschap) values((select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage), @Characteristic)";
+                SqlParameter[] Characterparameters =
+                {
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Age", animal.age),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Price", animal.price),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Cage", animal.cage),
+                new SqlParameter("Characteristic", characteristic)
+                };
+                ExecuteNonQuery(query, Characterparameters);
             }            
         }
 
@@ -72,7 +83,7 @@ namespace DierenAsiel.Database
                             tempAnimal.price = (float)reader.GetDouble(5); //Blame microsoft
                             tempAnimal.species = (Animal.Species)Enum.Parse(typeof(Animal.Species), reader.GetString(6));
                             tempAnimal.cage = reader.GetInt32(7);
-                            tempAnimal.reserved = Convert.ToBoolean(reader.GetByte(8));
+                            tempAnimal.reserved =reader.GetBoolean(8);
                             
                             returnList.Add(tempAnimal);
                         }
@@ -84,21 +95,50 @@ namespace DierenAsiel.Database
 
         public void RemoveAnimal(Animal animal)
         {
-            string query = $"Delete from Eigenschappen where DierId = (select Id from Dieren where Naam = '{animal.name}' AND Leeftijd = {animal.age} AND Gewicht = {animal.weight} AND Prijs = {animal.price} AND Soort = '{animal.species.ToString()}' and HokNummer = {animal.cage})";
-            ExecuteNonQuery(query);
+            string query = $"Delete from Eigenschappen where DierId = (select Id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage)";
+            SqlParameter[] CharacterParameters =
+            {
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Age", animal.age),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Price", animal.price),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Cage", animal.cage),
+            };
+            ExecuteNonQuery(query, CharacterParameters);
 
-            query = $"Delete from Dieren where Naam = '{animal.name}' AND Leeftijd = {animal.age} AND Gewicht = {animal.weight} AND Prijs = {animal.price} AND Soort = '{animal.species.ToString()}' and HokNummer = {animal.cage}";
-            ExecuteNonQuery(query);
+            query = $"Delete from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Age", animal.age),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Price", animal.price),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Cage", animal.cage),
+            };
+            ExecuteNonQuery(query, parameters);
         }
 
         public DateTime GetUitlaatDate(Animal animal)
         {
-            string query = $"Select Top 1 Uitlaten.Datum from Uitlaten, Dieren where Uitlaten.DierId = Dieren.Id AND Dieren.Naam = '{animal.name}' AND Dieren.Leeftijd = {animal.age} AND Dieren.Gewicht = {animal.weight} AND Dieren.Geslacht = '{animal.gender.ToString()}' AND Dieren.Soort = '{animal.species.ToString()}' order by Uitlaten.Datum desc";
+            string query = $"Select Top 1 Uitlaten.Datum from Uitlaten, Dieren where Uitlaten.DierId = Dieren.Id AND Dieren.Naam = @Name AND Dieren.Leeftijd = @Age AND Dieren.Gewicht = @Weight AND Dieren.Geslacht = @Gender AND Dieren.Soort = @Species order by Uitlaten.Datum desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    SqlParameter[] parameters =
+                    {
+                        new SqlParameter("Name", animal.name),
+                        new SqlParameter("Age", animal.age),
+                        new SqlParameter("Weight", animal.weight),
+                        new SqlParameter("Gender", animal.gender.ToString()),
+                        new SqlParameter("Species", animal.species.ToString())
+                    };
+                    command.Parameters.AddRange(parameters);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -113,8 +153,16 @@ namespace DierenAsiel.Database
 
         public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
         {            
-            string query = $"insert into Uitlaten (DierId, Datum, VerzorgerId) Values((select Id from Dieren where Naam = '{animal.name}' AND Soort = '{animal.species.ToString()}' AND Gewicht = {animal.weight} AND Geslacht = '{animal.gender.ToString()}'), '{date.ToString("MM/dd/yyyy HH:mm")}', (select Id from Verzorgers where Naam = '{employee.name}'))";
-            ExecuteNonQuery(query);
+            string query = $"insert into Uitlaten (DierId, Datum, VerzorgerId) Values((select Id from Dieren where Naam = @Name AND Soort = @Species AND Gewicht = @Weight AND Geslacht = @Gender), @Date, (select Id from Verzorgers where Naam = @EmployeeName))";
+            SqlParameter[] parameters = {
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Date", date.ToString("MM/dd/yyyy HH:mm")),
+                new SqlParameter("EmployeeName", employee.name),
+            };
+            ExecuteNonQuery(query, parameters);
         }
 
         public List<Employee> GetAllEmployees()
@@ -147,18 +195,31 @@ namespace DierenAsiel.Database
 
         public void AddEmployee(Employee employee)
         {
-            string query = $"Insert into Verzorgers(Naam, Leeftijd, Gender, Adres, Telefoon) values('{employee.name}', {employee.age}, '{employee.gender.ToString()}', '{employee.address}', '{employee.phoneNumber}')";
-            ExecuteNonQuery(query);
+            string query = $"Insert into Verzorgers(Naam, Leeftijd, Gender, Adres, Telefoon) values(@Name, @Age, @Gender, @Address, @PhoneNumber)";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", employee.name),
+                new SqlParameter("Age", employee.age),
+                new SqlParameter("Gender", employee.gender.ToString()),
+                new SqlParameter("Address", employee.address),
+                new SqlParameter("PhoneNumber", employee.phoneNumber)
+            };
+            ExecuteNonQuery(query, parameters);
         }
 
         public Employee GetEmployeeByName(string name)
         {
-            string query = $"Select * from Verzorgers where Naam = '{name}'";
+            string query = $"Select * from Verzorgers where Naam = @Name";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    SqlParameter[] parameters =
+                    {
+                        new SqlParameter("Name", name)
+                    };
+                    command.Parameters.AddRange(parameters); 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -180,8 +241,16 @@ namespace DierenAsiel.Database
 
         public void RemoveEmployee(Employee employee)
         {
-            string query = $"Update Verzorgers Set Werkzaam = 0 where Naam = '{employee.name}' And Leeftijd = {employee.age} And Gender = '{employee.gender.ToString()}' And Adres = '{employee.address}'";
-            ExecuteNonQuery(query);
+            string query = $"Update Verzorgers Set Werkzaam = 0 where Naam = @Name And Leeftijd = @Age And Gender = @Gender And Adres = @Address And Telefoon = @PhoneNumber";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", employee.name),
+                new SqlParameter("Age", employee.age),
+                new SqlParameter("Gender", employee.gender.ToString()),
+                new SqlParameter("Address", employee.address),
+                new SqlParameter("PhoneNumber", employee.phoneNumber)
+            };
+            ExecuteNonQuery(query, parameters);
         }
 
         public List<Cage> GetAllCages()
@@ -208,12 +277,17 @@ namespace DierenAsiel.Database
 
         public DateTime GetCleaningdate(Cage cage)
         {
-            string query = $"select top 1 Datum from HokVerschonen where HokId = {cage.cageNumber} order by Datum desc";
+            string query = $"select top 1 Datum from HokVerschonen where HokId = @CageNumber order by Datum desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    SqlParameter[] parameters =
+                    {
+                        new SqlParameter("CageNumber", cage.cageNumber)
+                    };
+                    command.Parameters.AddRange(parameters);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -228,18 +302,33 @@ namespace DierenAsiel.Database
 
         public void SetCleanDate(int cageNumber, DateTime value, string employee)
         {
-            string query = $"insert into HokVerschonen(HokId, Datum, VerzorgerId) values({cageNumber}, '{value.ToString("MM/dd/yyyy HH:mm")}', (select top 1 Id from Verzorgers where Naam = '{employee}'))";
-            ExecuteNonQuery(query);
+            string query = $"insert into HokVerschonen(HokId, Datum, VerzorgerId) values(@CageNumber, @Date, (select top 1 Id from Verzorgers where Naam = @Name))";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("CageNumber", cageNumber),
+                new SqlParameter("Date", value.ToString("MM/dd/yyyy HH:mm")),
+                new SqlParameter("Name", employee)
+            };
+            ExecuteNonQuery(query, parameters);
         }
 
         public List<string> GetCharacteristicsFromAnimal(Animal animal)
         {
-            string query = $"select Eigenschap from Eigenschappen where DierId = (select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} and Gewicht = {animal.weight} and Geslacht = '{animal.gender.ToString()}' and Soort = '{animal.species.ToString()} and HokNummer = {animal.cage}')";
+            string query = $"select Eigenschap from Eigenschappen where DierId = (select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and Soort = @Species and HokNummer = @Cage)";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    SqlParameter[] parameters = {
+                        new SqlParameter("Name", animal.name),
+                        new SqlParameter("Age", animal.age),
+                        new SqlParameter("Weight", animal.weight),
+                        new SqlParameter("Gender", animal.gender.ToString()),
+                        new SqlParameter("Species", animal.species.ToString()),
+                        new SqlParameter("Cage", animal.cage)
+                    };
+                    command.Parameters.AddRange(parameters);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         List<string> characteristics = new List<string>();
@@ -255,12 +344,17 @@ namespace DierenAsiel.Database
 
         public string GetUserPassword(string username)
         {
-            string query = $"select Wachtwoord from Gebruikers where GebruikersNaam = '{username}'";
+            string query = $"select Wachtwoord from Gebruikers where GebruikersNaam = @Username";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    SqlParameter[] parameters =
+                    {
+                        new SqlParameter("Username", username)
+                    };
+                    command.Parameters.AddRange(parameters);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -275,18 +369,31 @@ namespace DierenAsiel.Database
 
         public void AddUser(string username, string hashedPassword)
         {
-            string query = $"insert into Gebruikers(GebruikersNaam, Wachtwoord) values('{username}', '{hashedPassword}')";
-            ExecuteNonQuery(query);
+            string query = $"insert into Gebruikers(GebruikersNaam, Wachtwoord) values(@Username, @HashedPassword)";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Username", username),
+                new SqlParameter("HashedPassword", hashedPassword)
+            };
+            ExecuteNonQuery(query, parameters);
         }
 
         public List<DateTime> GetFeedingDates(Animal animal)
         {
-            string query = $"select Datum from Eten where DierId = (select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} and Gewicht = {animal.weight} and Geslacht = '{animal.gender.ToString()}' and soort = '{animal.species.ToString()}') Order by Datum desc";
+            string query = $"select Datum from Eten where DierId = (select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and soort = @Species) Order by Datum desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    SqlParameter[] parameters = {
+                        new SqlParameter("Name", animal.name),
+                        new SqlParameter("Age", animal.age),
+                        new SqlParameter("Weight", animal.weight),
+                        new SqlParameter("Gender", animal.gender.ToString()),
+                        new SqlParameter("Species", animal.species.ToString())
+                    };
+                    command.Parameters.AddRange(parameters);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         List<DateTime> FeedingDates = new List<DateTime>();
@@ -304,11 +411,42 @@ namespace DierenAsiel.Database
         public void SetFeedingDate(Animal animal, DateTime value, Employee employee)
         {
             string query = $"insert into Eten (DierId, Datum, VerzorgerId) values (" +
-                $"(select id from Dieren where Naam = '{animal.name}' and Leeftijd = {animal.age} and Gewicht = {animal.weight} and Geslacht = '{animal.gender.ToString()}' and Soort = '{animal.species.ToString()}' and HokNummer = {animal.cage})," +
-                $"'{value.ToString("MM/dd/yyyy HH:mm")}'," +
-                $"(select id from Verzorgers where Naam = '{employee.name}' and Leeftijd = {employee.age} and Gender = '{employee.gender.ToString()}' and Adres = '{employee.address}')" +
+                $"(select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and Soort = @Species and HokNummer = @Cage)," +
+                $"@Date," +
+                $"(select id from Verzorgers where Naam = @EmployeeName and Leeftijd = @EmployeeAge and Gender = @EmployeeGender and Adres = @EmployeeAddress)" +
                 $")";
-            ExecuteNonQuery(query);
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Age", animal.age),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Cage", animal.cage),
+                new SqlParameter("Date", value.ToString("MM/dd/yyyy HH:mm")),
+                new SqlParameter("EmployeeName", employee.name),
+                new SqlParameter("EmployeeAge", employee.age),
+                new SqlParameter("EmployeeGender", employee.gender.ToString()),
+                new SqlParameter("EmployeeAddress", employee.address),
+            };
+            ExecuteNonQuery(query, parameters);
+        }
+
+        public void SetReserved(Animal animal)
+        {
+            string query = $"update Dieren Set Gereserveerd = @Reserved where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage";
+            SqlParameter[] parameters = 
+            {
+                new SqlParameter("Reserved", animal.reserved),
+                new SqlParameter("Name", animal.name),
+                new SqlParameter("Age", animal.age),
+                new SqlParameter("Weight", animal.weight),
+                new SqlParameter("Gender", animal.gender.ToString()),
+                new SqlParameter("Price", animal.price),
+                new SqlParameter("Species", animal.species.ToString()),
+                new SqlParameter("Cage", animal.cage)
+            };
+            ExecuteNonQuery(query, parameters);
         }
     }
 }

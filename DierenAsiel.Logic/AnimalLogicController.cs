@@ -48,6 +48,11 @@ namespace DierenAsiel.Logic
         public void RemoveAnimal(Animal animal)
         {
             database.RemoveAnimal(animal);
-        }        
+        }
+
+        public void SetReserved(Animal animal)
+        {
+            database.SetReserved(animal);
+        }
     }
 }

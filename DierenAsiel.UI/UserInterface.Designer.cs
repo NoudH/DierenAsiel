@@ -134,6 +134,7 @@
             this.verschoonHokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uitlatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OfdImage = new System.Windows.Forms.OpenFileDialog();
+            this.toggleReserveringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
@@ -1165,34 +1166,42 @@
             this.CmsAnimals.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.geefEtenToolStripMenuItem,
             this.verschoonHokToolStripMenuItem,
-            this.uitlatenToolStripMenuItem});
+            this.uitlatenToolStripMenuItem,
+            this.toggleReserveringToolStripMenuItem});
             this.CmsAnimals.Name = "CmsAnimals";
-            this.CmsAnimals.Size = new System.Drawing.Size(153, 70);
+            this.CmsAnimals.Size = new System.Drawing.Size(172, 114);
             // 
             // geefEtenToolStripMenuItem
             // 
             this.geefEtenToolStripMenuItem.Name = "geefEtenToolStripMenuItem";
-            this.geefEtenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.geefEtenToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.geefEtenToolStripMenuItem.Text = "Geef eten";
             this.geefEtenToolStripMenuItem.Click += new System.EventHandler(this.geefEtenToolStripMenuItem_Click);
             // 
             // verschoonHokToolStripMenuItem
             // 
             this.verschoonHokToolStripMenuItem.Name = "verschoonHokToolStripMenuItem";
-            this.verschoonHokToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.verschoonHokToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.verschoonHokToolStripMenuItem.Text = "Verschoon hok";
             this.verschoonHokToolStripMenuItem.Click += new System.EventHandler(this.verschoonHokToolStripMenuItem_Click);
             // 
             // uitlatenToolStripMenuItem
             // 
             this.uitlatenToolStripMenuItem.Name = "uitlatenToolStripMenuItem";
-            this.uitlatenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uitlatenToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.uitlatenToolStripMenuItem.Text = "Uitlaten";
             this.uitlatenToolStripMenuItem.Click += new System.EventHandler(this.uitlatenToolStripMenuItem_Click);
             // 
             // OfdImage
             // 
             this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
+            // 
+            // toggleReserveringToolStripMenuItem
+            // 
+            this.toggleReserveringToolStripMenuItem.Name = "toggleReserveringToolStripMenuItem";
+            this.toggleReserveringToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.toggleReserveringToolStripMenuItem.Text = "Toggle reservering";
+            this.toggleReserveringToolStripMenuItem.Click += new System.EventHandler(this.toggleReserveringToolStripMenuItem_Click);
             // 
             // UserInterface
             // 
@@ -1345,6 +1354,7 @@
         private System.Windows.Forms.Button BtnImagepicker;
         private System.Windows.Forms.PictureBox PbAnimalImage;
         private System.Windows.Forms.OpenFileDialog OfdImage;
+        private System.Windows.Forms.ToolStripMenuItem toggleReserveringToolStripMenuItem;
     }
 }
 

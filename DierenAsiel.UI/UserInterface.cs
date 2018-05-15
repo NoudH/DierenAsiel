@@ -120,7 +120,7 @@ namespace DierenAsiel.UI
 
         private void BtnAnimalDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Weet je zeker dat je {LvAnimalList.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.OK)
+            if (MessageBox.Show($"Weet je zeker dat je {LvAnimalList.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 foreach (ListViewItem item in LvAnimalList.SelectedItems)
                 {
@@ -209,7 +209,7 @@ namespace DierenAsiel.UI
 
         private void BtnRemoveEmployee_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Weet je zeker dat je {LvEmployees.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.OK)
+            if (MessageBox.Show($"Weet je zeker dat je {LvEmployees.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 foreach (ListViewItem item in LvEmployees.SelectedItems)
                 {
@@ -238,7 +238,7 @@ namespace DierenAsiel.UI
 
         private void BtnUpdateCleandate_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(CbCleanEmployee.Text))
+            if (!String.IsNullOrWhiteSpace(CbCleanEmployee.Text))
             {
                 caretakingLogic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
                 LbCages_SelectedIndexChanged(null, null);
@@ -305,7 +305,7 @@ namespace DierenAsiel.UI
 
         private void BtnUpdateFeeding_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(CbFeedingEmployee.Text))
+            if (!String.IsNullOrWhiteSpace(CbFeedingEmployee.Text))
             {
                 caretakingLogic.SetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, employeeLogic.GetEmployeeByName(CbFeedingEmployee.Text));
                 LbFeedingAnimals_SelectedIndexChanged(null, null);
@@ -322,6 +322,22 @@ namespace DierenAsiel.UI
             {
                 PbAnimalImage.Image = Image.FromFile(OfdImage.FileName);
             }
+        }
+
+        private void toggleReserveringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            animalLogic.SetReserved(new Animal()
+            {
+                name = LvAnimalList.FocusedItem.SubItems[0].Text,
+                age = int.Parse(LvAnimalList.FocusedItem.SubItems[1].Text),
+                weight = int.Parse(LvAnimalList.FocusedItem.SubItems[2].Text),
+                gender = (Animal.Genders)Enum.Parse(typeof(Animal.Genders), LvAnimalList.FocusedItem.SubItems[3].Text),
+                price = float.Parse(LvAnimalList.FocusedItem.SubItems[4].Text),
+                species = (Animal.Species)Enum.Parse(typeof(Animal.Species), LvAnimalList.FocusedItem.SubItems[5].Text),
+                cage = int.Parse(LvAnimalList.FocusedItem.SubItems[6].Text),
+                reserved = LvAnimalList.FocusedItem.SubItems[7].Text == "Ja" ? false : true
+            });
+            PopulateListView();
         }
     }
 }
