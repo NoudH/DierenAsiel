@@ -56,15 +56,15 @@ namespace DierenAsielASP.Database
             {
                 AnimalModel temp = new AnimalModel()
                 {
-                    name = record["Naam"].ToString(),
-                    age = (int)record["Leeftijd"],
-                    weight = (int)record["Gewicht"],
-                    gender = (AnimalModel.Genders)Enum.Parse(typeof(AnimalModel.Genders), record["Geslacht"].ToString()),
-                    species = (AnimalModel.Species)Enum.Parse(typeof(AnimalModel.Species), record["Soort"].ToString()),
-                    image = record["Afbeelding"].ToString(),
-                    cage = (int)record["HokNummer"],
-                    price = (float)(double)record["Prijs"], //<- Blame microsoft
-                    reserved = (bool)record["Gereserveerd"]
+                    name = record["Name"].ToString(),
+                    age = (int)record["Age"],
+                    weight = (int)record["Weight"],
+                    gender = (AnimalModel.Genders)Enum.Parse(typeof(AnimalModel.Genders), record["Gender"].ToString()),
+                    species = (AnimalModel.Species)Enum.Parse(typeof(AnimalModel.Species), record["Species"].ToString()),
+                    image = record["Image"].ToString(),
+                    cage = (int)record["Cage"],
+                    price = (float)(double)record["Price"], //<- Blame microsoft
+                    reserved = (bool)record["Reserved"]
                 };
                 temp.characteristics = GetCharacteristicsFromAnimal(temp);
                 AllAnimals.Add(temp);
