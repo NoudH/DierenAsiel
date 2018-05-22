@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DierenAsiel.Database", "Die
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DierenAsiel", "DierenAsiel\DierenAsiel.csproj", "{EE0BD406-CFAD-4C20-A02F-DEBE578F9FE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DierenAsiel.UnitTest", "DierenAsiel.UnitTest\DierenAsiel.UnitTest.csproj", "{A648D07E-A07F-42DF-B69A-59A991456B93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{EE0BD406-CFAD-4C20-A02F-DEBE578F9FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE0BD406-CFAD-4C20-A02F-DEBE578F9FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE0BD406-CFAD-4C20-A02F-DEBE578F9FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A648D07E-A07F-42DF-B69A-59A991456B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A648D07E-A07F-42DF-B69A-59A991456B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A648D07E-A07F-42DF-B69A-59A991456B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A648D07E-A07F-42DF-B69A-59A991456B93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

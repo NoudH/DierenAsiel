@@ -59,15 +59,17 @@ namespace DierenAsiel.UI
 
             LbDogs.Items.Clear();
             LbDogs.Items.AddRange(animalLogic.GetAnimalsOfType(Animal.Species.Dog).ToArray());
-            LbDogs.SelectedIndex = 0;
+            if (LbDogs.Items.Count > 0) {LbDogs.SelectedIndex = 0;}
+            
 
             LbCages.Items.Clear();
             LbCages.Items.AddRange(caretakingLogic.GetAllCages().ToArray());
-            LbCages.SelectedIndex = 0;
+            if (LbDogs.Items.Count > 0) { LbCages.SelectedIndex = 0; }
 
             LbFeedingAnimals.Items.Clear();
             LbFeedingAnimals.Items.AddRange(animalLogic.GetAllAnimals().ToArray());
-            LbFeedingAnimals.SelectedIndex = 0;
+            if (LbDogs.Items.Count > 0) { LbFeedingAnimals.SelectedIndex = 0; }
+            
         }
 
         private void SetComboBoxes()
@@ -146,6 +148,7 @@ namespace DierenAsiel.UI
             if (CbUitlaatEmployees.Text != "")
             {
                 caretakingLogic.SetUitlaatDate(animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), employeeLogic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
+                LbDogs_SelectedIndexChanged(null, null);
             }
             else
             {

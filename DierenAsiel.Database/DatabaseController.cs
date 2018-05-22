@@ -30,7 +30,7 @@ namespace DierenAsiel.Database
 
         public void AddAnimal(Animal animal)
         {
-            string query = $"Insert into Dieren (Naam, Leeftijd, Gewicht, Geslacht, Afbeelding, Prijs, Soort, HokNummer, Gereserveerd) Values (@Name, @Age, @Weight, @Gender, @Image, @Price, @Species, @Cage, @Reserved)";
+            string query = $"Insert into Animals (Name, Age, Weight, Gender, Image, Price, Species, Cage, Reserved) Values (@Name, @Age, @Weight, @Gender, @Image, @Price, @Species, @Cage, @Reserved)";
             SqlParameter[] parameters = 
             {
                 new SqlParameter("Name", animal.name),
@@ -46,7 +46,7 @@ namespace DierenAsiel.Database
             ExecuteNonQuery(query, parameters);
             foreach (string characteristic in animal.characteristics)
             {
-                query = $"Insert into Eigenschappen (DierId, Eigenschap) values((select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage), @Characteristic)";
+                query = $"Insert into Characteristics (AnimalId, Characteristic) values((select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender And Price = @Price And Species = @Species And Cage = @Cage), @Characteristic)";
                 SqlParameter[] Characterparameters =
                 {
                 new SqlParameter("Name", animal.name),
@@ -64,7 +64,7 @@ namespace DierenAsiel.Database
 
         public List<Animal> GetAllAnimals()
         {
-            string query = "select * from dieren";
+            string query = "select * from Animals";
             List<Animal> returnList = new List<Animal>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -95,7 +95,7 @@ namespace DierenAsiel.Database
 
         public void RemoveAnimal(Animal animal)
         {
-            string query = $"Delete from Eigenschappen where DierId = (select Id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage)";
+            string query = $"Delete from Characteristics where AnimalId = (select Id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender And Price = @Price And Species = @Species And Cage = @Cage)";
             SqlParameter[] CharacterParameters =
             {
                 new SqlParameter("Name", animal.name),
@@ -108,7 +108,7 @@ namespace DierenAsiel.Database
             };
             ExecuteNonQuery(query, CharacterParameters);
 
-            query = $"Delete from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage";
+            query = $"Delete from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender And Price = @Price And Species = @Species And Cage = @Cage";
             SqlParameter[] parameters =
             {
                 new SqlParameter("Name", animal.name),
@@ -124,7 +124,7 @@ namespace DierenAsiel.Database
 
         public DateTime GetUitlaatDate(Animal animal)
         {
-            string query = $"Select Top 1 Uitlaten.Datum from Uitlaten, Dieren where Uitlaten.DierId = Dieren.Id AND Dieren.Naam = @Name AND Dieren.Leeftijd = @Age AND Dieren.Gewicht = @Weight AND Dieren.Geslacht = @Gender AND Dieren.Soort = @Species order by Uitlaten.Datum desc";
+            string query = $"Select Top 1 Walking.Date from Walking, Animals where Walking.AnimalId = Animals.Id AND Animals.Name = @Name AND Animals.Age = @Age AND Animals.Weight = @Weight AND Animals.Gender = @Gender AND Animals.Species = @Species order by Walking.Date desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -153,7 +153,7 @@ namespace DierenAsiel.Database
 
         public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
         {            
-            string query = $"insert into Uitlaten (DierId, Datum, VerzorgerId) Values((select Id from Dieren where Naam = @Name AND Soort = @Species AND Gewicht = @Weight AND Geslacht = @Gender), @Date, (select Id from Verzorgers where Naam = @EmployeeName))";
+            string query = $"insert into Walking (AnimalId, Date, EmployeeId) Values((select Id from Animals where Name = @Name AND Species = @Species AND Weight = @Weight AND Gender = @Gender), @Date, (select Id from Employees where Name = @EmployeeName))";
             SqlParameter[] parameters = {
                 new SqlParameter("Name", animal.name),
                 new SqlParameter("Species", animal.species.ToString()),
@@ -167,7 +167,7 @@ namespace DierenAsiel.Database
 
         public List<Employee> GetAllEmployees()
         {
-            string query = "select * from Verzorgers where Werkzaam = 1";
+            string query = "select * from Employees where Active = 1";
             List<Employee> returnList = new List<Employee>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -195,7 +195,7 @@ namespace DierenAsiel.Database
 
         public void AddEmployee(Employee employee)
         {
-            string query = $"Insert into Verzorgers(Naam, Leeftijd, Gender, Adres, Telefoon) values(@Name, @Age, @Gender, @Address, @PhoneNumber)";
+            string query = $"Insert into Employees(Name, Age, Gender, Address, Phone) values(@Name, @Age, @Gender, @Address, @PhoneNumber)";
             SqlParameter[] parameters =
             {
                 new SqlParameter("Name", employee.name),
@@ -209,7 +209,7 @@ namespace DierenAsiel.Database
 
         public Employee GetEmployeeByName(string name)
         {
-            string query = $"Select * from Verzorgers where Naam = @Name";
+            string query = $"Select * from Employees where Name = @Name";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -241,7 +241,7 @@ namespace DierenAsiel.Database
 
         public void RemoveEmployee(Employee employee)
         {
-            string query = $"Update Verzorgers Set Werkzaam = 0 where Naam = @Name And Leeftijd = @Age And Gender = @Gender And Adres = @Address And Telefoon = @PhoneNumber";
+            string query = $"Update Employees Set Active = 0 where Name = @Name And Age = @Age And Gender = @Gender And Address = @Address And Phone = @PhoneNumber";
             SqlParameter[] parameters =
             {
                 new SqlParameter("Name", employee.name),
@@ -256,7 +256,7 @@ namespace DierenAsiel.Database
         public List<Cage> GetAllCages()
         {
             List<Cage> Cages = new List<Cage>();
-            string query = $"Select distinct HokNummer from Dieren";
+            string query = $"Select distinct Cage from Animals";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {                
                 connection.Open();
@@ -277,7 +277,7 @@ namespace DierenAsiel.Database
 
         public DateTime GetCleaningdate(Cage cage)
         {
-            string query = $"select top 1 Datum from HokVerschonen where HokId = @CageNumber order by Datum desc";
+            string query = $"select top 1 Date from Cleaning where CageId = @CageNumber order by Date desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -302,7 +302,7 @@ namespace DierenAsiel.Database
 
         public void SetCleanDate(int cageNumber, DateTime value, string employee)
         {
-            string query = $"insert into HokVerschonen(HokId, Datum, VerzorgerId) values(@CageNumber, @Date, (select top 1 Id from Verzorgers where Naam = @Name))";
+            string query = $"insert into Cleaning(CageId, Date, EmployeeId) values(@CageNumber, @Date, (select top 1 Id from Employees where Name = @Name))";
             SqlParameter[] parameters =
             {
                 new SqlParameter("CageNumber", cageNumber),
@@ -314,7 +314,7 @@ namespace DierenAsiel.Database
 
         public List<string> GetCharacteristicsFromAnimal(Animal animal)
         {
-            string query = $"select Eigenschap from Eigenschappen where DierId = (select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and Soort = @Species and HokNummer = @Cage)";
+            string query = $"select Characteristic from Characteristics where AnimalId = (select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender and Species = @Species and Cage = @Cage)";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -344,7 +344,7 @@ namespace DierenAsiel.Database
 
         public string GetUserPassword(string username)
         {
-            string query = $"select Wachtwoord from Gebruikers where GebruikersNaam = @Username";
+            string query = $"select Password from Users where UserName = @Username";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -369,7 +369,7 @@ namespace DierenAsiel.Database
 
         public void AddUser(string username, string hashedPassword)
         {
-            string query = $"insert into Gebruikers(GebruikersNaam, Wachtwoord) values(@Username, @HashedPassword)";
+            string query = $"insert into User(UserName, Password) values(@Username, @HashedPassword)";
             SqlParameter[] parameters =
             {
                 new SqlParameter("Username", username),
@@ -380,7 +380,7 @@ namespace DierenAsiel.Database
 
         public List<DateTime> GetFeedingDates(Animal animal)
         {
-            string query = $"select Datum from Eten where DierId = (select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and soort = @Species) Order by Datum desc";
+            string query = $"select Date from Feeding where AnimalId = (select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender and Species = @Species) Order by Date desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -410,10 +410,10 @@ namespace DierenAsiel.Database
 
         public void SetFeedingDate(Animal animal, DateTime value, Employee employee)
         {
-            string query = $"insert into Eten (DierId, Datum, VerzorgerId) values (" +
-                $"(select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and Soort = @Species and HokNummer = @Cage)," +
+            string query = $"insert into Feeding (AnimalId, Date, EmployeeId) values (" +
+                $"(select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender and Species = @Species and Cage = @Cage)," +
                 $"@Date," +
-                $"(select id from Verzorgers where Naam = @EmployeeName and Leeftijd = @EmployeeAge and Gender = @EmployeeGender and Adres = @EmployeeAddress)" +
+                $"(select id from Employees where Name = @EmployeeName and Age = @EmployeeAge and Gender = @EmployeeGender and Address = @EmployeeAddress)" +
                 $")";
             SqlParameter[] parameters =
             {
@@ -434,7 +434,7 @@ namespace DierenAsiel.Database
 
         public void SetReserved(Animal animal)
         {
-            string query = $"update Dieren Set Gereserveerd = @Reserved where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender And Prijs = @Price And Soort = @Species And HokNummer = @Cage";
+            string query = $"update Animals Set Reserved = @Reserved where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender And Price = @Price And Species = @Species And Cage = @Cage";
             SqlParameter[] parameters = 
             {
                 new SqlParameter("Reserved", animal.reserved),
