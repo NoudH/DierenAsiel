@@ -75,7 +75,7 @@ namespace DierenAsielASP.Database
         public static List<string> GetCharacteristicsFromAnimal(AnimalModel animal)
         {
             List<string> characteristics = new List<string>();
-            string query = $"select Eigenschap from Eigenschappen where DierId = (select id from Dieren where Naam = @Name and Leeftijd = @Age and Gewicht = @Weight and Geslacht = @Gender and Soort = @Species and HokNummer = @Cage)";
+            string query = $"select Characteristic from Characteristics where AnimalId = (select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender and Species = @Species and Cage = @Cage)";
             SqlParameter[] parameters =
             {
                 new SqlParameter("Name", animal.name),
@@ -87,7 +87,7 @@ namespace DierenAsielASP.Database
             };
             foreach (IDataRecord record in CreateReader(query, parameters))
             {
-                characteristics.Add(record["Eigenschap"].ToString());
+                characteristics.Add(record["Characteristic"].ToString());
             }
 
             return characteristics;
