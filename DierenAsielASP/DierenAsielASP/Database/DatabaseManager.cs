@@ -48,7 +48,7 @@ namespace DierenAsielASP.Database
         public static List<AnimalModel> GetAllAnimals()
         {
             List<AnimalModel> AllAnimals = new List<AnimalModel>();
-            string query = $"Select * from Dieren";
+            string query = $"Select * from Animals";
             SqlParameter[] parameters = { };
 
             IEnumerable<IDataRecord> reader = CreateReader(query, parameters);
