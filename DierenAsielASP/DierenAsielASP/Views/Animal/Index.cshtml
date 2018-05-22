@@ -13,7 +13,7 @@
 @for (int i = 0; i < Model.Count(); i++)
  {
     <div class="card col-lg-3 col-md-4 col-xs-5" style="padding: 0px; margin-right: 5px; margin-top: 5px; width:250px; height:380px;">
-        @Html.Raw($"<img class=\"card-img-top\" src=\"data:image/jpeg;base64,{Model.ToArray()[i].image}\" alt=\"Card image cap\" style=\"height: 200px\">")
+        @Html.Raw($"<img class=\"AnimalImages card-img-top\" src=\"data:image/jpeg;base64,{Model.ToArray()[i].image}\" alt=\"Card image cap\" style=\"height: 200px\">")
         <div class="card-body">
             @Html.Raw($"<h5 class=\"card-title\">{Model.ToArray()[i].name}</h5>")
             <p class="card-text">
@@ -31,7 +31,7 @@
             {
                 <input type="submit" class="btn btn-primary" style="position:absolute; bottom: 10px;" value="Meer Informatie" />
             }
-            @Html.Raw($"<span style=\"position:absolute; bottom: 14px; right: 10px; font-size:18px; font-weight: 600;\">&euro;{Model.ToArray()[i].price}<span>")
+            @Html.Raw($"<span id=\"Price\" style=\"position:absolute; bottom: 14px; right: 10px; font-size:18px; font-weight: 600;\">&euro;{(Model.ToArray()[i].price.ToString().Contains(".") ? Model.ToArray()[i].price.ToString() : Model.ToArray()[i].price.ToString() + ",-")}<span>")
         </div>
     </div>
     if (i + 1 % 4 == 0)
@@ -40,5 +40,7 @@
     }
 }
     <div class="clearfix"></div>
+    @Html.Partial("_RandomDogImages")
+
 </body>
 </html>

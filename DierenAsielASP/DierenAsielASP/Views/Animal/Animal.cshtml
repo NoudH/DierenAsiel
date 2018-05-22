@@ -14,7 +14,7 @@
 </div>
 <div style="overflow: hidden;">
     <div style="float:left; max-width: 40%; margin-right: 35%">
-        @Html.Raw($"<img src=\"data:image/jpg;base64,{Model.image}\" style=\"border: 2px solid black; border-radius: 5px; height:auto; width:auto; max-width:400px; max-height:300px;\" />")
+        @Html.Raw($"<img class=\"AnimalImages\" src=\"data:image/jpeg;base64,{Model.image}\" style=\"border: 2px solid black; border-radius: 5px; height:auto; width:auto; max-width:400px; max-height:300px;\" />")
         <h3>Eigenschappen:</h3>
         <p>
             @Html.Raw($"{Model.name} is een {gender} {Model.dutchTranslationSpecies[(int)Model.species]}." + (Model.characteristics.Count > 0 ? $"<br>{pronoun} is:" : ""))
@@ -34,3 +34,5 @@
         </div>
     </div>
 </div>
+
+@Html.Partial("_RandomDogImages")
