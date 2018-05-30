@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DierenAsiel.Logic;
+using static DierenAsiel.Logic.Modes;
 
 namespace DierenAsiel.UI
 {
     public partial class Login : Form
     {
-        IAuthenticationLogic authenticationLogic = new LoginAuthenticator();
+        IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Normal);
 
         public Login()
         {

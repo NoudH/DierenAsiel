@@ -29,12 +29,13 @@ namespace DierenAsielASP.Models
         public int weight;
         public Genders gender;
         public Species species;
+        public string breed;
         public string image;
         public int cage;
         public bool reserved = false;
         public float price;
         public List<string> characteristics = new List<string>();
-        public string[] dutchTranslationSpecies = { "Hond", "Kat" };
+        public string about;
 
         public override string ToString()
         {

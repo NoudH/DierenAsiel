@@ -16,5 +16,5 @@ namespace DierenAsiel.Logic
         Animal GetAnimalFromList(Animal.Species species, int index);
         Animal GetAnimalFromList(int index);
         void SetReserved(Animal animal);
-    }
+    }    
 }

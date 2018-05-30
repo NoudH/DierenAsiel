@@ -4,12 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DierenAsiel.Database;
+using static DierenAsiel.Logic.Modes;
 
 namespace DierenAsiel.Logic
 {
     public class EmployeeLogicController : IEmployeeLogic
     {
-        IEmployeeDatabase database = new DatabaseController();
+        IEmployeeDatabase database;
+
+        public EmployeeLogicController(Mode mode)
+        {
+            if (mode == Mode.Normal)
+            {
+                database = Databases.productionDatabase;
+            }
+            else if (mode == Mode.Test)
+            {
+                database = Databases.testDatabase;
+            }
+        }
 
         public void AddEmployee(Employee employee)
         {

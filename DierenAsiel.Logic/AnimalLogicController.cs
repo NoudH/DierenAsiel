@@ -4,12 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DierenAsiel.Database;
+using static DierenAsiel.Logic.Modes;
 
 namespace DierenAsiel.Logic
 {
     public class AnimalLogicController : IAnimalLogic
     {
-        IAnimalDatabase database = new DatabaseController();
+        IAnimalDatabase database;
+
+        public AnimalLogicController(Mode mode)
+        {
+            if (mode == Mode.Normal)
+            {
+                database = Databases.productionDatabase;
+            }
+            else if (mode == Mode.Test)
+            {
+                database = Databases.testDatabase;
+            }
+        }
 
         public void AddAnimal(Animal animal)
         {

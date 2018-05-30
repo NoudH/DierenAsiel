@@ -133,8 +133,12 @@
             this.geefEtenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verschoonHokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uitlatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OfdImage = new System.Windows.Forms.OpenFileDialog();
             this.toggleReserveringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OfdImage = new System.Windows.Forms.OpenFileDialog();
+            this.TxtBreed = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.RtbAbout = new System.Windows.Forms.RichTextBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
@@ -176,6 +180,10 @@
             // 
             // TpAnimals
             // 
+            this.TpAnimals.Controls.Add(this.label30);
+            this.TpAnimals.Controls.Add(this.RtbAbout);
+            this.TpAnimals.Controls.Add(this.TxtBreed);
+            this.TpAnimals.Controls.Add(this.label29);
             this.TpAnimals.Controls.Add(this.BtnImagepicker);
             this.TpAnimals.Controls.Add(this.PbAnimalImage);
             this.TpAnimals.Controls.Add(this.label22);
@@ -225,7 +233,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(10, 236);
+            this.label22.Location = new System.Drawing.Point(10, 262);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(84, 13);
             this.label22.TabIndex = 16;
@@ -233,9 +241,9 @@
             // 
             // RtbCharacteristics
             // 
-            this.RtbCharacteristics.Location = new System.Drawing.Point(12, 252);
+            this.RtbCharacteristics.Location = new System.Drawing.Point(12, 278);
             this.RtbCharacteristics.Name = "RtbCharacteristics";
-            this.RtbCharacteristics.Size = new System.Drawing.Size(185, 100);
+            this.RtbCharacteristics.Size = new System.Drawing.Size(185, 74);
             this.RtbCharacteristics.TabIndex = 15;
             this.RtbCharacteristics.Text = "";
             // 
@@ -247,7 +255,7 @@
             0,
             0,
             131072});
-            this.NudAnimalPrice.Location = new System.Drawing.Point(78, 213);
+            this.NudAnimalPrice.Location = new System.Drawing.Point(77, 239);
             this.NudAnimalPrice.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -256,19 +264,21 @@
             this.NudAnimalPrice.Name = "NudAnimalPrice";
             this.NudAnimalPrice.Size = new System.Drawing.Size(120, 20);
             this.NudAnimalPrice.TabIndex = 14;
+            this.NudAnimalPrice.ValueChanged += new System.EventHandler(this.NudAnimalPrice_ValueChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 215);
+            this.label6.Location = new System.Drawing.Point(9, 241);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(29, 13);
             this.label6.TabIndex = 13;
             this.label6.Text = "Prijs:";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // NudAnimalCage
             // 
-            this.NudAnimalCage.Location = new System.Drawing.Point(77, 187);
+            this.NudAnimalCage.Location = new System.Drawing.Point(76, 213);
             this.NudAnimalCage.Maximum = new decimal(new int[] {
             500,
             0,
@@ -277,6 +287,7 @@
             this.NudAnimalCage.Name = "NudAnimalCage";
             this.NudAnimalCage.Size = new System.Drawing.Size(120, 20);
             this.NudAnimalCage.TabIndex = 12;
+            this.NudAnimalCage.ValueChanged += new System.EventHandler(this.NudAnimalCage_ValueChanged);
             // 
             // BtnAdd
             // 
@@ -291,7 +302,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 189);
+            this.label5.Location = new System.Drawing.Point(8, 215);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(30, 13);
             this.label5.TabIndex = 9;
@@ -1169,7 +1180,7 @@
             this.uitlatenToolStripMenuItem,
             this.toggleReserveringToolStripMenuItem});
             this.CmsAnimals.Name = "CmsAnimals";
-            this.CmsAnimals.Size = new System.Drawing.Size(172, 114);
+            this.CmsAnimals.Size = new System.Drawing.Size(172, 92);
             // 
             // geefEtenToolStripMenuItem
             // 
@@ -1192,16 +1203,49 @@
             this.uitlatenToolStripMenuItem.Text = "Uitlaten";
             this.uitlatenToolStripMenuItem.Click += new System.EventHandler(this.uitlatenToolStripMenuItem_Click);
             // 
-            // OfdImage
-            // 
-            this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
-            // 
             // toggleReserveringToolStripMenuItem
             // 
             this.toggleReserveringToolStripMenuItem.Name = "toggleReserveringToolStripMenuItem";
             this.toggleReserveringToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.toggleReserveringToolStripMenuItem.Text = "Toggle reservering";
             this.toggleReserveringToolStripMenuItem.Click += new System.EventHandler(this.toggleReserveringToolStripMenuItem_Click);
+            // 
+            // OfdImage
+            // 
+            this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
+            // 
+            // TxtBreed
+            // 
+            this.TxtBreed.Location = new System.Drawing.Point(76, 187);
+            this.TxtBreed.Name = "TxtBreed";
+            this.TxtBreed.Size = new System.Drawing.Size(120, 20);
+            this.TxtBreed.TabIndex = 20;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(7, 190);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(29, 13);
+            this.label29.TabIndex = 19;
+            this.label29.Text = "Ras:";
+            // 
+            // RtbAbout
+            // 
+            this.RtbAbout.Location = new System.Drawing.Point(202, 206);
+            this.RtbAbout.Name = "RtbAbout";
+            this.RtbAbout.Size = new System.Drawing.Size(175, 146);
+            this.RtbAbout.TabIndex = 21;
+            this.RtbAbout.Text = "";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(201, 190);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(33, 13);
+            this.label30.TabIndex = 22;
+            this.label30.Text = "Over:";
             // 
             // UserInterface
             // 
@@ -1355,6 +1399,10 @@
         private System.Windows.Forms.PictureBox PbAnimalImage;
         private System.Windows.Forms.OpenFileDialog OfdImage;
         private System.Windows.Forms.ToolStripMenuItem toggleReserveringToolStripMenuItem;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.RichTextBox RtbAbout;
+        private System.Windows.Forms.TextBox TxtBreed;
+        private System.Windows.Forms.Label label29;
     }
 }
 

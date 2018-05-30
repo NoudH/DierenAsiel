@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using DierenAsiel.Logic;
+using static DierenAsiel.Logic.Modes;
 
 namespace DierenAsiel.UI
 {
     public partial class UserInterface : Form
     {
-        private IAnimalLogic animalLogic = new AnimalLogicController();
-        private IEmployeeLogic employeeLogic = new EmployeeLogicController();
-        private ICaretakingLogic caretakingLogic = new CaretakingLogicController();
-        private IAuthenticationLogic authenticationLogic = new LoginAuthenticator();
+        private IAnimalLogic animalLogic = new AnimalLogicController(Mode.Normal);
+        private IEmployeeLogic employeeLogic = new EmployeeLogicController(Mode.Normal);
+        private ICaretakingLogic caretakingLogic = new CaretakingLogicController(Mode.Normal);
+        private IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Normal);
 
         public UserInterface()
         {
@@ -107,7 +108,7 @@ namespace DierenAsiel.UI
                 byte[] imageBytes = File.ReadAllBytes(OfdImage.FileName);
                 string imageBase64 = Convert.ToBase64String(imageBytes);
 
-                Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species), CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64 };
+                Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species), CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64, breed = TxtBreed.Text, about = RtbAbout.Text };
                 animalLogic.AddAnimal(A);
                 PbAnimalImage.Image = null;
                 PopulateListView();
@@ -341,6 +342,21 @@ namespace DierenAsiel.UI
                 reserved = LvAnimalList.FocusedItem.SubItems[7].Text == "Ja" ? false : true
             });
             PopulateListView();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NudAnimalPrice_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NudAnimalCage_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

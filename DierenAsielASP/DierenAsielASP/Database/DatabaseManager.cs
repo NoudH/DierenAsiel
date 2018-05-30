@@ -64,7 +64,9 @@ namespace DierenAsielASP.Database
                     image = record["Image"].ToString(),
                     cage = (int)record["Cage"],
                     price = (float)(double)record["Price"], //<- Blame microsoft
-                    reserved = (bool)record["Reserved"]
+                    reserved = (bool)record["Reserved"],
+                    breed = record["Breed"].ToString(),
+                    about = record["About"].ToString()
                 };
                 temp.characteristics = GetCharacteristicsFromAnimal(temp);
                 AllAnimals.Add(temp);

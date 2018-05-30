@@ -57,11 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseController.cs" />
+    <Compile Include="Databases.cs" />
     <Compile Include="ICaretakingDatabase.cs" />
     <Compile Include="IAnimalDatabase.cs" />
     <Compile Include="IEmployeeDatabase.cs" />
     <Compile Include="IUserDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDatabaseController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DierenAsiel\DierenAsiel.csproj">

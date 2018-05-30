@@ -11,12 +11,14 @@ namespace DierenAsiel.Database
 {
     public class DatabaseController : IAnimalDatabase, ICaretakingDatabase, IEmployeeDatabase, IUserDatabase
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
+        private string connectionString;
+
+        public string ConnectionString { get =>  ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString; }
 
         #region helperFunctions
         private void ExecuteNonQuery(string query, SqlParameter[] parameters)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -30,7 +32,7 @@ namespace DierenAsiel.Database
 
         public void AddAnimal(Animal animal)
         {
-            string query = $"Insert into Animals (Name, Age, Weight, Gender, Image, Price, Species, Cage, Reserved) Values (@Name, @Age, @Weight, @Gender, @Image, @Price, @Species, @Cage, @Reserved)";
+            string query = $"Insert into Animals (Name, Age, Weight, Gender, Image, Price, Species, Cage, Reserved, Breed, About) Values (@Name, @Age, @Weight, @Gender, @Image, @Price, @Species, @Cage, @Reserved, @Breed, @About)";
             SqlParameter[] parameters = 
             {
                 new SqlParameter("Name", animal.name),
@@ -41,7 +43,9 @@ namespace DierenAsiel.Database
                 new SqlParameter("Price", animal.price),
                 new SqlParameter("Species", animal.species.ToString()),
                 new SqlParameter("Cage", animal.cage),
-                new SqlParameter("Reserved", animal.reserved)
+                new SqlParameter("Reserved", animal.reserved),
+                new SqlParameter("Breed", animal.breed),
+                new SqlParameter("About", animal.about)
             };
             ExecuteNonQuery(query, parameters);
             foreach (string characteristic in animal.characteristics)
@@ -66,7 +70,7 @@ namespace DierenAsiel.Database
         {
             string query = "select * from Animals";
             List<Animal> returnList = new List<Animal>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -125,7 +129,7 @@ namespace DierenAsiel.Database
         public DateTime GetUitlaatDate(Animal animal)
         {
             string query = $"Select Top 1 Walking.Date from Walking, Animals where Walking.AnimalId = Animals.Id AND Animals.Name = @Name AND Animals.Age = @Age AND Animals.Weight = @Weight AND Animals.Gender = @Gender AND Animals.Species = @Species order by Walking.Date desc";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -169,7 +173,7 @@ namespace DierenAsiel.Database
         {
             string query = "select * from Employees where Active = 1";
             List<Employee> returnList = new List<Employee>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -210,7 +214,7 @@ namespace DierenAsiel.Database
         public Employee GetEmployeeByName(string name)
         {
             string query = $"Select * from Employees where Name = @Name";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -257,7 +261,7 @@ namespace DierenAsiel.Database
         {
             List<Cage> Cages = new List<Cage>();
             string query = $"Select distinct Cage from Animals";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {                
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -278,7 +282,7 @@ namespace DierenAsiel.Database
         public DateTime GetCleaningdate(Cage cage)
         {
             string query = $"select top 1 Date from Cleaning where CageId = @CageNumber order by Date desc";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -315,7 +319,7 @@ namespace DierenAsiel.Database
         public List<string> GetCharacteristicsFromAnimal(Animal animal)
         {
             string query = $"select Characteristic from Characteristics where AnimalId = (select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender and Species = @Species and Cage = @Cage)";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -345,7 +349,7 @@ namespace DierenAsiel.Database
         public string GetUserPassword(string username)
         {
             string query = $"select Password from Users where UserName = @Username";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -381,7 +385,7 @@ namespace DierenAsiel.Database
         public List<DateTime> GetFeedingDates(Animal animal)
         {
             string query = $"select Date from Feeding where AnimalId = (select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender and Species = @Species) Order by Date desc";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))

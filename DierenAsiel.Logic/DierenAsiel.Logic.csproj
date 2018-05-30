@@ -48,6 +48,7 @@
     <Compile Include="IAnimalLogic.cs" />
     <Compile Include="AnimalLogicController.cs" />
     <Compile Include="LoginAuthenticator.cs" />
+    <Compile Include="Modes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,12 +5,25 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using DierenAsiel.Database;
+using static DierenAsiel.Logic.Modes;
 
 namespace DierenAsiel.Logic
 {
     public class LoginAuthenticator : IAuthenticationLogic
     {
-        IUserDatabase database = new DatabaseController();
+        IUserDatabase database;
+
+        public LoginAuthenticator(Mode mode)
+        {
+            if (mode == Mode.Normal)
+            {
+                database = Databases.productionDatabase;
+            }
+            else if (mode == Mode.Test)
+            {
+                database = Databases.testDatabase;
+            }
+        }
 
         public void CreateUser(string username, string password)
         {
