@@ -14,7 +14,7 @@ namespace DierenAsiel.UI
 {
     public partial class Login : Form
     {
-        IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Normal);
+        IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Production);
 
         public Login()
         {

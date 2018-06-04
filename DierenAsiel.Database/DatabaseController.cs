@@ -84,9 +84,12 @@ namespace DierenAsiel.Database
                             tempAnimal.gender = (Animal.Genders)Enum.Parse(typeof(Animal.Genders), reader.GetString(4));
                             tempAnimal.price = (float)reader.GetDouble(5); //Blame microsoft
                             tempAnimal.species = (Animal.Species)Enum.Parse(typeof(Animal.Species), reader.GetString(6));
+                            tempAnimal.breed = reader.GetString(10);
                             tempAnimal.cage = reader.GetInt32(7);
-                            tempAnimal.reserved =reader.GetBoolean(8);
-                            
+                            tempAnimal.reserved = reader.GetBoolean(8);
+                            tempAnimal.image = reader.GetString(9);
+                            tempAnimal.about = reader.GetString(11);
+
                             returnList.Add(tempAnimal);
                         }
                     }
@@ -447,6 +450,39 @@ namespace DierenAsiel.Database
                 new SqlParameter("Price", animal.price),
                 new SqlParameter("Species", animal.species.ToString()),
                 new SqlParameter("Cage", animal.cage)
+            };
+            ExecuteNonQuery(query, parameters);
+        }
+
+        public void EditAnimal(Animal oldAnimal, Animal newAnimal)
+        {
+            string query = "update Animals set Name = @Name, Age = @Age, Weight = @Weight, Gender = @Gender, Price = @Price, Species = @Species, Cage = @Cage, Reserved = @Reserved, Image = @Image, Breed = @Breed, About = @About WHERE Name = @oldName and Age = @oldAge and Weight = @oldWeight and Gender = @oldGender and Price = @oldPrice and Species = @oldSpecies and Cage = @oldCage and Reserved = @oldReserved and Image = @oldImage and Breed = @oldBreed and About = @oldAbout";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", newAnimal.name),
+                new SqlParameter("Age", newAnimal.age),
+                new SqlParameter("Weight", newAnimal.weight),
+                new SqlParameter("Gender", newAnimal.gender.ToString()),
+                new SqlParameter("Price", newAnimal.price),
+                new SqlParameter("Species", newAnimal.species.ToString()),
+                new SqlParameter("Cage", newAnimal.cage),
+                new SqlParameter("Reserved", newAnimal.reserved),
+                new SqlParameter("Image", newAnimal.image),
+                new SqlParameter("Breed", newAnimal.breed),
+                new SqlParameter("About", newAnimal.about),
+
+                new SqlParameter("oldName", oldAnimal.name),
+                new SqlParameter("oldAge", oldAnimal.age),
+                new SqlParameter("oldWeight", oldAnimal.weight),
+                new SqlParameter("oldGender", oldAnimal.gender.ToString()),
+                new SqlParameter("oldPrice", oldAnimal.price),
+                new SqlParameter("oldSpecies", oldAnimal.species.ToString()),
+                new SqlParameter("oldCage", oldAnimal.cage),
+                new SqlParameter("oldReserved", oldAnimal.reserved),
+                new SqlParameter("oldImage", oldAnimal.image),
+                new SqlParameter("oldBreed", oldAnimal.breed),
+                new SqlParameter("oldAbout", oldAnimal.about),
+
             };
             ExecuteNonQuery(query, parameters);
         }

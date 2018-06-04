@@ -14,7 +14,7 @@ namespace DierenAsiel.Logic
 
         public EmployeeLogicController(Mode mode)
         {
-            if (mode == Mode.Normal)
+            if (mode == Mode.Production)
             {
                 database = Databases.productionDatabase;
             }

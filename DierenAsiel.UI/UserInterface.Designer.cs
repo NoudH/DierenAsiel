@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.TcMain = new System.Windows.Forms.TabControl();
             this.TpAnimals = new System.Windows.Forms.TabPage();
+            this.label30 = new System.Windows.Forms.Label();
+            this.RtbAbout = new System.Windows.Forms.RichTextBox();
+            this.TxtBreed = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.BtnImagepicker = new System.Windows.Forms.Button();
             this.PbAnimalImage = new System.Windows.Forms.PictureBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -135,10 +139,8 @@
             this.uitlatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleReserveringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OfdImage = new System.Windows.Forms.OpenFileDialog();
-            this.TxtBreed = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.RtbAbout = new System.Windows.Forms.RichTextBox();
-            this.label30 = new System.Windows.Forms.Label();
+            this.ChBreed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.wijzigDierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
@@ -210,6 +212,39 @@
             this.TpAnimals.Text = "Dieren";
             this.TpAnimals.UseVisualStyleBackColor = true;
             // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(201, 190);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(33, 13);
+            this.label30.TabIndex = 22;
+            this.label30.Text = "Over:";
+            // 
+            // RtbAbout
+            // 
+            this.RtbAbout.Location = new System.Drawing.Point(202, 206);
+            this.RtbAbout.Name = "RtbAbout";
+            this.RtbAbout.Size = new System.Drawing.Size(175, 146);
+            this.RtbAbout.TabIndex = 21;
+            this.RtbAbout.Text = "";
+            // 
+            // TxtBreed
+            // 
+            this.TxtBreed.Location = new System.Drawing.Point(76, 187);
+            this.TxtBreed.Name = "TxtBreed";
+            this.TxtBreed.Size = new System.Drawing.Size(120, 20);
+            this.TxtBreed.TabIndex = 20;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(7, 190);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(29, 13);
+            this.label29.TabIndex = 19;
+            this.label29.Text = "Ras:";
+            // 
             // BtnImagepicker
             // 
             this.BtnImagepicker.Location = new System.Drawing.Point(204, 160);
@@ -264,7 +299,6 @@
             this.NudAnimalPrice.Name = "NudAnimalPrice";
             this.NudAnimalPrice.Size = new System.Drawing.Size(120, 20);
             this.NudAnimalPrice.TabIndex = 14;
-            this.NudAnimalPrice.ValueChanged += new System.EventHandler(this.NudAnimalPrice_ValueChanged);
             // 
             // label6
             // 
@@ -274,7 +308,6 @@
             this.label6.Size = new System.Drawing.Size(29, 13);
             this.label6.TabIndex = 13;
             this.label6.Text = "Prijs:";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // NudAnimalCage
             // 
@@ -287,7 +320,6 @@
             this.NudAnimalCage.Name = "NudAnimalCage";
             this.NudAnimalCage.Size = new System.Drawing.Size(120, 20);
             this.NudAnimalCage.TabIndex = 12;
-            this.NudAnimalCage.ValueChanged += new System.EventHandler(this.NudAnimalCage_ValueChanged);
             // 
             // BtnAdd
             // 
@@ -450,6 +482,7 @@
             this.ChGender,
             this.ChPrice,
             this.ChSpecies,
+            this.ChBreed,
             this.ChCage,
             this.ChReserved});
             this.LvAnimalList.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -466,7 +499,7 @@
             // ChName
             // 
             this.ChName.Text = "Naam";
-            this.ChName.Width = 155;
+            this.ChName.Width = 145;
             // 
             // ChAge
             // 
@@ -483,17 +516,16 @@
             // ChPrice
             // 
             this.ChPrice.Text = "Prijs";
-            this.ChPrice.Width = 80;
+            this.ChPrice.Width = 70;
             // 
             // ChSpecies
             // 
             this.ChSpecies.Text = "Soort";
-            this.ChSpecies.Width = 100;
             // 
             // ChCage
             // 
             this.ChCage.Text = "Hok Nummer";
-            this.ChCage.Width = 80;
+            this.ChCage.Width = 75;
             // 
             // ChReserved
             // 
@@ -1178,9 +1210,10 @@
             this.geefEtenToolStripMenuItem,
             this.verschoonHokToolStripMenuItem,
             this.uitlatenToolStripMenuItem,
-            this.toggleReserveringToolStripMenuItem});
+            this.toggleReserveringToolStripMenuItem,
+            this.wijzigDierToolStripMenuItem});
             this.CmsAnimals.Name = "CmsAnimals";
-            this.CmsAnimals.Size = new System.Drawing.Size(172, 92);
+            this.CmsAnimals.Size = new System.Drawing.Size(181, 136);
             // 
             // geefEtenToolStripMenuItem
             // 
@@ -1214,38 +1247,16 @@
             // 
             this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
             // 
-            // TxtBreed
+            // ChBreed
             // 
-            this.TxtBreed.Location = new System.Drawing.Point(76, 187);
-            this.TxtBreed.Name = "TxtBreed";
-            this.TxtBreed.Size = new System.Drawing.Size(120, 20);
-            this.TxtBreed.TabIndex = 20;
+            this.ChBreed.Text = "Breed";
             // 
-            // label29
+            // wijzigDierToolStripMenuItem
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(7, 190);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(29, 13);
-            this.label29.TabIndex = 19;
-            this.label29.Text = "Ras:";
-            // 
-            // RtbAbout
-            // 
-            this.RtbAbout.Location = new System.Drawing.Point(202, 206);
-            this.RtbAbout.Name = "RtbAbout";
-            this.RtbAbout.Size = new System.Drawing.Size(175, 146);
-            this.RtbAbout.TabIndex = 21;
-            this.RtbAbout.Text = "";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(201, 190);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(33, 13);
-            this.label30.TabIndex = 22;
-            this.label30.Text = "Over:";
+            this.wijzigDierToolStripMenuItem.Name = "wijzigDierToolStripMenuItem";
+            this.wijzigDierToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wijzigDierToolStripMenuItem.Text = "Wijzig dier";
+            this.wijzigDierToolStripMenuItem.Click += new System.EventHandler(this.wijzigDierToolStripMenuItem_Click);
             // 
             // UserInterface
             // 
@@ -1403,6 +1414,8 @@
         private System.Windows.Forms.RichTextBox RtbAbout;
         private System.Windows.Forms.TextBox TxtBreed;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ColumnHeader ChBreed;
+        private System.Windows.Forms.ToolStripMenuItem wijzigDierToolStripMenuItem;
     }
 }
 

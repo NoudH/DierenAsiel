@@ -15,7 +15,7 @@ namespace DierenAsiel.Logic
 
         public LoginAuthenticator(Mode mode)
         {
-            if (mode == Mode.Normal)
+            if (mode == Mode.Production)
             {
                 database = Databases.productionDatabase;
             }

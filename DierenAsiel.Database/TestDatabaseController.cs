@@ -140,5 +140,10 @@ namespace DierenAsiel.Database
         {
             WalkingDates.Add(new WalkingDate() { animal = animal, employee = employee, date = date });
         }
+
+        public void EditAnimal(Animal oldAnimal, Animal newAnimal)
+        {
+            Animals[Animals.FindIndex(x => x == oldAnimal)] = newAnimal;
+        }
     }
 }

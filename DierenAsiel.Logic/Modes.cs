@@ -10,7 +10,7 @@ namespace DierenAsiel.Logic
     {
         public enum Mode
         {
-            Normal,
+            Production,
             Test
         }
     }

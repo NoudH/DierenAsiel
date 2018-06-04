@@ -15,10 +15,10 @@ namespace DierenAsiel.UI
 {
     public partial class UserInterface : Form
     {
-        private IAnimalLogic animalLogic = new AnimalLogicController(Mode.Normal);
-        private IEmployeeLogic employeeLogic = new EmployeeLogicController(Mode.Normal);
-        private ICaretakingLogic caretakingLogic = new CaretakingLogicController(Mode.Normal);
-        private IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Normal);
+        private IAnimalLogic animalLogic = new AnimalLogicController(Mode.Production);
+        private IEmployeeLogic employeeLogic = new EmployeeLogicController(Mode.Production);
+        private ICaretakingLogic caretakingLogic = new CaretakingLogicController(Mode.Production);
+        private IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Production);
 
         public UserInterface()
         {
@@ -40,6 +40,7 @@ namespace DierenAsiel.UI
                 listViewItem.SubItems.Add(Enum.GetName(typeof(Animal.Genders), A.gender));
                 listViewItem.SubItems.Add(A.price.ToString());
                 listViewItem.SubItems.Add(Enum.GetName(typeof(Animal.Species), A.species));
+                listViewItem.SubItems.Add(A.breed);
                 listViewItem.SubItems.Add(A.cage.ToString());
                 listViewItem.SubItems.Add(A.reserved ? "Ja" : "Nee");
 
@@ -338,25 +339,29 @@ namespace DierenAsiel.UI
                 gender = (Animal.Genders)Enum.Parse(typeof(Animal.Genders), LvAnimalList.FocusedItem.SubItems[3].Text),
                 price = float.Parse(LvAnimalList.FocusedItem.SubItems[4].Text),
                 species = (Animal.Species)Enum.Parse(typeof(Animal.Species), LvAnimalList.FocusedItem.SubItems[5].Text),
-                cage = int.Parse(LvAnimalList.FocusedItem.SubItems[6].Text),
-                reserved = LvAnimalList.FocusedItem.SubItems[7].Text == "Ja" ? false : true
+                breed = LvAnimalList.FocusedItem.SubItems[6].Text,
+                cage = int.Parse(LvAnimalList.FocusedItem.SubItems[7].Text),
+                reserved = LvAnimalList.FocusedItem.SubItems[8].Text == "Ja" ? false : true
             });
             PopulateListView();
         }
 
-        private void label6_Click(object sender, EventArgs e)
+        private void wijzigDierToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var focusedItem = LvAnimalList.FocusedItem;
+            new EditForm(animalLogic.GetAllAnimals().Find(x =>
+                x.name == focusedItem.SubItems[0].Text &&
+                x.age == int.Parse(focusedItem.SubItems[1].Text) &&
+                x.weight == int.Parse(focusedItem.SubItems[2].Text) &&
+                x.gender == (Animal.Genders)Enum.Parse(typeof(Animal.Genders), focusedItem.SubItems[3].Text) &&
+                x.price == float.Parse(focusedItem.SubItems[4].Text) &&
+                x.species == (Animal.Species)Enum.Parse(typeof(Animal.Species), focusedItem.SubItems[5].Text) &&
+                x.breed == focusedItem.SubItems[6].Text &&
+                x.cage == int.Parse(focusedItem.SubItems[7].Text) &&
+                x.reserved == (focusedItem.SubItems[8].Text == "Ja" ? true : false)
+                )).Show();
 
-        }
-
-        private void NudAnimalPrice_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void NudAnimalCage_ValueChanged(object sender, EventArgs e)
-        {
-
+            PopulateListView();
         }
     }
 }

@@ -15,10 +15,10 @@ namespace DierenAsiel.Logic
 
         public CaretakingLogicController(Mode mode)
         {
-            if (mode == Mode.Normal)
+            if (mode == Mode.Production)
             {
                 database = Databases.productionDatabase;
-                AnimalLogic = new AnimalLogicController(Mode.Normal);
+                AnimalLogic = new AnimalLogicController(Mode.Production);
             }
             else if (mode == Mode.Test)
             {

@@ -14,7 +14,7 @@ namespace DierenAsiel.Logic
 
         public AnimalLogicController(Mode mode)
         {
-            if (mode == Mode.Normal)
+            if (mode == Mode.Production)
             {
                 database = Databases.productionDatabase;
             }
@@ -27,7 +27,12 @@ namespace DierenAsiel.Logic
         public void AddAnimal(Animal animal)
         {
             database.AddAnimal(animal);
-        }        
+        }
+
+        public void EditAnimal(Animal oldAnimal, Animal newAnimal)
+        {
+            database.EditAnimal(oldAnimal, newAnimal);
+        }
 
         public List<Animal> GetAllAnimals()
         {
