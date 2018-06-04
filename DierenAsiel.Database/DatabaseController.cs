@@ -11,8 +11,6 @@ namespace DierenAsiel.Database
 {
     public class DatabaseController : IAnimalDatabase, ICaretakingDatabase, IEmployeeDatabase, IUserDatabase
     {
-        private string connectionString;
-
         public string ConnectionString { get =>  ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString; }
 
         #region helperFunctions
