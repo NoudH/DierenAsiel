@@ -5,14 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DierenAsielASP.Models;
+using DierenAsielASP.Database;
 
 namespace DierenAsielASP.Controllers
 {
     public class AnimalController : Controller
     {
+        IDatabase database = new DatabaseManager();
+
         public IActionResult Index()
         {
-            List<AnimalModel> AllAnimals = Database.DatabaseManager.GetAllAnimalsNotReserved();
+            List<AnimalModel> AllAnimals = database.GetAllAnimalsNotReserved();
 
             return View(AllAnimals);
         }
@@ -20,7 +23,7 @@ namespace DierenAsielASP.Controllers
         [HttpPost]
         public IActionResult Animal(int index)
         {
-            AnimalModel model = Database.DatabaseManager.GetAllAnimalsNotReserved()[index];
+            AnimalModel model = database.GetAllAnimalsNotReserved()[index];
             return View(model);
         }
     }

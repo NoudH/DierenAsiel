@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DierenAsielASP.Database;
 
 namespace DierenAsielASP
 {
@@ -14,7 +15,7 @@ namespace DierenAsielASP
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Database.DatabaseManager.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            DatabaseManager.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public IConfiguration Configuration { get; }

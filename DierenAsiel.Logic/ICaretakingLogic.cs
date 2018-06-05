@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DierenAsiel;
 
 namespace DierenAsiel.Logic
 {
@@ -15,5 +16,9 @@ namespace DierenAsiel.Logic
         void SetCleanDate(int cageNumber, DateTime value, string employee);
         DateTime GetFeedingDate(Animal animal);
         void SetFeedingDate(Animal animal, DateTime value, Employee employee);
+        int GetFood(Enums.Foodtype type);
+        void AddFood(Enums.Foodtype type, int amount);
+        DateTime CalcDateWhenNoFoodLeft();
     }
+   
 }

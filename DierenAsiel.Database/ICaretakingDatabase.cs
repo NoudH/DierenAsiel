@@ -15,5 +15,7 @@ namespace DierenAsiel.Database
         void SetFeedingDate(Animal animal, DateTime value, Employee employee);
         DateTime GetUitlaatDate(Animal animal);
         void SetUitlaatDate(Animal animal, Employee employee, DateTime date);
+        int GetFood(Enums.Foodtype type);
+        void AddFood(Enums.Foodtype type, int amount);
     }
 }

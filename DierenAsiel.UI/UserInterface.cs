@@ -27,6 +27,12 @@ namespace DierenAsiel.UI
             SetComboBoxes();
 
             PopulateListView();
+
+            DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
+            if (DtpEmptySupplies.Value <= new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1))
+            {
+                MessageBox.Show("WAARSCHUWING: De vooraad eten is bijna op! Er wordt aangeraden om nieuw eten te bestellen!", "Waarschuwing!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void PopulateListView()
@@ -362,6 +368,21 @@ namespace DierenAsiel.UI
                 )).Show();
 
             PopulateListView();
+        }
+
+        private void BtnAddFood_Click(object sender, EventArgs e)
+        {
+            if (NudDogFood.Value > 0)
+            {
+                caretakingLogic.AddFood(Enums.Foodtype.Dogfood, (int)NudDogFood.Value);
+                TxtDogFood.Text = caretakingLogic.GetFood(Enums.Foodtype.Dogfood).ToString();
+            }
+            if (NudCatfood.Value > 0)
+            {
+                caretakingLogic.AddFood(Enums.Foodtype.Catfood, (int)NudCatfood.Value);
+                TxtCatFood.Text = caretakingLogic.GetFood(Enums.Foodtype.Catfood).ToString();
+            }
+            DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
         }
     }
 }

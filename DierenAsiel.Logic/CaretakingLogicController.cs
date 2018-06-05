@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DierenAsiel.Database;
+using System.Windows.Forms;
 using static DierenAsiel.Logic.Modes;
 
 namespace DierenAsiel.Logic
@@ -11,26 +12,47 @@ namespace DierenAsiel.Logic
     public class CaretakingLogicController : ICaretakingLogic
     {
         ICaretakingDatabase database;
-        IAnimalLogic AnimalLogic;
+        IAnimalLogic animalLogic;
 
         public CaretakingLogicController(Mode mode)
         {
             if (mode == Mode.Production)
             {
                 database = Databases.productionDatabase;
-                AnimalLogic = new AnimalLogicController(Mode.Production);
+                animalLogic = new AnimalLogicController(Mode.Production);
             }
             else if (mode == Mode.Test)
             {
                 database = Databases.testDatabase;
-                AnimalLogic = new AnimalLogicController(Mode.Test);
+                animalLogic = new AnimalLogicController(Mode.Test);
             }
+        }
+
+        public void AddFood(Enums.Foodtype type, int amount)
+        {
+            database.AddFood(type, amount);
+        }
+
+        public DateTime CalcDateWhenNoFoodLeft()
+        {
+            List<Animal> animals = animalLogic.GetAllAnimals();
+            decimal leastDaysLeft = -1;
+            foreach (Enums.Foodtype type in Enum.GetValues(typeof(Enums.Foodtype)))
+            {
+                decimal daysLeft = (GetFood(type) / animals.Where(x => (int)x.species == (int)type).ToList().Count);
+                if (daysLeft < leastDaysLeft || leastDaysLeft == -1)
+                {
+                    leastDaysLeft = daysLeft;
+                }
+            }
+            DateTime date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + (int)Math.Floor(leastDaysLeft));            
+            return date;
         }
 
         public List<Cage> GetAllCages()
         {
             List<Cage> Cages = database.GetAllCages();
-            List<Animal> Animals = AnimalLogic.GetAllAnimals();
+            List<Animal> Animals = animalLogic.GetAllAnimals();
             foreach (Cage cage in Cages)
             {
                 cage.lastCleaningdate = database.GetCleaningdate(cage);
@@ -47,6 +69,11 @@ namespace DierenAsiel.Logic
         public DateTime GetFeedingDate(Animal animal)
         {
             return database.GetFeedingDates(animal).First();
+        }
+
+        public int GetFood(Enums.Foodtype type)
+        {
+            return database.GetFood(type);
         }
 
         public DateTime GetUitlaatDate(Animal animal)

@@ -486,5 +486,37 @@ namespace DierenAsiel.Database
             };
             ExecuteNonQuery(query, parameters);
         }
+
+        public int GetFood(Enums.Foodtype type)
+        {
+            string query = "Select Amount from Food where Foodtype = @Foodtype";
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {               
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("Foodtype", type.ToString()));
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return reader.GetInt32(0);
+                        }
+                        return 0;
+                    }
+                }
+            }
+        }
+
+        public void AddFood(Enums.Foodtype type, int amount)
+        {
+            string query = "Update Food set Amount = @Amount where Foodtype = @Foodtype";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Foodtype", type.ToString()),
+                new SqlParameter("Amount", amount)
+            };
+            ExecuteNonQuery(query, parameters);
+        }
     }
 }

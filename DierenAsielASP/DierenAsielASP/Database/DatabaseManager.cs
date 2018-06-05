@@ -9,11 +9,11 @@ using DierenAsielASP.Models;
 
 namespace DierenAsielASP.Database
 {
-    public static class DatabaseManager
+    public class DatabaseManager : IDatabase
     {
         public static string ConnectionString;
 
-        private static void ExecuteNonQuery(string query, SqlParameter[] parameters)
+        private void ExecuteNonQuery(string query, SqlParameter[] parameters)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -26,7 +26,7 @@ namespace DierenAsielASP.Database
             }
         }
 
-        private static IEnumerable<IDataRecord> CreateReader(string query, SqlParameter[] parameters)
+        private IEnumerable<IDataRecord> CreateReader(string query, SqlParameter[] parameters)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -45,7 +45,7 @@ namespace DierenAsielASP.Database
             }
         }
 
-        public static List<AnimalModel> GetAllAnimals()
+        public List<AnimalModel> GetAllAnimals()
         {
             List<AnimalModel> AllAnimals = new List<AnimalModel>();
             string query = $"Select * from Animals";
@@ -74,7 +74,7 @@ namespace DierenAsielASP.Database
             return AllAnimals;
         }
 
-        public static List<string> GetCharacteristicsFromAnimal(AnimalModel animal)
+        public List<string> GetCharacteristicsFromAnimal(AnimalModel animal)
         {
             List<string> characteristics = new List<string>();
             string query = $"select Characteristic from Characteristics where AnimalId = (select id from Animals where Name = @Name and Age = @Age and Weight = @Weight and Gender = @Gender and Species = @Species and Cage = @Cage)";
@@ -95,7 +95,7 @@ namespace DierenAsielASP.Database
             return characteristics;
         }
 
-        public static List<AnimalModel> GetAllAnimalsNotReserved()
+        public List<AnimalModel> GetAllAnimalsNotReserved()
         {
             return GetAllAnimals().Where(x => !x.reserved).ToList();
         }

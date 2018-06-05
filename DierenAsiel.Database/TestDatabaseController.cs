@@ -35,6 +35,12 @@ namespace DierenAsiel.Database
             public Employee employee;
         }
 
+        public struct Food
+        {
+            public Enums.Foodtype foodtype;
+            public int Amount;
+        }
+
         public List<Animal> Animals = new List<Animal>();
         public List<Employee> Employees = new List<Employee>();
         public List<User> Users = new List<User>();
@@ -42,12 +48,17 @@ namespace DierenAsiel.Database
         public List<CleaningDate> CleaningDates = new List<CleaningDate>();
         public List<WalkingDate> WalkingDates = new List<WalkingDate>();
         public List<FeedingDate> FeedingDates = new List<FeedingDate>();
+        public List<Food> FoodCount = new List<Food>();
 
         public TestDatabaseController()
         {
             for (int i = 0; i < 1000; i++)
             {
                 Cages.Add(new Cage() { cageNumber = i });
+            }
+            foreach (Enums.Foodtype item in Enum.GetValues(typeof(Enums.Foodtype)))
+            {
+                FoodCount.Add(new Food() { foodtype = item, Amount = 0 });
             }
         }
 
@@ -144,6 +155,16 @@ namespace DierenAsiel.Database
         public void EditAnimal(Animal oldAnimal, Animal newAnimal)
         {
             Animals[Animals.FindIndex(x => x == oldAnimal)] = newAnimal;
+        }
+
+        public int GetFood(Enums.Foodtype type)
+        {
+            return FoodCount.Where(x => x.foodtype == type).Select(x => x.Amount).First();
+        }
+
+        public void AddFood(Enums.Foodtype type, int amount)
+        {
+            FoodCount[FoodCount.FindIndex(x => x.foodtype == type)] = new Food() { foodtype = type, Amount = amount};
         }
     }
 }

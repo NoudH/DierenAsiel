@@ -37,6 +37,38 @@ namespace DierenAsiel.UnitTest
             reserved = false
         };
 
+        Animal testAnimal1 = new Animal()
+        {
+            name = "Keesje",
+            age = 3,
+            weight = 10,
+            species = Animal.Species.Cat,
+            gender = Animal.Genders.Male,
+            cage = 0,
+            breed = "Britse Langhaar",
+            characteristics = new List<string>() { "Aardig", "Zacht", "Druk" },
+            image = "Base64 string",
+            price = 120.50f,
+            about = "Afgestaan door het oude baasje.",
+            reserved = false
+        };
+
+        Animal testAnimal2 = new Animal()
+        {
+            name = "Rufus",
+            age = 3,
+            weight = 10,
+            species = Animal.Species.Dog,
+            gender = Animal.Genders.Female,
+            cage = 0,
+            breed = "Britse Langhaar",
+            characteristics = new List<string>() { "Aardig", "Zacht", "Druk" },
+            image = "Base64 string",
+            price = 120.50f,
+            about = "Afgestaan door het oude baasje.",
+            reserved = false
+        };
+
         Employee testEmployee = new Employee()
         {
             name = "Kees Hermans",
@@ -59,6 +91,7 @@ namespace DierenAsiel.UnitTest
         public void RemoveAnimal()
         {
             animalLogic.AddAnimal(testAnimal);
+            //check if added
             animalLogic.RemoveAnimal(testAnimal);
 
             Assert.IsFalse(database.GetAllAnimals().Contains(testAnimal));
@@ -87,6 +120,24 @@ namespace DierenAsiel.UnitTest
             authenticationLogic.CreateUser("Kees", "MyPassword123");
 
             Assert.IsTrue(authenticationLogic.Login("Kees", "MyPassword123"));
+        }
+
+        [TestMethod()]
+        public void AddFoodOfDifferentKinds()
+        {
+            caretakingLogic.AddFood(Enums.Foodtype.Dogfood, 4);
+            caretakingLogic.AddFood(Enums.Foodtype.Catfood, 6);
+            Assert.IsTrue(database.FoodCount.Where(x => x.foodtype == Enums.Foodtype.Dogfood).Select(x => x.Amount).First() == 4 && database.FoodCount.Where(x => x.foodtype == Enums.Foodtype.Catfood).Select(x => x.Amount).First() == 6);
+        }
+
+        [TestMethod()]
+        public void CalcDaysLeftOfFood()
+        {
+            database.Animals.AddRange(new Animal[] { testAnimal, testAnimal1, testAnimal2 });
+            caretakingLogic.AddFood(Enums.Foodtype.Dogfood, 4);
+            caretakingLogic.AddFood(Enums.Foodtype.Catfood, 6);
+
+            Assert.IsTrue(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 3) == caretakingLogic.CalcDateWhenNoFoodLeft());
         }
     }
 }

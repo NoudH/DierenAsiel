@@ -64,6 +64,7 @@
             this.ChGender = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ChPrice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ChSpecies = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ChBreed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ChCage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ChReserved = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TpEmployees = new System.Windows.Forms.TabPage();
@@ -124,6 +125,18 @@
             this.label17 = new System.Windows.Forms.Label();
             this.LbCages = new System.Windows.Forms.ListBox();
             this.TpFeeding = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.BtnAddFood = new System.Windows.Forms.Button();
+            this.NudDogFood = new System.Windows.Forms.NumericUpDown();
+            this.NudCatfood = new System.Windows.Forms.NumericUpDown();
+            this.label33 = new System.Windows.Forms.Label();
+            this.DtpEmptySupplies = new System.Windows.Forms.DateTimePicker();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.TxtCatFood = new System.Windows.Forms.TextBox();
+            this.TxtDogFood = new System.Windows.Forms.TextBox();
             this.BtnUpdateFeeding = new System.Windows.Forms.Button();
             this.label28 = new System.Windows.Forms.Label();
             this.CbFeedingEmployee = new System.Windows.Forms.ComboBox();
@@ -138,9 +151,8 @@
             this.verschoonHokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uitlatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleReserveringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OfdImage = new System.Windows.Forms.OpenFileDialog();
-            this.ChBreed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.wijzigDierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OfdImage = new System.Windows.Forms.OpenFileDialog();
             this.TcMain.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
@@ -161,6 +173,9 @@
             this.TpCages.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.TpFeeding.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NudDogFood)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NudCatfood)).BeginInit();
             this.CmsAnimals.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -521,6 +536,10 @@
             // ChSpecies
             // 
             this.ChSpecies.Text = "Soort";
+            // 
+            // ChBreed
+            // 
+            this.ChBreed.Text = "Breed";
             // 
             // ChCage
             // 
@@ -1105,6 +1124,7 @@
             // 
             // TpFeeding
             // 
+            this.TpFeeding.Controls.Add(this.groupBox4);
             this.TpFeeding.Controls.Add(this.BtnUpdateFeeding);
             this.TpFeeding.Controls.Add(this.label28);
             this.TpFeeding.Controls.Add(this.CbFeedingEmployee);
@@ -1120,6 +1140,122 @@
             this.TpFeeding.TabIndex = 6;
             this.TpFeeding.Text = "Voeding";
             this.TpFeeding.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label34);
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.BtnAddFood);
+            this.groupBox4.Controls.Add(this.NudDogFood);
+            this.groupBox4.Controls.Add(this.NudCatfood);
+            this.groupBox4.Controls.Add(this.label33);
+            this.groupBox4.Controls.Add(this.DtpEmptySupplies);
+            this.groupBox4.Controls.Add(this.label32);
+            this.groupBox4.Controls.Add(this.label31);
+            this.groupBox4.Controls.Add(this.TxtCatFood);
+            this.groupBox4.Controls.Add(this.TxtDogFood);
+            this.groupBox4.Location = new System.Drawing.Point(359, 7);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(332, 371);
+            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Vooraad";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(7, 300);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(62, 13);
+            this.label34.TabIndex = 10;
+            this.label34.Text = "Kattenvoer:";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(7, 255);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(69, 13);
+            this.label35.TabIndex = 9;
+            this.label35.Text = "Hondenvoer:";
+            // 
+            // BtnAddFood
+            // 
+            this.BtnAddFood.Location = new System.Drawing.Point(10, 342);
+            this.BtnAddFood.Name = "BtnAddFood";
+            this.BtnAddFood.Size = new System.Drawing.Size(135, 23);
+            this.BtnAddFood.TabIndex = 8;
+            this.BtnAddFood.Text = "Voeg toe aan vooraad.";
+            this.BtnAddFood.UseVisualStyleBackColor = true;
+            this.BtnAddFood.Click += new System.EventHandler(this.BtnAddFood_Click);
+            // 
+            // NudDogFood
+            // 
+            this.NudDogFood.Location = new System.Drawing.Point(10, 271);
+            this.NudDogFood.Name = "NudDogFood";
+            this.NudDogFood.Size = new System.Drawing.Size(135, 20);
+            this.NudDogFood.TabIndex = 7;
+            // 
+            // NudCatfood
+            // 
+            this.NudCatfood.Location = new System.Drawing.Point(10, 316);
+            this.NudCatfood.Name = "NudCatfood";
+            this.NudCatfood.Size = new System.Drawing.Size(135, 20);
+            this.NudCatfood.TabIndex = 6;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(4, 134);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(204, 13);
+            this.label33.TabIndex = 5;
+            this.label33.Text = "Verwachte datum waarbij vooraad leeg is.";
+            // 
+            // DtpEmptySupplies
+            // 
+            this.DtpEmptySupplies.Enabled = false;
+            this.DtpEmptySupplies.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtpEmptySupplies.Location = new System.Drawing.Point(7, 150);
+            this.DtpEmptySupplies.Name = "DtpEmptySupplies";
+            this.DtpEmptySupplies.Size = new System.Drawing.Size(138, 20);
+            this.DtpEmptySupplies.TabIndex = 4;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(3, 71);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(62, 13);
+            this.label32.TabIndex = 3;
+            this.label32.Text = "Kattenvoer:";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(3, 26);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(69, 13);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "Hondenvoer:";
+            // 
+            // TxtCatFood
+            // 
+            this.TxtCatFood.Enabled = false;
+            this.TxtCatFood.Location = new System.Drawing.Point(6, 87);
+            this.TxtCatFood.Name = "TxtCatFood";
+            this.TxtCatFood.Size = new System.Drawing.Size(139, 20);
+            this.TxtCatFood.TabIndex = 1;
+            this.TxtCatFood.Text = "0";
+            // 
+            // TxtDogFood
+            // 
+            this.TxtDogFood.Enabled = false;
+            this.TxtDogFood.Location = new System.Drawing.Point(6, 42);
+            this.TxtDogFood.Name = "TxtDogFood";
+            this.TxtDogFood.Size = new System.Drawing.Size(139, 20);
+            this.TxtDogFood.TabIndex = 0;
+            this.TxtDogFood.Text = "0";
             // 
             // BtnUpdateFeeding
             // 
@@ -1189,7 +1325,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(536, 7);
+            this.label25.Location = new System.Drawing.Point(185, 7);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(41, 13);
             this.label25.TabIndex = 1;
@@ -1198,7 +1334,7 @@
             // LbFeedingAnimals
             // 
             this.LbFeedingAnimals.FormattingEnabled = true;
-            this.LbFeedingAnimals.Location = new System.Drawing.Point(539, 23);
+            this.LbFeedingAnimals.Location = new System.Drawing.Point(188, 23);
             this.LbFeedingAnimals.Name = "LbFeedingAnimals";
             this.LbFeedingAnimals.Size = new System.Drawing.Size(152, 355);
             this.LbFeedingAnimals.TabIndex = 0;
@@ -1213,7 +1349,7 @@
             this.toggleReserveringToolStripMenuItem,
             this.wijzigDierToolStripMenuItem});
             this.CmsAnimals.Name = "CmsAnimals";
-            this.CmsAnimals.Size = new System.Drawing.Size(181, 136);
+            this.CmsAnimals.Size = new System.Drawing.Size(172, 114);
             // 
             // geefEtenToolStripMenuItem
             // 
@@ -1243,20 +1379,16 @@
             this.toggleReserveringToolStripMenuItem.Text = "Toggle reservering";
             this.toggleReserveringToolStripMenuItem.Click += new System.EventHandler(this.toggleReserveringToolStripMenuItem_Click);
             // 
-            // OfdImage
-            // 
-            this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
-            // 
-            // ChBreed
-            // 
-            this.ChBreed.Text = "Breed";
-            // 
             // wijzigDierToolStripMenuItem
             // 
             this.wijzigDierToolStripMenuItem.Name = "wijzigDierToolStripMenuItem";
-            this.wijzigDierToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wijzigDierToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.wijzigDierToolStripMenuItem.Text = "Wijzig dier";
             this.wijzigDierToolStripMenuItem.Click += new System.EventHandler(this.wijzigDierToolStripMenuItem_Click);
+            // 
+            // OfdImage
+            // 
+            this.OfdImage.Filter = "Image files|*.jpg;*.jpeg;*.png;";
             // 
             // UserInterface
             // 
@@ -1297,6 +1429,10 @@
             this.groupBox3.PerformLayout();
             this.TpFeeding.ResumeLayout(false);
             this.TpFeeding.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NudDogFood)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NudCatfood)).EndInit();
             this.CmsAnimals.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1416,6 +1552,18 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.ColumnHeader ChBreed;
         private System.Windows.Forms.ToolStripMenuItem wijzigDierToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox TxtCatFood;
+        private System.Windows.Forms.TextBox TxtDogFood;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Button BtnAddFood;
+        private System.Windows.Forms.NumericUpDown NudDogFood;
+        private System.Windows.Forms.NumericUpDown NudCatfood;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.DateTimePicker DtpEmptySupplies;
     }
 }
 
