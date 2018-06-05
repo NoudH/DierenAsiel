@@ -26,7 +26,7 @@ namespace DierenAsiel.UI
 
             SetComboBoxes();
 
-            PopulateListView();
+            UpdateLists();
 
             DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
             if (DtpEmptySupplies.Value <= new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1))
@@ -35,7 +35,10 @@ namespace DierenAsiel.UI
             }
         }
 
-        private void PopulateListView()
+        /// <summary>
+        /// Refreshes listview/listbox related content.
+        /// </summary>
+        private void UpdateLists()
         {
             LvAnimalList.Items.Clear();
             foreach (Animal A in animalLogic.GetAllAnimals())
@@ -80,6 +83,9 @@ namespace DierenAsiel.UI
             
         }
 
+        /// <summary>
+        /// Sets combobox related content.
+        /// </summary>
         private void SetComboBoxes()
         {
             CbAnimalType.Items.Clear();
@@ -108,6 +114,11 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// Button click event that when triggered adds the animal to the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             if (TxtAnimalName.Text != "" && NudAnimalWeight.Value != 0 && RtbCharacteristics.Text != "" && PbAnimalImage.Image != null)
@@ -118,7 +129,7 @@ namespace DierenAsiel.UI
                 Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species), CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64, breed = TxtBreed.Text, about = RtbAbout.Text };
                 animalLogic.AddAnimal(A);
                 PbAnimalImage.Image = null;
-                PopulateListView();
+                UpdateLists();
 
                 MessageBox.Show("Dier succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
             }
@@ -128,6 +139,11 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// Button click event that when triggered that removes the specified animal from the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAnimalDelete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show($"Weet je zeker dat je {LvAnimalList.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -146,16 +162,21 @@ namespace DierenAsiel.UI
                     };
 
                     animalLogic.RemoveAnimal(A);
-                    PopulateListView();
+                    UpdateLists();
                 }
             }   
         }
 
-        private void BtnUitlaten_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Button click event that when clicked 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnWalking_Click(object sender, EventArgs e)
         {
             if (CbUitlaatEmployees.Text != "")
             {
-                caretakingLogic.SetUitlaatDate(animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), employeeLogic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
+                caretakingLogic.SetWalkingDate(animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), employeeLogic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
                 LbDogs_SelectedIndexChanged(null, null);
             }
             else
@@ -170,7 +191,7 @@ namespace DierenAsiel.UI
                 TxtUitlaatNaam.Text = A.name;
                 NudUitlaatAge.Value = A.age;
                 RadUitlaatFemale.Checked = (A.gender == Animal.Genders.Female) ? true : false;
-                DtpLaatstUitgelaten.Value = caretakingLogic.GetUitlaatDate(A);           
+                DtpLaatstUitgelaten.Value = caretakingLogic.GetWalkingDate(A);           
         }
 
         private void BtnAddEmployee_Click(object sender, EventArgs e)
@@ -178,7 +199,7 @@ namespace DierenAsiel.UI
             if (TxtEmployeeName.Text != "" && TxtEmployeeAddress.Text != "" && TxtEmployeePhone.Text != "" && (CheckCreateUserAccount.Checked ? (TxtUsername.Text != "" && TxtPassword.Text != "") : true))
             {
                 employeeLogic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text });
-                PopulateListView();
+                UpdateLists();
                 SetComboBoxes();
 
                 if (CheckCreateUserAccount.Checked)
@@ -234,7 +255,7 @@ namespace DierenAsiel.UI
                     };
 
                     employeeLogic.RemoveEmployee(E);
-                    PopulateListView();
+                    UpdateLists();
                 }
             }
         }
@@ -349,7 +370,7 @@ namespace DierenAsiel.UI
                 cage = int.Parse(LvAnimalList.FocusedItem.SubItems[7].Text),
                 reserved = LvAnimalList.FocusedItem.SubItems[8].Text == "Ja" ? false : true
             });
-            PopulateListView();
+            UpdateLists();
         }
 
         private void wijzigDierToolStripMenuItem_Click(object sender, EventArgs e)
@@ -367,7 +388,7 @@ namespace DierenAsiel.UI
                 x.reserved == (focusedItem.SubItems[8].Text == "Ja" ? true : false)
                 )).Show();
 
-            PopulateListView();
+            UpdateLists();
         }
 
         private void BtnAddFood_Click(object sender, EventArgs e)

@@ -99,7 +99,7 @@
             this.CbUitlaatEmployees = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.DtpUitlaatDate = new System.Windows.Forms.DateTimePicker();
-            this.BtnUitlaten = new System.Windows.Forms.Button();
+            this.BtnWalking = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.DtpLaatstUitgelaten = new System.Windows.Forms.DateTimePicker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -815,7 +815,7 @@
             this.TpUitlaten.Controls.Add(this.CbUitlaatEmployees);
             this.TpUitlaten.Controls.Add(this.label11);
             this.TpUitlaten.Controls.Add(this.DtpUitlaatDate);
-            this.TpUitlaten.Controls.Add(this.BtnUitlaten);
+            this.TpUitlaten.Controls.Add(this.BtnWalking);
             this.TpUitlaten.Controls.Add(this.label10);
             this.TpUitlaten.Controls.Add(this.DtpLaatstUitgelaten);
             this.TpUitlaten.Controls.Add(this.groupBox1);
@@ -868,15 +868,15 @@
             this.DtpUitlaatDate.Size = new System.Drawing.Size(186, 20);
             this.DtpUitlaatDate.TabIndex = 15;
             // 
-            // BtnUitlaten
+            // BtnWalking
             // 
-            this.BtnUitlaten.Location = new System.Drawing.Point(11, 357);
-            this.BtnUitlaten.Name = "BtnUitlaten";
-            this.BtnUitlaten.Size = new System.Drawing.Size(75, 23);
-            this.BtnUitlaten.TabIndex = 14;
-            this.BtnUitlaten.Text = "Update";
-            this.BtnUitlaten.UseVisualStyleBackColor = true;
-            this.BtnUitlaten.Click += new System.EventHandler(this.BtnUitlaten_Click);
+            this.BtnWalking.Location = new System.Drawing.Point(11, 357);
+            this.BtnWalking.Name = "BtnWalking";
+            this.BtnWalking.Size = new System.Drawing.Size(75, 23);
+            this.BtnWalking.TabIndex = 14;
+            this.BtnWalking.Text = "Update";
+            this.BtnWalking.UseVisualStyleBackColor = true;
+            this.BtnWalking.Click += new System.EventHandler(this.BtnWalking_Click);
             // 
             // label10
             // 
@@ -1483,7 +1483,7 @@
         private System.Windows.Forms.DateTimePicker DtpLaatstUitgelaten;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DateTimePicker DtpUitlaatDate;
-        private System.Windows.Forms.Button BtnUitlaten;
+        private System.Windows.Forms.Button BtnWalking;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox CbUitlaatEmployees;
         private System.Windows.Forms.TabPage TpEmployees;

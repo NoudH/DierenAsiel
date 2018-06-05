@@ -76,7 +76,7 @@ namespace DierenAsiel.Logic
             return database.GetFood(type);
         }
 
-        public DateTime GetUitlaatDate(Animal animal)
+        public DateTime GetWalkingDate(Animal animal)
         {
             if (animal.species != Animal.Species.Dog)
             {
@@ -98,7 +98,7 @@ namespace DierenAsiel.Logic
             database.SetFeedingDate(animal, value, employee);
         }
 
-        public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
+        public void SetWalkingDate(Animal animal, Employee employee, DateTime date)
         {
             database.SetWalkingDate(animal, employee, date);
         }
