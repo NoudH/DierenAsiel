@@ -631,7 +631,7 @@
             this.CheckCreateUserAccount.TabIndex = 22;
             this.CheckCreateUserAccount.Text = "Maak gebruikers account aan.";
             this.CheckCreateUserAccount.UseVisualStyleBackColor = true;
-            this.CheckCreateUserAccount.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.CheckCreateUserAccount.CheckedChanged += new System.EventHandler(this.CheckCreateUserAccount_CheckedChanged);
             // 
             // TxtEmployeePhone
             // 

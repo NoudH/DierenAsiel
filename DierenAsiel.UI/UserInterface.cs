@@ -168,7 +168,7 @@ namespace DierenAsiel.UI
         }
 
         /// <summary>
-        /// Button click event that when clicked 
+        /// Button click event that when clicked updates the walking date.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -185,6 +185,12 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// Event that triggers when another item in the listbox is clicked/focused.
+        /// Shows the information of the chosen item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LbDogs_SelectedIndexChanged(object sender, EventArgs e)
         {            
                 Animal A = animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex);
@@ -194,6 +200,11 @@ namespace DierenAsiel.UI
                 DtpLaatstUitgelaten.Value = caretakingLogic.GetWalkingDate(A);           
         }
 
+        /// <summary>
+        /// A button click event that when triggered uses the information to add a new employee.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAddEmployee_Click(object sender, EventArgs e)
         {
             if (TxtEmployeeName.Text != "" && TxtEmployeeAddress.Text != "" && TxtEmployeePhone.Text != "" && (CheckCreateUserAccount.Checked ? (TxtUsername.Text != "" && TxtPassword.Text != "") : true))
@@ -215,6 +226,12 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// This event is triggered when a column on the list is clicked.
+        /// It orders/sorts the list based on the chosen column.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LvAnimalList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             List<ListViewItem> sortList = new List<ListViewItem>();
@@ -227,6 +244,12 @@ namespace DierenAsiel.UI
             LvAnimalList.Items.AddRange(sortList.ToArray());
         }
 
+        /// <summary>
+        /// This event is triggered when a column on the list is clicked.
+        /// It orders/sorts the list based on the chosen column.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LvEmployees_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             List<ListViewItem> sortList = new List<ListViewItem>();
@@ -239,6 +262,11 @@ namespace DierenAsiel.UI
             LvEmployees.Items.AddRange(sortList.ToArray());
         }
 
+        /// <summary>
+        /// Button click event that when triggered removes the employee.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnRemoveEmployee_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show($"Weet je zeker dat je {LvEmployees.SelectedItems[0].Text} wilt verwijderen?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -260,6 +288,12 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// Event that triggers when another item in the listbox is clicked/focused.
+        /// Shows the information of the chosen item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LbCages_SelectedIndexChanged(object sender, EventArgs e)
         {
             Cage C = caretakingLogic.GetCage(int.Parse(LbCages.SelectedItem.ToString()));
@@ -268,6 +302,11 @@ namespace DierenAsiel.UI
             LbCageAnimals.Items.AddRange(C.animals.ToArray());
         }
 
+        /// <summary>
+        /// Button click event that when triggered updates the the cleaning date of the cage.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnUpdateCleandate_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(CbCleanEmployee.Text))
@@ -281,6 +320,11 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// Mouseclick event that when triggered shows a context menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LvAnimalList_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -294,12 +338,22 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// A toolstrip click event that when triggered shows the "voeding" tab with the chosen animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void geefEtenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LbFeedingAnimals.SelectedIndex = LbFeedingAnimals.FindString(LvAnimalList.FocusedItem.SubItems[0].Text);
             TcMain.SelectedTab = TcMain.TabPages["TpFeeding"];
         }
 
+        /// <summary>
+        /// A toolstrip click event that when triggered shows the "Hokken" tab with the cage of the chosen animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void verschoonHokToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TcMain.SelectedTab = TcMain.TabPages["TpCages"];
@@ -313,28 +367,56 @@ namespace DierenAsiel.UI
             ).cage];
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// When checked, shows the controls needed to create a new user account.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckCreateUserAccount_CheckedChanged(object sender, EventArgs e)
         {
             GbUserInfo.Enabled = CheckCreateUserAccount.Checked;
             GbUserInfo.Visible = CheckCreateUserAccount.Checked;
         }
 
+        /// <summary>
+        /// When the userinterface form is closed, stop the application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserInterface_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //This is needed because the application.run() in program.cs is not tied to this form.
             Application.Exit();
         }
 
+        /// <summary>
+        /// A toolstrip click event that when triggered shows the "uitlaten" tab with the chosen animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void uitlatenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LbDogs.SelectedIndex = LbDogs.FindString(LvAnimalList.FocusedItem.SubItems[0].Text);
             TcMain.SelectedTab = TcMain.TabPages["TpUitlaten"];
         }
 
+        /// <summary>
+        /// Event that triggers when another item in the listbox is clicked/focused.
+        /// Shows the information of the chosen item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LbFeedingAnimals_SelectedIndexChanged(object sender, EventArgs e)
         {
             DtpLastFeedingDate.Value = caretakingLogic.GetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex));
         }
 
+        /// <summary>
+        /// Event that triggers when another item in the listbox is clicked/focused.
+        /// Shows the information of the chosen item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnUpdateFeeding_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(CbFeedingEmployee.Text))
@@ -348,6 +430,11 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// Button click event that shows the openfiledialog which is used to add a picture to the animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnImagepicker_Click(object sender, EventArgs e)
         {
             if (OfdImage.ShowDialog() == DialogResult.OK)
@@ -356,6 +443,11 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// A toolstrip click event that when triggered toggles if the animal is reserved or not.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toggleReserveringToolStripMenuItem_Click(object sender, EventArgs e)
         {
             animalLogic.SetReserved(new Animal()
@@ -373,6 +465,11 @@ namespace DierenAsiel.UI
             UpdateLists();
         }
 
+        /// <summary>
+        /// A toolstrip click event that when triggered shows the "EditForm" with the information of the chosen animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void wijzigDierToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var focusedItem = LvAnimalList.FocusedItem;
@@ -391,6 +488,11 @@ namespace DierenAsiel.UI
             UpdateLists();
         }
 
+        /// <summary>
+        /// Button event that when clicked adds the inserted amount of foodportions to the total amount of food portions.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAddFood_Click(object sender, EventArgs e)
         {
             if (NudDogFood.Value > 0)
