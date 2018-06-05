@@ -112,7 +112,7 @@ namespace DierenAsiel.Database
             return FeedingDates.FindAll(x => x.animal == animal).Select(y => y.date).ToList();
         }
 
-        public DateTime GetUitlaatDate(Animal animal)
+        public DateTime GetWalkingDate(Animal animal)
         {
             return WalkingDates.FindAll(x => x.animal == animal).Select(y => y.date).Max();
         }
@@ -147,7 +147,7 @@ namespace DierenAsiel.Database
             Animals.Find(x => x.name == animal.name && x.price == animal.price && x.age == animal.age && x.weight == animal.weight);
         }
 
-        public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
+        public void SetWalkingDate(Animal animal, Employee employee, DateTime date)
         {
             WalkingDates.Add(new WalkingDate() { animal = animal, employee = employee, date = date });
         }

@@ -127,7 +127,7 @@ namespace DierenAsiel.Database
             ExecuteNonQuery(query, parameters);
         }
 
-        public DateTime GetUitlaatDate(Animal animal)
+        public DateTime GetWalkingDate(Animal animal)
         {
             string query = $"Select Top 1 Walking.Date from Walking, Animals where Walking.AnimalId = Animals.Id AND Animals.Name = @Name AND Animals.Age = @Age AND Animals.Weight = @Weight AND Animals.Gender = @Gender AND Animals.Species = @Species order by Walking.Date desc";
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -156,7 +156,7 @@ namespace DierenAsiel.Database
             }
         }
 
-        public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
+        public void SetWalkingDate(Animal animal, Employee employee, DateTime date)
         {            
             string query = $"insert into Walking (AnimalId, Date, EmployeeId) Values((select Id from Animals where Name = @Name AND Species = @Species AND Weight = @Weight AND Gender = @Gender), @Date, (select Id from Employees where Name = @EmployeeName))";
             SqlParameter[] parameters = {

@@ -84,7 +84,7 @@ namespace DierenAsiel.Logic
             }
             else
             {
-                return database.GetUitlaatDate(animal);
+                return database.GetWalkingDate(animal);
             }
         }
 
@@ -100,7 +100,7 @@ namespace DierenAsiel.Logic
 
         public void SetUitlaatDate(Animal animal, Employee employee, DateTime date)
         {
-            database.SetUitlaatDate(animal, employee, date);
+            database.SetWalkingDate(animal, employee, date);
         }
     }
 }
