@@ -28,8 +28,24 @@ namespace DierenAsiel.UI
 
             UpdateLists();
 
+            DateTimePickersSettings();
+        }
+
+        /// <summary>
+        /// Sets the settings of the datetimepickers
+        /// </summary>
+        private void DateTimePickersSettings()
+        {
+            DtpNewCleandate.MinDate = DateTime.Today.AddDays(-7);
+            DtpNewFeedingDate.MinDate = DateTime.Today.AddDays(-7);
+            DtpUitlaatDate.MaxDate = DateTime.Today.AddDays(-7);
+
+            DtpNewCleandate.MaxDate = DateTime.Today;
+            DtpNewFeedingDate.MaxDate = DateTime.Today;
+            DtpUitlaatDate.MaxDate = DateTime.Today;
+
             DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
-            if (DtpEmptySupplies.Value <= new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1))
+            if (DtpEmptySupplies.Value <= DateTime.Today.AddDays(1))
             {
                 MessageBox.Show("WAARSCHUWING: De vooraad eten is bijna op! Er wordt aangeraden om nieuw eten te bestellen!", "Waarschuwing!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
