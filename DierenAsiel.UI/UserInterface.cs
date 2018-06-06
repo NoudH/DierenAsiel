@@ -499,7 +499,7 @@ namespace DierenAsiel.UI
                 x.breed == focusedItem.SubItems[6].Text &&
                 x.cage == int.Parse(focusedItem.SubItems[7].Text) &&
                 x.reserved == (focusedItem.SubItems[8].Text == "Ja" ? true : false)
-                )).Show();
+                )).ShowDialog();
 
             UpdateLists();
         }
