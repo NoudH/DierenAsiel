@@ -11,7 +11,7 @@ namespace DierenAsiel.Database
 {
     public class DatabaseController : IAnimalDatabase, ICaretakingDatabase, IEmployeeDatabase, IUserDatabase
     {
-        public string ConnectionString { get =>  ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString; }
+        public string ConnectionString { get => ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString; }
 
         #region helperFunctions
         private void ExecuteNonQuery(string query, SqlParameter[] parameters)
