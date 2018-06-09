@@ -37,6 +37,9 @@ namespace DierenAsiel.UI
             AppointmentsToday();
         }
 
+        /// <summary>
+        /// Shows all the appointments planned for today.
+        /// </summary>
         private void AppointmentsToday()
         {
             LbAppointments.Items.Clear();
@@ -46,6 +49,9 @@ namespace DierenAsiel.UI
             }
         }
 
+        /// <summary>
+        /// Creates a todo list for today.
+        /// </summary>
         private void TodoToday()
         {
             LbTodo.Items.Clear();
@@ -177,6 +183,7 @@ namespace DierenAsiel.UI
                 animalLogic.AddAnimal(A);
                 PbAnimalImage.Image = null;
                 UpdateLists();
+                TodoToday();
 
                 MessageBox.Show("Dier succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
             }
@@ -210,6 +217,7 @@ namespace DierenAsiel.UI
 
                     animalLogic.RemoveAnimal(A);
                     UpdateLists();
+                    TodoToday();
                 }
             }   
         }
