@@ -30,6 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.TcMain = new System.Windows.Forms.TabControl();
+            this.TpHome = new System.Windows.Forms.TabPage();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.LbAppointments = new System.Windows.Forms.ListBox();
+            this.LbTodo = new System.Windows.Forms.ListBox();
             this.TpAnimals = new System.Windows.Forms.TabPage();
             this.label30 = new System.Windows.Forms.Label();
             this.RtbAbout = new System.Windows.Forms.RichTextBox();
@@ -94,6 +99,19 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TpAppointments = new System.Windows.Forms.TabPage();
+            this.BtnRemoveAppointment = new System.Windows.Forms.Button();
+            this.LvAppointments = new System.Windows.Forms.ListView();
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label38 = new System.Windows.Forms.Label();
+            this.TxtVisitor = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.DtpAppointmentDate = new System.Windows.Forms.DateTimePicker();
+            this.label36 = new System.Windows.Forms.Label();
+            this.TxtAppointment = new System.Windows.Forms.TextBox();
+            this.BtnAddApointment = new System.Windows.Forms.Button();
             this.TpUitlaten = new System.Windows.Forms.TabPage();
             this.label12 = new System.Windows.Forms.Label();
             this.CbUitlaatEmployees = new System.Windows.Forms.ComboBox();
@@ -154,6 +172,7 @@
             this.wijzigDierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OfdImage = new System.Windows.Forms.OpenFileDialog();
             this.TcMain.SuspendLayout();
+            this.TpHome.SuspendLayout();
             this.TpAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudAnimalPrice)).BeginInit();
@@ -167,6 +186,7 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEmployeeAge)).BeginInit();
             this.TpEmployeeList.SuspendLayout();
+            this.TpAppointments.SuspendLayout();
             this.TpUitlaten.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudUitlaatAge)).BeginInit();
@@ -181,10 +201,12 @@
             // 
             // TcMain
             // 
+            this.TcMain.Controls.Add(this.TpHome);
             this.TcMain.Controls.Add(this.TpAnimals);
             this.TcMain.Controls.Add(this.TpAnimalList);
             this.TcMain.Controls.Add(this.TpEmployees);
             this.TcMain.Controls.Add(this.TpEmployeeList);
+            this.TcMain.Controls.Add(this.TpAppointments);
             this.TcMain.Controls.Add(this.TpUitlaten);
             this.TcMain.Controls.Add(this.TpCages);
             this.TcMain.Controls.Add(this.TpFeeding);
@@ -194,6 +216,53 @@
             this.TcMain.SelectedIndex = 0;
             this.TcMain.Size = new System.Drawing.Size(707, 415);
             this.TcMain.TabIndex = 0;
+            // 
+            // TpHome
+            // 
+            this.TpHome.Controls.Add(this.label40);
+            this.TpHome.Controls.Add(this.label39);
+            this.TpHome.Controls.Add(this.LbAppointments);
+            this.TpHome.Controls.Add(this.LbTodo);
+            this.TpHome.Location = new System.Drawing.Point(4, 22);
+            this.TpHome.Name = "TpHome";
+            this.TpHome.Size = new System.Drawing.Size(699, 389);
+            this.TpHome.TabIndex = 8;
+            this.TpHome.Text = "Vandaag";
+            this.TpHome.UseVisualStyleBackColor = true;
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(8, 12);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(127, 13);
+            this.label40.TabIndex = 3;
+            this.label40.Text = "Afspraken voor vandaag:";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(8, 193);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(50, 13);
+            this.label39.TabIndex = 2;
+            this.label39.Text = "Te doen:";
+            // 
+            // LbAppointments
+            // 
+            this.LbAppointments.FormattingEnabled = true;
+            this.LbAppointments.Location = new System.Drawing.Point(8, 28);
+            this.LbAppointments.Name = "LbAppointments";
+            this.LbAppointments.Size = new System.Drawing.Size(683, 147);
+            this.LbAppointments.TabIndex = 1;
+            // 
+            // LbTodo
+            // 
+            this.LbTodo.FormattingEnabled = true;
+            this.LbTodo.Location = new System.Drawing.Point(8, 209);
+            this.LbTodo.Name = "LbTodo";
+            this.LbTodo.Size = new System.Drawing.Size(683, 173);
+            this.LbTodo.TabIndex = 0;
             // 
             // TpAnimals
             // 
@@ -508,7 +577,7 @@
             this.LvAnimalList.TabIndex = 0;
             this.LvAnimalList.UseCompatibleStateImageBehavior = false;
             this.LvAnimalList.View = System.Windows.Forms.View.Details;
-            this.LvAnimalList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.LvAnimalList_ColumnClick);
+            this.LvAnimalList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListView_ColumnClick);
             this.LvAnimalList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LvAnimalList_MouseClick);
             // 
             // ChName
@@ -784,7 +853,7 @@
             this.LvEmployees.TabIndex = 1;
             this.LvEmployees.UseCompatibleStateImageBehavior = false;
             this.LvEmployees.View = System.Windows.Forms.View.Details;
-            this.LvEmployees.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.LvEmployees_ColumnClick);
+            this.LvEmployees.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListView_ColumnClick);
             // 
             // columnHeader1
             // 
@@ -808,6 +877,125 @@
             // 
             this.columnHeader5.Text = "Telefoon";
             this.columnHeader5.Width = 150;
+            // 
+            // TpAppointments
+            // 
+            this.TpAppointments.Controls.Add(this.BtnRemoveAppointment);
+            this.TpAppointments.Controls.Add(this.LvAppointments);
+            this.TpAppointments.Controls.Add(this.label38);
+            this.TpAppointments.Controls.Add(this.TxtVisitor);
+            this.TpAppointments.Controls.Add(this.label37);
+            this.TpAppointments.Controls.Add(this.DtpAppointmentDate);
+            this.TpAppointments.Controls.Add(this.label36);
+            this.TpAppointments.Controls.Add(this.TxtAppointment);
+            this.TpAppointments.Controls.Add(this.BtnAddApointment);
+            this.TpAppointments.Location = new System.Drawing.Point(4, 22);
+            this.TpAppointments.Name = "TpAppointments";
+            this.TpAppointments.Size = new System.Drawing.Size(699, 389);
+            this.TpAppointments.TabIndex = 7;
+            this.TpAppointments.Text = "Afspraken";
+            this.TpAppointments.UseVisualStyleBackColor = true;
+            // 
+            // BtnRemoveAppointment
+            // 
+            this.BtnRemoveAppointment.Location = new System.Drawing.Point(576, 10);
+            this.BtnRemoveAppointment.Name = "BtnRemoveAppointment";
+            this.BtnRemoveAppointment.Size = new System.Drawing.Size(120, 23);
+            this.BtnRemoveAppointment.TabIndex = 8;
+            this.BtnRemoveAppointment.Text = "Verwijder afspraak.";
+            this.BtnRemoveAppointment.UseVisualStyleBackColor = true;
+            this.BtnRemoveAppointment.Click += new System.EventHandler(this.BtnRemoveAppointment_Click);
+            // 
+            // LvAppointments
+            // 
+            this.LvAppointments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8});
+            this.LvAppointments.FullRowSelect = true;
+            this.LvAppointments.Location = new System.Drawing.Point(260, 39);
+            this.LvAppointments.MultiSelect = false;
+            this.LvAppointments.Name = "LvAppointments";
+            this.LvAppointments.Size = new System.Drawing.Size(436, 347);
+            this.LvAppointments.TabIndex = 7;
+            this.LvAppointments.UseCompatibleStateImageBehavior = false;
+            this.LvAppointments.View = System.Windows.Forms.View.Details;
+            this.LvAppointments.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListView_ColumnClick);
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Naam afspraak:";
+            this.columnHeader6.Width = 170;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Naam bezoeker:";
+            this.columnHeader7.Width = 120;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Datum:";
+            this.columnHeader8.Width = 130;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(4, 62);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(85, 13);
+            this.label38.TabIndex = 6;
+            this.label38.Text = "Naam bezoeker:";
+            // 
+            // TxtVisitor
+            // 
+            this.TxtVisitor.Location = new System.Drawing.Point(8, 77);
+            this.TxtVisitor.Name = "TxtVisitor";
+            this.TxtVisitor.Size = new System.Drawing.Size(199, 20);
+            this.TxtVisitor.TabIndex = 5;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(4, 100);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(41, 13);
+            this.label37.TabIndex = 4;
+            this.label37.Text = "Datum:";
+            // 
+            // DtpAppointmentDate
+            // 
+            this.DtpAppointmentDate.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.DtpAppointmentDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtpAppointmentDate.Location = new System.Drawing.Point(8, 116);
+            this.DtpAppointmentDate.Name = "DtpAppointmentDate";
+            this.DtpAppointmentDate.Size = new System.Drawing.Size(200, 20);
+            this.DtpAppointmentDate.TabIndex = 3;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(4, 23);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(82, 13);
+            this.label36.TabIndex = 2;
+            this.label36.Text = "Naam afspraak:";
+            // 
+            // TxtAppointment
+            // 
+            this.TxtAppointment.Location = new System.Drawing.Point(8, 39);
+            this.TxtAppointment.Name = "TxtAppointment";
+            this.TxtAppointment.Size = new System.Drawing.Size(199, 20);
+            this.TxtAppointment.TabIndex = 1;
+            // 
+            // BtnAddApointment
+            // 
+            this.BtnAddApointment.Location = new System.Drawing.Point(8, 142);
+            this.BtnAddApointment.Name = "BtnAddApointment";
+            this.BtnAddApointment.Size = new System.Drawing.Size(75, 23);
+            this.BtnAddApointment.TabIndex = 0;
+            this.BtnAddApointment.Text = "Voeg toe.";
+            this.BtnAddApointment.UseVisualStyleBackColor = true;
+            this.BtnAddApointment.Click += new System.EventHandler(this.BtnAddApointment_Click);
             // 
             // TpUitlaten
             // 
@@ -1400,6 +1588,8 @@
             this.Text = "Dierenasiel";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UserInterface_FormClosed);
             this.TcMain.ResumeLayout(false);
+            this.TpHome.ResumeLayout(false);
+            this.TpHome.PerformLayout();
             this.TpAnimals.ResumeLayout(false);
             this.TpAnimals.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbAnimalImage)).EndInit();
@@ -1418,6 +1608,8 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEmployeeAge)).EndInit();
             this.TpEmployeeList.ResumeLayout(false);
+            this.TpAppointments.ResumeLayout(false);
+            this.TpAppointments.PerformLayout();
             this.TpUitlaten.ResumeLayout(false);
             this.TpUitlaten.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -1564,6 +1756,24 @@
         private System.Windows.Forms.NumericUpDown NudCatfood;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.DateTimePicker DtpEmptySupplies;
+        private System.Windows.Forms.TabPage TpHome;
+        private System.Windows.Forms.TabPage TpAppointments;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.TextBox TxtVisitor;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.DateTimePicker DtpAppointmentDate;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TextBox TxtAppointment;
+        private System.Windows.Forms.Button BtnAddApointment;
+        private System.Windows.Forms.Button BtnRemoveAppointment;
+        private System.Windows.Forms.ListView LvAppointments;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ListBox LbAppointments;
+        private System.Windows.Forms.ListBox LbTodo;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label39;
     }
 }
 

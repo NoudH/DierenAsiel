@@ -48,9 +48,13 @@
     <Compile Include="IEmployeeLogic.cs" />
     <Compile Include="IAnimalLogic.cs" />
     <Compile Include="AnimalLogicController.cs" />
+    <Compile Include="IUiLogic.cs" />
+    <Compile Include="IVisitorLogic.cs" />
     <Compile Include="LoginAuthenticator.cs" />
     <Compile Include="Modes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UiLogic.cs" />
+    <Compile Include="VisitorLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DierenAsiel.Database\DierenAsiel.Database.csproj">

@@ -19,6 +19,8 @@ namespace DierenAsiel.UI
         private IEmployeeLogic employeeLogic = new EmployeeLogicController(Mode.Production);
         private ICaretakingLogic caretakingLogic = new CaretakingLogicController(Mode.Production);
         private IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Production);
+        private IVisitorLogic visitorLogic = new VisitorLogic(Mode.Production);
+        private IUiLogic uiLogic = new UiLogic(Mode.Production);
 
         public UserInterface()
         {
@@ -29,6 +31,28 @@ namespace DierenAsiel.UI
             UpdateLists();
 
             DateTimePickersSettings();
+
+            TodoToday();
+
+            AppointmentsToday();
+        }
+
+        private void AppointmentsToday()
+        {
+            LbAppointments.Items.Clear();
+            foreach (string appointment in uiLogic.AppointmentsToday())
+            {
+                LbAppointments.Items.Add(appointment);
+            }
+        }
+
+        private void TodoToday()
+        {
+            LbTodo.Items.Clear();
+            foreach (string item in uiLogic.TodoToday())
+            {
+                LbTodo.Items.Add(item);
+            }
         }
 
         /// <summary>
@@ -36,6 +60,7 @@ namespace DierenAsiel.UI
         /// </summary>
         private void DateTimePickersSettings()
         {
+            DtpAppointmentDate.MinDate = DateTime.Today;
             DtpNewCleandate.MinDate = DateTime.Today.AddDays(-7);
             DtpNewFeedingDate.MinDate = DateTime.Today.AddDays(-7);
             DtpUitlaatDate.MaxDate = DateTime.Today.AddDays(-7);
@@ -45,10 +70,6 @@ namespace DierenAsiel.UI
             DtpUitlaatDate.MaxDate = DateTime.Today;
 
             DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
-            if (DtpEmptySupplies.Value <= DateTime.Today.AddDays(1))
-            {
-                MessageBox.Show("WAARSCHUWING: De vooraad eten is bijna op! Er wordt aangeraden om nieuw eten te bestellen!", "Waarschuwing!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
         }
 
         /// <summary>
@@ -82,6 +103,16 @@ namespace DierenAsiel.UI
                 listViewItem.SubItems.Add(E.phoneNumber);
 
                 LvEmployees.Items.Add(listViewItem);
+            }
+
+            LvAppointments.Items.Clear();
+            foreach (Appointment appointment in visitorLogic.GetAllAppointments())
+            {
+                ListViewItem appointmentItem = new ListViewItem(appointment.Name);
+                appointmentItem.SubItems.Add(appointment.Visitor);
+                appointmentItem.SubItems.Add(appointment.Date.ToString());
+
+                LvAppointments.Items.Add(appointmentItem);
             }
 
             LbDogs.Items.Clear();
@@ -194,6 +225,7 @@ namespace DierenAsiel.UI
             {
                 caretakingLogic.SetWalkingDate(animalLogic.GetAnimalFromList(Animal.Species.Dog, LbDogs.SelectedIndex), employeeLogic.GetEmployeeByName(CbUitlaatEmployees.Text), DtpUitlaatDate.Value);
                 LbDogs_SelectedIndexChanged(null, null);
+                TodoToday();
             }
             else
             {
@@ -248,34 +280,17 @@ namespace DierenAsiel.UI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LvAnimalList_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void ListView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
+            ListView listView = (ListView)sender;
             List<ListViewItem> sortList = new List<ListViewItem>();
-            foreach (ListViewItem item in LvAnimalList.Items)
+            foreach (ListViewItem item in listView.Items)
             {
                 sortList.Add(item);
             }
             sortList = sortList.OrderBy(x => x.SubItems[e.Column].Text).ToList();
             LvAnimalList.Items.Clear();
             LvAnimalList.Items.AddRange(sortList.ToArray());
-        }
-
-        /// <summary>
-        /// This event is triggered when a column on the list is clicked.
-        /// It orders/sorts the list based on the chosen column.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void LvEmployees_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            List<ListViewItem> sortList = new List<ListViewItem>();
-            foreach (ListViewItem item in LvEmployees.Items)
-            {
-                sortList.Add(item);
-            }
-            sortList = sortList.OrderBy(x => x.SubItems[e.Column].Text).ToList();
-            LvEmployees.Items.Clear();
-            LvEmployees.Items.AddRange(sortList.ToArray());
         }
 
         /// <summary>
@@ -329,6 +344,7 @@ namespace DierenAsiel.UI
             {
                 caretakingLogic.SetCleanDate(int.Parse(LbCages.SelectedItem.ToString()), DtpNewCleandate.Value, CbCleanEmployee.SelectedItem.ToString());
                 LbCages_SelectedIndexChanged(null, null);
+                TodoToday();
             }
             else
             {
@@ -439,6 +455,7 @@ namespace DierenAsiel.UI
             {
                 caretakingLogic.SetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, employeeLogic.GetEmployeeByName(CbFeedingEmployee.Text));
                 LbFeedingAnimals_SelectedIndexChanged(null, null);
+                TodoToday();
             }
             else
             {
@@ -522,6 +539,23 @@ namespace DierenAsiel.UI
                 TxtCatFood.Text = caretakingLogic.GetFood(Enums.Foodtype.Catfood).ToString();
             }
             DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
+        }
+
+        private void BtnAddApointment_Click(object sender, EventArgs e)
+        {
+            visitorLogic.AddAppointment(TxtAppointment.Text, TxtVisitor.Text, DtpAppointmentDate.Value);
+            UpdateLists();
+            AppointmentsToday();
+        }
+
+        private void BtnRemoveAppointment_Click(object sender, EventArgs e)
+        {
+            if (LvAppointments.FocusedItem.Index != -1)
+            {
+                visitorLogic.RemoveAppointment(LvAppointments.FocusedItem.SubItems[0].Text, LvAppointments.FocusedItem.SubItems[1].Text, DateTime.Parse(LvAppointments.FocusedItem.SubItems[2].Text));
+                UpdateLists();
+                AppointmentsToday();
+            }            
         }
     }
 }

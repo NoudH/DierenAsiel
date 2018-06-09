@@ -17,6 +17,7 @@ namespace DierenAsiel.UnitTest
         IEmployeeLogic employeeLogic = new EmployeeLogicController(Mode.Test);
         ICaretakingLogic caretakingLogic = new CaretakingLogicController(Mode.Test);
         IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Test);
+        IVisitorLogic visitorLogic = new VisitorLogic(Mode.Test);
 
         TestDatabaseController database = Databases.testDatabase;
 
@@ -91,7 +92,10 @@ namespace DierenAsiel.UnitTest
         public void RemoveAnimal()
         {
             animalLogic.AddAnimal(testAnimal);
-            //check if added
+            if (!database.GetAllAnimals().Contains(testAnimal))
+            {
+                Assert.Fail();
+            }
             animalLogic.RemoveAnimal(testAnimal);
 
             Assert.IsFalse(database.GetAllAnimals().Contains(testAnimal));
@@ -109,6 +113,11 @@ namespace DierenAsiel.UnitTest
         public void RemoveEmployee()
         {
             employeeLogic.AddEmployee(testEmployee);
+            if (!database.GetAllEmployees().Contains(testEmployee))
+            {
+                Assert.Fail();
+            }
+
             employeeLogic.RemoveEmployee(testEmployee);
 
             Assert.IsFalse(database.GetAllEmployees().Contains(testEmployee));
@@ -133,11 +142,38 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void CalcDaysLeftOfFood()
         {
+            database.FoodCount.ForEach(x => x.Amount = 0);
+            database.Animals.Clear();
+
             database.Animals.AddRange(new Animal[] { testAnimal, testAnimal1, testAnimal2 });
             caretakingLogic.AddFood(Enums.Foodtype.Dogfood, 4);
             caretakingLogic.AddFood(Enums.Foodtype.Catfood, 6);
 
+            Console.WriteLine(caretakingLogic.CalcDateWhenNoFoodLeft());
+
             Assert.IsTrue(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 3) == caretakingLogic.CalcDateWhenNoFoodLeft());
         }
+
+        [TestMethod()]
+        public void RemoveAppointment()
+        {
+            Appointment appointment = new Appointment() { Name = "TestAppointment", Visitor = "TestVisitor", Date = DateTime.Today };
+            visitorLogic.AddAppointment(appointment.Name, appointment.Visitor, appointment.Date);
+            if (database.Appointments.Find(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date) == null)
+            {
+                Assert.Fail();
+            }
+            visitorLogic.RemoveAppointment(appointment.Name, appointment.Visitor, appointment.Date);
+            Console.WriteLine(database.Appointments.Find(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date));
+            Assert.IsTrue(database.Appointments.Find(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date) == null);
+        }
+
+        [TestMethod()]
+        public void AddAppointment()
+        {
+            Appointment appointment = new Appointment() { Name = "Test", Visitor = "Test", Date = DateTime.Today };
+            visitorLogic.AddAppointment(appointment.Name, appointment.Visitor, appointment.Date);
+            Assert.IsTrue(database.Appointments.Find(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date) != null);
+        }        
     }
 }

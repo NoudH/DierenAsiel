@@ -9,7 +9,7 @@ using System.Configuration;
 
 namespace DierenAsiel.Database
 {
-    public class DatabaseController : IAnimalDatabase, ICaretakingDatabase, IEmployeeDatabase, IUserDatabase
+    public class DatabaseController : IAnimalDatabase, ICaretakingDatabase, IEmployeeDatabase, IUserDatabase, IVisitorDatabase
     {
         public string ConnectionString { get => ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString; }
 
@@ -515,6 +515,56 @@ namespace DierenAsiel.Database
             {
                 new SqlParameter("Foodtype", type.ToString()),
                 new SqlParameter("Amount", amount)
+            };
+            ExecuteNonQuery(query, parameters);
+        }
+
+        public void AddAppointment(Appointment appointment)
+        {
+            string query = "Insert into Appointment (Name, Visitor, Date) Values (@Name, @Visitor, @Date)";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", appointment.Name),
+                new SqlParameter("Visitor", appointment.Visitor),
+                new SqlParameter("Date", appointment.Date.ToString("MM/dd/yyyy HH:mm"))
+            };
+            ExecuteNonQuery(query, parameters);
+        }
+
+        public List<Appointment> GetAllAppointments()
+        {
+            string query = "select * from Appointment";
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader =  command.ExecuteReader())
+                    {
+                        List<Appointment> returnList = new List<Appointment>();
+                        while (reader.Read())
+                        {
+                            returnList.Add(new Appointment()
+                            {
+                                Name = reader.GetString(1),
+                                Visitor = reader.GetString(2),
+                                Date = reader.GetDateTime(3)
+                            });
+                        }
+                        return returnList;
+                    }
+                }
+            }
+        }
+
+        public void RemoveAppointment(Appointment appointment)
+        {
+            string query = "Delete from Appointment where Name = @Name and Visitor = @Visitor and Date = @Date";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("Name", appointment.Name),
+                new SqlParameter("Visitor", appointment.Visitor),
+                new SqlParameter("Date", appointment.Date)
             };
             ExecuteNonQuery(query, parameters);
         }

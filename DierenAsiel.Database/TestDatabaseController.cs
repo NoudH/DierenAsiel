@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DierenAsiel.Database
 {
-    public class TestDatabaseController : IAnimalDatabase, IEmployeeDatabase, ICaretakingDatabase, IUserDatabase
+    public class TestDatabaseController : IAnimalDatabase, IEmployeeDatabase, ICaretakingDatabase, IUserDatabase, IVisitorDatabase
     {
         public struct User
         {
@@ -49,6 +49,7 @@ namespace DierenAsiel.Database
         public List<WalkingDate> WalkingDates = new List<WalkingDate>();
         public List<FeedingDate> FeedingDates = new List<FeedingDate>();
         public List<Food> FoodCount = new List<Food>();
+        public List<Appointment> Appointments = new List<Appointment>();
 
         public TestDatabaseController()
         {
@@ -165,6 +166,24 @@ namespace DierenAsiel.Database
         public void AddFood(Enums.Foodtype type, int amount)
         {
             FoodCount[FoodCount.FindIndex(x => x.foodtype == type)] = new Food() { foodtype = type, Amount = amount};
+        }
+
+        public void AddAppointment(Appointment appointment)
+        {
+            Appointments.Add(appointment);
+        }
+
+        public List<Appointment> GetAllAppointments()
+        {
+            return Appointments;
+        }
+
+        public void RemoveAppointment(Appointment appointment)
+        {
+            if (Appointments.FindIndex(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date) != -1)
+            {
+                Appointments.RemoveAt(Appointments.FindIndex(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date));
+            }
         }
     }
 }
