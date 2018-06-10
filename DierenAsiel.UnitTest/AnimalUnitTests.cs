@@ -18,6 +18,7 @@ namespace DierenAsiel.UnitTest
         ICaretakingLogic caretakingLogic = new CaretakingLogicController(Mode.Test);
         IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Test);
         IVisitorLogic visitorLogic = new VisitorLogic(Mode.Test);
+        ITodoLogic todoLogic = new TodoLogic(Mode.Test);
 
         TestDatabaseController database = Databases.testDatabase;
 
@@ -174,6 +175,19 @@ namespace DierenAsiel.UnitTest
             Appointment appointment = new Appointment() { Name = "Test", Visitor = "Test", Date = DateTime.Today };
             visitorLogic.AddAppointment(appointment.Name, appointment.Visitor, appointment.Date);
             Assert.IsTrue(database.Appointments.Find(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date) != null);
-        }        
+        }
+
+        [TestMethod]
+        public void AppointmentsToday()
+        {
+            database.Appointments.Clear();
+
+            visitorLogic.AddAppointment("Test123", "Test321", DateTime.Today);
+            visitorLogic.AddAppointment("Test126", "Test621", DateTime.Today);
+            visitorLogic.AddAppointment("Test124", "Test421", DateTime.Today.AddDays(1));
+            visitorLogic.AddAppointment("Test127", "Test721", DateTime.Today.AddDays(-1));
+
+            Assert.IsTrue(todoLogic.AppointmentsToday().Count() == 2);
+        }
     }
 }

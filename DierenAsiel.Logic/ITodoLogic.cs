@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DierenAsiel.Logic
 {
-    public interface IUiLogic
+    public interface ITodoLogic
     {
         /// <summary>
         /// Creates a Todo list for today.

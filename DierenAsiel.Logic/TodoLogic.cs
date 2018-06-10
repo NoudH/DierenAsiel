@@ -7,14 +7,14 @@ using static DierenAsiel.Logic.Modes;
 
 namespace DierenAsiel.Logic
 {
-    public class UiLogic : IUiLogic
+    public class TodoLogic : ITodoLogic
     {
         private IAnimalLogic animalLogic;
         private IVisitorLogic visitorLogic;
         private IEmployeeLogic employeeLogic;
         private ICaretakingLogic caretakingLogic;
 
-        public UiLogic(Mode mode)
+        public TodoLogic(Mode mode)
         {
             if (mode == Mode.Production)
             {
