@@ -20,7 +20,7 @@ namespace DierenAsiel.UI
         private ICaretakingLogic caretakingLogic = new CaretakingLogicController(Mode.Production);
         private IAuthenticationLogic authenticationLogic = new LoginAuthenticator(Mode.Production);
         private IVisitorLogic visitorLogic = new VisitorLogic(Mode.Production);
-        private IUiLogic uiLogic = new UiLogic(Mode.Production);
+        private IUiLogic uiLogic = new TodoLogic(Mode.Production);
 
         public UserInterface()
         {
