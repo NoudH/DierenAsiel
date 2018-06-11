@@ -510,7 +510,7 @@ namespace DierenAsiel.Database
 
         public void AddFood(Enums.Foodtype type, int amount)
         {
-            string query = "Update Food set Amount = @Amount where Foodtype = @Foodtype";
+            string query = "Update Food set Amount = Amount + @Amount where Foodtype = @Foodtype";
             SqlParameter[] parameters =
             {
                 new SqlParameter("Foodtype", type.ToString()),

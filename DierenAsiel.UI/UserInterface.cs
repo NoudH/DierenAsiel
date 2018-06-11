@@ -32,11 +32,21 @@ namespace DierenAsiel.UI
             UpdateAppointmentList();
             UpdateEmployeeList();
 
+            ShowFood();
+
             DateTimePickersSettings();
 
             TodoToday();
 
             AppointmentsToday();
+        }
+
+        private void ShowFood()
+        {
+            TxtDogFood.Text = caretakingLogic.GetFood(Enums.Foodtype.Dogfood).ToString();
+            TxtCatFood.Text = caretakingLogic.GetFood(Enums.Foodtype.Catfood).ToString();
+
+            DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
         }
 
         /// <summary>
@@ -75,9 +85,7 @@ namespace DierenAsiel.UI
 
             DtpNewCleandate.MaxDate = DateTime.Today.AddDays(1);
             DtpNewFeedingDate.MaxDate = DateTime.Today.AddDays(1);
-            DtpUitlaatDate.MaxDate = DateTime.Today.AddDays(1);
-
-            DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
+            DtpUitlaatDate.MaxDate = DateTime.Today.AddDays(1);            
         }
 
         private void UpdateAnimalList()
@@ -463,11 +471,20 @@ namespace DierenAsiel.UI
         /// <param name="e"></param>
         private void BtnUpdateFeeding_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(CbFeedingEmployee.Text))
+            if (!String.IsNullOrWhiteSpace(CbFeedingEmployee.Text) && LbFeedingAnimals.SelectedIndex != -1)
             {
-                caretakingLogic.SetFeedingDate(animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex), DtpNewFeedingDate.Value, employeeLogic.GetEmployeeByName(CbFeedingEmployee.Text));
-                LbFeedingAnimals_SelectedIndexChanged(null, null);
-                TodoToday();
+                Animal temp = animalLogic.GetAnimalFromList(LbFeedingAnimals.SelectedIndex);
+                if (caretakingLogic.GetFood((Enums.Foodtype)temp.species) > 0)
+                {
+                    caretakingLogic.SetFeedingDate(temp, DtpNewFeedingDate.Value, employeeLogic.GetEmployeeByName(CbFeedingEmployee.Text));
+                    LbFeedingAnimals_SelectedIndexChanged(null, null);
+                    ShowFood();
+                    TodoToday();
+                }
+                else
+                {
+                    MessageBox.Show("Er is geen eten voor dit dier!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }                
             }
             else
             {
@@ -551,6 +568,9 @@ namespace DierenAsiel.UI
                 TxtCatFood.Text = caretakingLogic.GetFood(Enums.Foodtype.Catfood).ToString();
             }
             DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
+
+            ShowFood();
+            TodoToday();
         }
 
         private void BtnAddApointment_Click(object sender, EventArgs e)

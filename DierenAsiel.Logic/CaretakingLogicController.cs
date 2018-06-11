@@ -96,6 +96,7 @@ namespace DierenAsiel.Logic
         public void SetFeedingDate(Animal animal, DateTime value, Employee employee)
         {
             database.SetFeedingDate(animal, value, employee);
+            database.AddFood((Enums.Foodtype)animal.species, -1);
         }
 
         public void SetWalkingDate(Animal animal, Employee employee, DateTime date)
