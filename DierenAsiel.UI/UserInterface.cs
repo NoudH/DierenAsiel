@@ -73,9 +73,9 @@ namespace DierenAsiel.UI
             DtpNewFeedingDate.MinDate = DateTime.Today.AddDays(-7);
             DtpUitlaatDate.MaxDate = DateTime.Today.AddDays(-7);
 
-            DtpNewCleandate.MaxDate = DateTime.Today;
-            DtpNewFeedingDate.MaxDate = DateTime.Today;
-            DtpUitlaatDate.MaxDate = DateTime.Today;
+            DtpNewCleandate.MaxDate = DateTime.Today.AddDays(1);
+            DtpNewFeedingDate.MaxDate = DateTime.Today.AddDays(1);
+            DtpUitlaatDate.MaxDate = DateTime.Today.AddDays(1);
 
             DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
         }

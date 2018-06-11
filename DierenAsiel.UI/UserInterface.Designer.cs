@@ -1235,7 +1235,7 @@
             // 
             // DtpNewCleandate
             // 
-            this.DtpNewCleandate.CustomFormat = "HH:mm dd/MM/yyyy";
+            this.DtpNewCleandate.CustomFormat = "dd/MM/yyyy HH:mm";
             this.DtpNewCleandate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.DtpNewCleandate.Location = new System.Drawing.Point(17, 286);
             this.DtpNewCleandate.Name = "DtpNewCleandate";
