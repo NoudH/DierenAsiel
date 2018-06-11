@@ -28,7 +28,9 @@ namespace DierenAsiel.UI
 
             SetComboBoxes();
 
-            UpdateLists();
+            UpdateAnimalList();
+            UpdateAppointmentList();
+            UpdateEmployeeList();
 
             DateTimePickersSettings();
 
@@ -78,10 +80,7 @@ namespace DierenAsiel.UI
             DtpEmptySupplies.Value = caretakingLogic.CalcDateWhenNoFoodLeft();
         }
 
-        /// <summary>
-        /// Refreshes listview/listbox related content.
-        /// </summary>
-        private void UpdateLists()
+        private void UpdateAnimalList()
         {
             LvAnimalList.Items.Clear();
             foreach (Animal A in animalLogic.GetAllAnimals())
@@ -99,6 +98,22 @@ namespace DierenAsiel.UI
                 LvAnimalList.Items.Add(listViewItem);
             }
 
+            LbDogs.Items.Clear();
+            LbDogs.Items.AddRange(animalLogic.GetAnimalsOfType(Animal.Species.Dog).ToArray());
+            if (LbDogs.Items.Count > 0) { LbDogs.SelectedIndex = 0; }
+
+
+            LbCages.Items.Clear();
+            LbCages.Items.AddRange(caretakingLogic.GetAllCages().ToArray());
+            if (LbDogs.Items.Count > 0) { LbCages.SelectedIndex = 0; }
+
+            LbFeedingAnimals.Items.Clear();
+            LbFeedingAnimals.Items.AddRange(animalLogic.GetAllAnimals().ToArray());
+            if (LbDogs.Items.Count > 0) { LbFeedingAnimals.SelectedIndex = 0; }
+        }
+
+        private void UpdateEmployeeList()
+        {
             LvEmployees.Items.Clear();
             foreach (Employee E in employeeLogic.GetAllEmployees())
             {
@@ -110,7 +125,10 @@ namespace DierenAsiel.UI
 
                 LvEmployees.Items.Add(listViewItem);
             }
+        }
 
+        private void UpdateAppointmentList()
+        {
             LvAppointments.Items.Clear();
             foreach (Appointment appointment in visitorLogic.GetAllAppointments())
             {
@@ -120,20 +138,6 @@ namespace DierenAsiel.UI
 
                 LvAppointments.Items.Add(appointmentItem);
             }
-
-            LbDogs.Items.Clear();
-            LbDogs.Items.AddRange(animalLogic.GetAnimalsOfType(Animal.Species.Dog).ToArray());
-            if (LbDogs.Items.Count > 0) {LbDogs.SelectedIndex = 0;}
-            
-
-            LbCages.Items.Clear();
-            LbCages.Items.AddRange(caretakingLogic.GetAllCages().ToArray());
-            if (LbDogs.Items.Count > 0) { LbCages.SelectedIndex = 0; }
-
-            LbFeedingAnimals.Items.Clear();
-            LbFeedingAnimals.Items.AddRange(animalLogic.GetAllAnimals().ToArray());
-            if (LbDogs.Items.Count > 0) { LbFeedingAnimals.SelectedIndex = 0; }
-            
         }
 
         /// <summary>
@@ -182,7 +186,7 @@ namespace DierenAsiel.UI
                 Animal A = new Animal() { name = TxtAnimalName.Text, age = (int)NudAnimalAge.Value, weight = (int)NudAnimalWeight.Value, gender = (Animal.Genders)Convert.ToInt32(!RadAnimalMale.Checked), species = (Animal.Species)Enum.Parse(typeof(Animal.Species), CbAnimalType.Text), cage = (int)NudAnimalCage.Value, price = (float)NudAnimalPrice.Value, characteristics = RtbCharacteristics.Lines.ToList(), image = imageBase64, breed = TxtBreed.Text, about = RtbAbout.Text };
                 animalLogic.AddAnimal(A);
                 PbAnimalImage.Image = null;
-                UpdateLists();
+                UpdateAnimalList();
                 TodoToday();
 
                 MessageBox.Show("Dier succesvol toegevoegd.", "Notice", MessageBoxButtons.OK);
@@ -216,7 +220,7 @@ namespace DierenAsiel.UI
                     };
 
                     animalLogic.RemoveAnimal(A);
-                    UpdateLists();
+                    UpdateAnimalList();
                     TodoToday();
                 }
             }   
@@ -266,7 +270,7 @@ namespace DierenAsiel.UI
             if (TxtEmployeeName.Text != "" && TxtEmployeeAddress.Text != "" && TxtEmployeePhone.Text != "" && (CheckCreateUserAccount.Checked ? (TxtUsername.Text != "" && TxtPassword.Text != "") : true))
             {
                 employeeLogic.AddEmployee(new Employee() { name = TxtEmployeeName.Text, age = (int)NudEmployeeAge.Value, gender = (Employee.Gender)Convert.ToInt32(!RadEmployeeMale.Checked), address = TxtEmployeeAddress.Text, phoneNumber = TxtEmployeePhone.Text });
-                UpdateLists();
+                UpdateEmployeeList();
                 SetComboBoxes();
 
                 if (CheckCreateUserAccount.Checked)
@@ -322,7 +326,7 @@ namespace DierenAsiel.UI
                     };
 
                     employeeLogic.RemoveEmployee(E);
-                    UpdateLists();
+                    UpdateEmployeeList();
                 }
             }
         }
@@ -503,7 +507,7 @@ namespace DierenAsiel.UI
                 cage = int.Parse(LvAnimalList.FocusedItem.SubItems[7].Text),
                 reserved = LvAnimalList.FocusedItem.SubItems[8].Text == "Ja" ? false : true
             });
-            UpdateLists();
+            UpdateAnimalList();
         }
 
         /// <summary>
@@ -526,7 +530,7 @@ namespace DierenAsiel.UI
                 x.reserved == (focusedItem.SubItems[8].Text == "Ja" ? true : false)
                 )).ShowDialog();
 
-            UpdateLists();
+            UpdateAnimalList();
         }
 
         /// <summary>
@@ -552,7 +556,7 @@ namespace DierenAsiel.UI
         private void BtnAddApointment_Click(object sender, EventArgs e)
         {
             visitorLogic.AddAppointment(TxtAppointment.Text, TxtVisitor.Text, DtpAppointmentDate.Value);
-            UpdateLists();
+            UpdateAppointmentList();
             AppointmentsToday();
         }
 
@@ -561,7 +565,7 @@ namespace DierenAsiel.UI
             if (LvAppointments.FocusedItem.Index != -1)
             {
                 visitorLogic.RemoveAppointment(LvAppointments.FocusedItem.SubItems[0].Text, LvAppointments.FocusedItem.SubItems[1].Text, DateTime.Parse(LvAppointments.FocusedItem.SubItems[2].Text));
-                UpdateLists();
+                UpdateAppointmentList();
                 AppointmentsToday();
             }            
         }

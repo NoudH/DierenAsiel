@@ -83,7 +83,8 @@ namespace DierenAsiel.UnitTest
 
         [TestMethod()]
         public void AddAnimal()
-        {            
+        {
+            database.Animals.Clear();
             animalLogic.AddAnimal(testAnimal);
 
             Assert.IsNotNull(database.GetAllAnimals().Find(x => x == testAnimal));
@@ -92,6 +93,7 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void RemoveAnimal()
         {
+            database.Animals.Clear();
             animalLogic.AddAnimal(testAnimal);
             if (!database.GetAllAnimals().Contains(testAnimal))
             {
@@ -105,6 +107,7 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void AddEmployee()
         {
+            database.Employees.Clear();
             employeeLogic.AddEmployee(testEmployee);
 
             Assert.IsTrue(database.GetAllEmployees().Contains(testEmployee));
@@ -113,6 +116,7 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void RemoveEmployee()
         {
+            database.Employees.Clear();
             employeeLogic.AddEmployee(testEmployee);
             if (!database.GetAllEmployees().Contains(testEmployee))
             {
@@ -127,6 +131,7 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void LoginAndCreateUser()
         {
+            database.Users.Clear();
             authenticationLogic.CreateUser("Kees", "MyPassword123");
 
             Assert.IsTrue(authenticationLogic.Login("Kees", "MyPassword123"));
@@ -135,6 +140,7 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void AddFoodOfDifferentKinds()
         {
+            database.FoodCount.ForEach(x => x.Amount = 0);
             caretakingLogic.AddFood(Enums.Foodtype.Dogfood, 4);
             caretakingLogic.AddFood(Enums.Foodtype.Catfood, 6);
             Assert.IsTrue(database.FoodCount.Where(x => x.foodtype == Enums.Foodtype.Dogfood).Select(x => x.Amount).First() == 4 && database.FoodCount.Where(x => x.foodtype == Enums.Foodtype.Catfood).Select(x => x.Amount).First() == 6);
@@ -158,6 +164,7 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void RemoveAppointment()
         {
+            database.Appointments.Clear();
             Appointment appointment = new Appointment() { Name = "TestAppointment", Visitor = "TestVisitor", Date = DateTime.Today };
             visitorLogic.AddAppointment(appointment.Name, appointment.Visitor, appointment.Date);
             if (database.Appointments.Find(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date) == null)
@@ -172,6 +179,7 @@ namespace DierenAsiel.UnitTest
         [TestMethod()]
         public void AddAppointment()
         {
+            database.Appointments.Clear();
             Appointment appointment = new Appointment() { Name = "Test", Visitor = "Test", Date = DateTime.Today };
             visitorLogic.AddAppointment(appointment.Name, appointment.Visitor, appointment.Date);
             Assert.IsTrue(database.Appointments.Find(x => x.Name == appointment.Name && x.Visitor == appointment.Visitor && x.Date == appointment.Date) != null);

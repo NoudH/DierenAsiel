@@ -73,7 +73,7 @@ namespace DierenAsiel.UI
             Animal newAnimal = new Animal()
             {
                 name = TxtAnimalName.Text,
-                breed = TxtAnimalName.Text,
+                breed = TxtBreed.Text,
 
                 age = (int)NudAnimalAge.Value,
                 cage = (int)NudAnimalCage.Value,
