@@ -42,16 +42,20 @@ namespace DierenAsiel.Logic
 
         public bool Login(string username, string password)
         {
-            string savedPasswordHash = database.GetUserPassword(username);
-            byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
-            byte[] salt = new byte[16];
-            Array.Copy(hashBytes, 0, salt, 0, 16);
-
-            var pbkfd2 = new Rfc2898DeriveBytes(password, salt, 1000);
-            byte[] hash = pbkfd2.GetBytes(20);
-
             try
             {
+                string savedPasswordHash = database.GetUserPassword(username);
+                if (String.IsNullOrEmpty(savedPasswordHash))
+                {
+                    throw new UnauthorizedAccessException();
+                }
+                byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
+                byte[] salt = new byte[16];
+                Array.Copy(hashBytes, 0, salt, 0, 16);
+
+                var pbkfd2 = new Rfc2898DeriveBytes(password, salt, 1000);
+                byte[] hash = pbkfd2.GetBytes(20);
+                            
                 for (int i = 0; i < 20; i++)
                 {
                     if (hashBytes[i + 16] != hash[i])
